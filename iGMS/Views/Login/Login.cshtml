@@ -1,0 +1,31 @@
+﻿@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Đăng Nhập Hệ Thống</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+</head>
+<body style="background-image: url(); background-size: cover">
+    <div class="login">
+        <div>
+            <label>Quét/Nhập Mã Barcode</label>
+            <input id="id" type="text" placeholder="xxxxxxxxx" value="">
+        </div>
+
+        <input required id="user" type="text" placeholder="Username" value="">
+        <input required id="pass" type="password" placeholder="Password" value="">
+        <button type="button" id="btnlogin" class="btn_Login" onclick="Login()">Login</button>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.scannerdetection.js"></script>
+    <script src="~/Scripts/Login.js"></script>
+    <script src="~/Scripts/md5.min.js"></script>
+</body>
+</html>
+

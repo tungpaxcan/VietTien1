@@ -1,0 +1,54 @@
+﻿@model iGMS.Models.Color
+@{
+    ViewBag.Title = "Edits";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input hidden value="@Model.Id" id="id" />
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Sửa Màu
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Màu <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="text" placeholder="Tên Màu" id="name" value="@Model.Name" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Edit()">Submit</button>
+                <a href="/Color/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>
+    <script>
+        var input = document.getElementById('name');
+        new Tagify(input)
+
+    </script>
+    <script src="~/Scripts/Color.js"></script>
+}
+
+

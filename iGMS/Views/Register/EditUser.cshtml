@@ -1,0 +1,252 @@
+﻿@model iGMS.Models.User
+@{
+    ViewBag.Title = "Sửa Tài Khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Sửa Quyền & Chức Vụ
+        </h3>
+    </div>
+    <input hidden value="@Model.Id" id="id" />
+    <input hidden value="@Model.RoleAdmin1.Id" id="idroleadmin" />
+    <input hidden value="@Model.Role1.Id" id="idrole" />
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+
+        <h1 style="text-align:center">Phân Quyền Quản Lý</h1>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Quản Lý Danh Mục Chính</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.RoleAdmin1.ManageMainCategories" name="select" id="manageMaincategories" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Mua Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.RoleAdmin1.PurchaseManager" name="select" id="purchasemanager" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Bán Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.RoleAdmin1.SalesManager" name="select" id="salesmanager" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Kho Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.RoleAdmin1.WarehouseManagement" name="select" id="warehousemanagement" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Thanh Toán</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.RoleAdmin1.ManagePayments" id="managepayments" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Kết Chuyển Kế Toán</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.RoleAdmin1.AccountingTransfer" name="select" id="accountingtransfer" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group confirmmanager">
+            <h1 class="">Xác Nhận Quyền Quản Lý</h1>
+            <div class="confirmmanagercheck" id="Clickmanagement">
+                <span class="switch switch-outline switch-icon switch-success">
+                    <label>
+                        <input type="checkbox" name="select" id="management" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <h1 style="text-align:center">Phân Quyền Bán Háng</h1>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Quản Lý</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.Admin" name="select" id="admin" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Chiết Khấu Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.EditDiscountGoods" name="select" id="editdiscountgoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chiết khấu cho toàn bộ hóa đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.EditDiscountBill" name="select" id="editdiscountbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Giá Bán Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.EditPriceGoods" name="select" id="editpricegoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Số Lượng Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.EditAmountGoods" name="select" id="editamountgoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xóa Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="@Model.Role1.DeleteGoods" name="select" id="deletegoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">In Lại Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.PrintAgainBill" id="printagainbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Treo Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.HangBill" id="hangbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chọn Hàng Hóa Từ Danh Mục</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.ChangeCateGoods" id="changecategoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chọn Đơn Vị Tính</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.ChangeUnit" id="changeunit" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Ngày Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.EditDate" id="editdate" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xác Nhận Nhân Viên Tư Vấn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.IdentifyConsultants" id="identifyconsultants" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xác Nhận Thông Tin Khách Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.ConfirmCusInfor" id="confirmcusinfor" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Nhập Hàng Trả</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" checked="@Model.Role1.ReturnGoods" id="returngoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group confirmmanager">
+            <h1>Xác Nhận Quyền Bán Hàng</h1>
+            <div class="confirmmanagercheck" id="Clicksales">
+                <span class="switch switch-outline switch-icon switch-success">
+                    <label>
+                        <input type="checkbox" name="select" id="sales" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <a href="/Register/ListUser" class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+
+    <script src="~/Scripts/api.js"></script>
+    <script src="~/Scripts/data.json.js"></script>
+    <script src="~/Scripts/EditUser.js"></script>
+}
+

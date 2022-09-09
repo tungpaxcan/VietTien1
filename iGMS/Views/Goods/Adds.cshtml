@@ -1,0 +1,351 @@
+﻿
+@{
+    ViewBag.Title = "Thêm Hàng Hóa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Thêm Hàng Hóa
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Mã Hàng Hóa <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input required class="form-control" type="text" id="id" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mã Barcode <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <svg id="barcode">
+
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Nhà Cung Cấp <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group">
+                    <input name="tags-outside" class="tagify--outside form-control" id="supplier">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuộc Loại Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <select class="form-control" id="categoods">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Hàng Hóa <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="text" placeholder="Tên Hàng Hóa" id="name" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Giá Bán <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control " type="text" value="0.000" id="price" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuế Bán </label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <span class="input-group-text">%</span>
+                    <input class="form-control" type="number" value="0" id="pricetax" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Giá Nội Bộ </label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control " type="text" value="0.000" id="internalprice" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuế GTGT Nội Bộ</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <span class="input-group-text">%</span>
+                    <input class="form-control" type="number" value="0" id="gtgtinternaltax" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Chiết Khấu Bán</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <span class="input-group-text">%</span>
+                    <input class="form-control" type="number" value="0" id="discount" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Chiết Khấu Nội Bộ</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <span class="input-group-text">%</span>
+                    <input class="form-control" type="number" value="0" id="internaldiscount" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Hạn Sử Dụng</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="date" id="expiry" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Hạn Bảo Hành</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="date" id="warrantyperiod" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tồn Kho Tối Thiểu</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="number" id="minimuminventory" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tồn Kho Tối Đa</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="number" id="maximuminventory" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mô Tả</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <textarea class="form-control" type="number" id="des"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Đơn Vị<span style="color:red"> (*) </span></label>
+            <div class="col-1">
+                <select class="form-control" id="unit1">
+                </select>
+            </div>
+            <label class="col-1 col-form-label">Chất Liệu</label>
+            <div class="col-1">
+                <select class="form-control" id="material">
+                </select>
+            </div>
+            <label class="col-1 col-form-label">Mùa vụ</label>
+            <div class="col-1">
+                <select class="form-control" id="season">
+                </select>
+            </div>
+            <label class="col-1 col-form-label">Màu Sắc</label>
+            <div class="col-1">
+                <select class="form-control" id="color">
+                </select>
+            </div>
+            <label class="col-1 col-form-label">Kích Thước</label>
+            <div class="col-1">
+                <select class="form-control" id="size">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Submit</button>
+                <a href="/Goods/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        CateGooods();
+        Unit();
+        Material();
+        Season();
+        Color();
+        Size();
+
+        ValidateMoney('price')
+        ValidateMoney('internalprice')
+        //--------------------Select::CateGoods--------------
+        function CateGooods() {
+            $.ajax({
+                url: '/goods/CateGoods',
+                type: 'get',
+                success: function (data) {
+                    $('#categoods').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Thuộc Loại  Hàng</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#categoods').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        var input = document.querySelector('input[name=tags-outside]')
+        // init Tagify script on the above inputs
+        $.ajax({
+            url: '/goods/Supplier',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 200) {
+                    let a = ''
+                    $.each(data.c, function (k, v) {
+                        a += v.id + " : " + v.name + ","
+                    })
+                    const myArray = a.split(",");
+                    new Tagify(input, {
+                        whitelist:
+                            myArray
+                        ,
+                        dropdown: {
+                            position: "input",
+                            enabled: 0// always opens dropdown when input gets focus
+                        }
+                    })
+
+
+                }
+            }
+        })
+        //--------------------Select::Unit--------------
+        function Unit() {
+            $.ajax({
+                url: '/goods/Unit',
+                type: 'get',
+                success: function (data) {
+                    $('#unit1').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="null">Chọn Đơn Vị</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#unit1').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::Material--------------
+        function Material() {
+            $.ajax({
+                url: '/goods/Material',
+                type: 'get',
+                success: function (data) {
+                    $('#material').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="null">Chọn Vật Liệu</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#material').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::Season--------------
+        function Season() {
+            $.ajax({
+                url: '/goods/Season',
+                type: 'get',
+                success: function (data) {
+                    $('#season').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="null">Chọn Mùa Vụ</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#season').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::Season--------------
+        function Color() {
+            $.ajax({
+                url: '/goods/Color',
+                type: 'get',
+                success: function (data) {
+                    $('#color').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="null">Chọn Màu Sắc</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#color').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::Size--------------
+        function Size() {
+            $.ajax({
+                url: '/goods/Size',
+                type: 'get',
+                success: function (data) {
+                    $('#size').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="null">Chọn Kích Thước</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#size').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
+    <script src="~/Scripts/Goods.js"></script>
+}

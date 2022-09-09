@@ -1,0 +1,207 @@
+﻿@model iGMS.Models.Supplier
+@{
+    ViewBag.Title = "Chi Tiết Nhà Cung Cấp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<input hidden value="@Model.Id" id="id" />
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Sửa Nhà Cung Cấp
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Nhà Cung Cấp <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Tên Nhà Cung Cấp " id="name" value="@Model.Name" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Giao Dịch</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Tên Giao Dịch" id="nametransaction" value="@Model.NameTransaction" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Địa Chỉ</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Địa Chỉ" id="address" value="@Model.AddRess" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Đại Diện<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Đại Diện" id="represent" value="@Model.Represent" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Chức Vụ</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Chức Vụ" id="position" value="@Model.Position" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mã Số Thuế<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="number" placeholder="Mã Số Thuế" id="taxcode" value="@Model.TaxCode" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-2 col-form-label">Số Điện Thoại <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input disabled required class="form-control" type="number" placeholder="1-(555)-555-5555" id="phone" value="@Model.Phone" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-2 col-form-label">Số Fax</label>
+            <div class="col-10">
+                <input disabled  class="form-control" type="number" placeholder="" id="fax" value="@Model.Fax" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-email-input" class="col-2 col-form-label">Email <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input disabled  class="form-control" type="email" placeholder="example@example.com" id="email" value="@Model.Email" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Website</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Website" id="website" value="@Model.Website" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tài Khoản Giao Dịch<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="number" placeholder="Tài Khoản Giao Dịch" id="stk" value="@Model.STK" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuộc Ngân Hàng<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" placeholder="Thuộc Ngân Hàng" id="bank" value="@Model.Bank" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuộc Ngành Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <select disabled class="form-control" id="industry">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thuộc Nhóm Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <select disabled class="form-control" id="groupgoods">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mô tả <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <textarea disabled class="form-control" type="text" placeholder="Mô Tả" id="des">@Model.Description</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <a href="/Supplier/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        Industry();
+          GroupGoods(@Model.GroupGood.Industry.Id)
+        //--------------------Select::Industry--------------
+        function Industry() {
+            $.ajax({
+                url: '/groupgoods/Industry',
+                type: 'get',
+                success: function (data) {
+                    $('#industry').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">@Model.GroupGood.Industry.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#industry').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+
+          //--------------------Select::GroupGoods--------------
+        $('#industry').on('change', function () {
+            var idindustry = $("#industry option:selected").val();
+            GroupGoods(idindustry)
+        })
+        function GroupGoods(idindustry) {
+              $.ajax({
+                url: '/supplier/GroupGoods',
+                type: 'get',
+                data: {
+                    idindustry
+                },
+                success: function (data) {
+                    $('#groupgoods').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.GroupGood.Id">@Model.GroupGood.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#groupgoods').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
+
+
+    <script src="~/Scripts/Supplier.js"></script>
+
+}
+
+

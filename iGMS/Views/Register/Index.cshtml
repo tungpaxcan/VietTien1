@@ -1,0 +1,341 @@
+﻿
+@{
+    ViewBag.Title = "Đăng Kí Tài Khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Đăng Kí Tài Khoản
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Mã Nhân Viên <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">NV</span>
+                    <input required class="form-control" value="0000001" type="number" min="0000001" max="1000000" onkeyup="ValidateId()" onclick="ValidateId()" id="id" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mã Barcode <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <svg id="barcode">
+
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tài Khoản <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input required class="form-control" type="text" placeholder="Tài Khoản" id="user" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mật Khẩu <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input required class="form-control" type="password" placeholder="Mật Khẩu" id="pass" />
+                    <div class="input-group-append" id="eye">
+                        <span class="input-group-text"><i class="icon-xl far fa-eye" onclick=""></i><i class="icon-xl far fa-eye-slash"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Họ & Tên <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input required class="form-control" type="text" placeholder="Họ & Tên" id="name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Tỉnh Thành</label>
+            <div class="col-2">
+                <select name="" id="province">
+                    <option value="-1">Chọn tỉnh thành</option>
+                </select>
+            </div>
+            <label for="example-search-input" class="col-2 col-form-label">Quận/Huyện </label>
+            <div class="col-2">
+                <select name="" id="district">
+                    <option value="-1">Chọn quận/huyện</option>
+                </select>
+            </div>
+            <label for="example-search-input" class="col-2 col-form-label">Phường/Xã</label>
+            <div class="col-2">
+                <select name="" id="town">
+                    <option value="-1">Chọn phường/xã</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Địa Chỉ </label>
+            <div class="col-10">
+                <input required class="form-control" type="text" placeholder="Địa Chỉ" id="address" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-email-input" class="col-2 col-form-label">Email <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input required class="form-control" type="email" placeholder="example@example.com" id="email" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-date-input" class="col-2 col-form-label">Ngày Sinh <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input required class="form-control" type="date" placeholder="2011-08-19" id="birth" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-2 col-form-label">Số Điện Thoại <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input required class="form-control" type="number" placeholder="1-(555)-555-5555" id="phone" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-tel-input" class="col-2 col-form-label">Mô Tả</label>
+            <div class="col-10">
+                <input class="form-control" type="text" placeholder="Mô Tả" id="des" />
+            </div>
+        </div>
+        <h1 style="text-align:center">Phân Quyền Quản Lý</h1>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Quản Lý Danh Mục Chính</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="manageMaincategories" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Mua Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="purchasemanager" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Bán Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="salesmanager" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Kho Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="warehousemanagement" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Quản Lý Thanh Toán</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="managepayments" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Kết Chuyển Kế Toán</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="accountingtransfer" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group confirmmanager">
+            <h1 class="">Xác Nhận Quyền Quản Lý</h1>
+            <div class="confirmmanagercheck" id="Clickmanagement">
+                <span class="switch switch-outline switch-icon switch-success">
+                    <label>
+                        <input type="checkbox" name="select" id="management" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <h1 style="text-align:center">Phân Quyền Bán Háng</h1>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Quản Lý</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" name="select" id="admin" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Chiết Khấu Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="editdiscountgoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chiết khấu cho toàn bộ hóa đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="editdiscountbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Giá Bán Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="editpricegoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Số Lượng Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="editamountgoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xóa Hàng Hóa</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="deletegoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">In Lại Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="printagainbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Treo Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="hangbill" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chọn Hàng Hóa Từ Danh Mục</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="changecategoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Chọn Đơn Vị Tính</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="changeunit" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Sửa Ngày Hóa Đơn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="editdate" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xác Nhận Nhân Viên Tư Vấn</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="identifyconsultants" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Xác Nhận Thông Tin Khách Hàng</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="confirmcusinfor" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+            <label class="col-2 col-form-label">Nhập Hàng Trả</label>
+            <div class="col-1">
+                <span class="switch">
+                    <label>
+                        <input type="checkbox" checked="checked" name="select" id="returngoods" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+        <div class="form-group confirmmanager">
+            <h1>Xác Nhận Quyền Bán Hàng</h1>
+            <div class="confirmmanagercheck" id="Clicksales">
+                <span class="switch switch-outline switch-icon switch-success">
+                    <label>
+                        <input type="checkbox" name="select" id="sales" />
+                        <span></span>
+                    </label>
+                </span>
+            </div>
+        </div>
+    </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-2">
+                    </div>
+                    <div class="col-10">
+                        <button type="submit" class="btn btn-success mr-2" id="submit">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+</div>
+@section scripts{
+
+    <script src="~/Scripts/api.js"></script>
+    <script src="~/Scripts/data.json.js"></script>
+    <script src="~/Scripts/Register.js"></script>
+}

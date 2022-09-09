@@ -1,0 +1,219 @@
+﻿
+@{
+    ViewBag.Title = "Lập Phiếu Nhập Kho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Lập Phiếu Nhập Kho
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Số Phiếu Nhập <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <select class="form-control selectpicker" data-size="7" data-live-search="true" name="idReceipt">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Phương Thức</label>
+            <div class="col-10">
+                <span name="method"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Thời Hạn Thanh Toán</label>
+            <div class="col-10">
+                <span name="datepaydh"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Nhà Cung Cấp</label>
+            <div class="col-10">
+                <span name="namesupplier"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Ngày Phiếu Nhập</label>
+            <div class="col-10">
+                <span name="date"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Nhập Tại</label>
+            <div class="col-10">
+                <span name="warehouse"></span>
+            </div>
+        </div>
+        <div class="form-group  row">
+            <label for="example-search-input" class="col-2 col-form-label">Hàng Hóa<span style="color:red"> (*) </span></label>
+            <div class="col-10" style="height: 500px;overflow-y: scroll;">
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Vị</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">%Chiết Khấu</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tiền Chiết Khấu</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">%Thuế GTGT</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tiền Thuế GTGT</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody name="tbd">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Tạo Phiếu Nhập Kho </button>
+                <button type="submit" class="btn btn-success mr-2" id="btnct">Chứng Từ Đính Kèm </button>
+                <a href="/DetailWareHouse/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="BILL" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width:1100px">
+        <div class="modal-content">
+            <div class="modal-body" id="in">
+                <div class="row">
+                    <div class="col-6">
+                        <p> <span name="namesupplier"></span></p>
+                        <p><span name="addresssupplier"></span></p>
+                        <p>ĐT : <span name="phonesupplier"></span> -  <span name="faxsupplier"></span></p>
+
+                    </div>
+                    <div class="col-4" style="transform: translate(30%, 0px);">
+                        <p>Số PN : <span name="idpn"></span></p>
+                        <p>Ngày PN : <span name="datepn"></span></p>
+                    </div>
+                    <div class="col-2" style="transform: translate(30%, 0px);">
+                        <div id="qrcode"></div>
+                    </div>
+                </div>
+                <div class="" style="text-align:center">
+                    <h1>Phiếu Nhập Kho</h1>
+                </div>
+                <p>- Nhà Cung Cấp : <span name="namesupplier"></span></p>
+                <p>- Địa Chỉ : <span name="addresssupplier"></span></p>
+                <p>- Thuộc Đơn Hàng : <span name="idpurchaseorder"></span> - Ngày Đơn Hàng : <span name="datedh"></span> - Phương Thức : <span name="method"></span></p>
+                <p>- Nhập Tại : <span name="warehouse"></span></p>
+                <table class="table table-bordered" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width:100%;">
+                    <thead>
+                        <tr role="row">
+                            <th>Stt</th>
+                            <th class="">Mã Hàng</th>
+                            <th class="">Tên Hàng</th>
+                            <th class="">Đơn Vị</th>
+                            <th class="">Số Lượng</th>
+                            <th class="">Đơn Giá</th>
+                            <th class="">%Chiết Khấu</th>
+                            <th class="">Tiền Chiết Khấu</th>
+                            <th class="">%Thuế GTGT</th>
+                            <th class="">Tiền Thuế GTGT</th>
+                            <th class="">Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody name="tbd1">
+                    </tbody>
+                </table>
+                <p>Tổng Thành Tiền : <span name="Tong"></span></p>
+                <div class="row" style="text-align:center">
+                    <div class="col-4">
+                        <p><span name="namesupplier"></span></p>
+                        <p name="">Người Xác Nhận</p>
+                        <p name="">(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div class="col-4">
+                        <p>Người Nhận</p>
+                        <p>(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div class="col-4">
+                        Ngày.....Tháng....Năm........
+                        <p>Người Lập Đơn hàng</p>
+                        <p>(Ký, ghi rõ họ tên)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id=hide>
+                <a type="button" href="/DetailWareHouse/Index" class="btn btn-secondary">Close</a>
+                <button type="button" onclick="printDiv('in')" class="btn btn-primary">IN</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="CT" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width:1100px">
+        <div class="modal-content">
+            <div class="modal-body" id="inct">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Stt</th>
+                            <th>Số Seri</th>
+                            <th>Số CT</th>
+                            <th>Ngày CT</th>
+                            <th>Tiền Thuế</th>
+                            <th>Tiền CT</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbdct">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer" id=hide>
+                <a type="button" href="/DetailWareHouse/Index" class="btn btn-secondary">Close</a>
+                <button type="button" onclick="AddCT()" class="btn btn-success">Lưu</button>
+                <button type="button" onclick="printDiv('inct')" class="btn btn-primary">IN</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        Receipt()
+        function Receipt() {
+            $.ajax({
+                url: '/detailwarehouse/Receipt',
+                type: 'get',
+                success: function (data) {
+                    $('select[name="idReceipt"]').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Phiếu Nhập</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.id + '</option>'
+                        });
+                        $('select[name="idReceipt"]').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/DetailWareHouse.js"></script>
+}

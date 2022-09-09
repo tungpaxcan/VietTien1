@@ -1,0 +1,549 @@
+﻿
+@{ ViewBag.Title = "Trang Chủ Bán Hàng"; }
+<div class="card card-custom" id="a">
+    <div class="card-body">
+        <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer" style="margin-bottom:400px">
+            <div class="row" id="table">
+                <div class="col-sm-12">
+                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng Hóa</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Vị</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">% (TLCK)</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Loại Hàng</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbd">
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div style="width: 100%; position: fixed; bottom: 0; ">
+            <div class="row">
+                <div class="col-sm-6" style="border: double; background: #f3f3f3">
+                    <div class="form-group row" style="padding:2%">
+                        <div class="col-4">
+                            <label>Mã Hàng Hóa</label>
+                            <input class="form-control" type="text" placeholder="Mã HH" id="idgoods" />
+                        </div>
+                        <div class="col-4">
+                            <label>Số Lượng</label>
+                            <input class="form-control" type="number" placeholder="Số Lượng" id="amountgoods" />
+                        </div>
+                        <div class="col-4">
+                            <label>(%)CKHH</label>
+                            <input class="form-control" type="number" placeholder="0%" id="discountgoods" />
+                        </div>
+                    </div>
+                    <div class="form-group row" style="padding:2%">
+                        <div class="col-12">
+                            <label>Nhân Viên Tư Vấn</label>
+                            <div class="row">
+                                <input class="col-2 form-control" type="text" placeholder="Mã NV" name="iduser" />
+                                <input class="col-10 form-control" type="text" placeholder="Tên NV" name="nameuser" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="padding:2%">
+                        <div class="col-4">
+                            <label>Mã KH</label>
+                            <input class="form-control" type="text" placeholder="Mã KH" name="idcustomer" />
+                        </div>
+                        <div class="col-4">
+                            <label>Tên Khách Hàng</label>
+                            <h1 name="namecustomer"></h1>
+                        </div>
+                        <div class="col-4">
+                            <label>Điểm</label>
+                            <h1 name="pointcustomer"></h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6" style="border: double; background: #f3f3f3">
+                    <div class="form-group row" style="padding:2%">
+                        <div class="col-12">
+                            <h1><b>Tổng Giá trị</b></h1>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <h1 class="col-5 ">Tổng Tiền</h1>
+                        <div class="col-5">
+                            <div class="input-group-prepend">
+                                <h1 name="price"></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <h1 class="col-5 ">Chiết Khấu Trên Hóa Đơn</h1>
+                        <div class="col-5">
+                            <div class="input-group-prepend">
+                                <input name="discount" type="number" value="0" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <h1 class="col-5 " style="color:red">Khách Trả</h1>
+                        <div class="col-5">
+                            <div class="input-group-prepend">
+                                <h1 style="color:blue;font-size:5rem" name="sumprice"></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="SaveBill" class="btn btn-primary btn-lg btn-block">Tính Tiền</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1" name="WareHouse"></div>
+                <div class="col-2" name="Store"></div>
+                <div class="col-2" name="Stalls"></div>
+                <div class="col-2" name="Date"></div>
+                <div class="col-1" name="SaleShift"></div>
+                <div class="col-2" name="Time"></div>
+                <div class="col-2" name="ThuNgan"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal" id="BILL" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="text-align:center;width:100%">
+            <div class="modal-body" id="BILLS">
+                <h4 id="storebill"></h4>
+                <h4 id="addressbill"></h4>
+                <p>*</p>
+                <h1>Hóa Đơn Thanh Toán</h1>
+                <div class="form-group row">
+                    <h4 class=" col-6" id="idbillbill"></h4>
+                    <h4 class=" col-6" id="stallsbill"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-6" id="datebill"></h4>
+                    <h4 class="col-6" id="timebill"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-6" id="userTNbill"></h4>
+                    <h4 class="col-6" id="SaleShift"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-12" id="customerbill"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-12" id="pointbill"></h4>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tên hàng Hóa</th>
+                            <th>SL</th>
+                            <th>CK</th>
+                            <th>Giá</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbdgoods">
+                        <tr>
+                            <td>SSSSSS</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>100000</td>
+                            <td>100000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group row">
+                    <h4 class="col-6" id="totalmoneybill"></h4>
+                    <h4 class="col-6" id="totalmoneybill1"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-6" id=""></h4>
+                    <h4 class="col-6" id="TienKhach"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-6" id=""></h4>
+                    <h4 class="col-6" id="refundsbill"></h4>
+                </div>
+                <div class="form-group row">
+                    <h4 class="col-6">Bao Gồm Thuế GTGT 10%</h4>
+                </div>
+                <h4>Mở Cửa MỖi Ngày Từ </h4>
+                <h4>Cảm Ơn Và Hẹn Gặp Lại</h4>
+                <h4>Quý Khách Vui Lòng Mang Theo Hóa Đơn Khi Đổi Hàng</h4>
+                <h4>Thời Hạn Đổi Hàng: 5 Ngày Kể Từ Khi Mua</h4>
+                <div class="form-group row">
+                    <p class="col-6">Chữ Kí Khách Hàng</p>
+                    <p class="col-6">NVBH</p>
+                </div>
+            </div>
+            <div class="modal-footer" id=hide>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="IN" class="btn btn-primary">IN</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="TinhTien">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="color:blue">Tính Tiền</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <h1 class=" col-7">Tổng Tiền Khách Mua</h1>
+                    <div class=" col-5">
+                        <h1 name="sumprice2"></h1>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h1 class="col-7">Tiền Khách Trả</h1>
+                    <div class=" col-5">
+                        <div class="input-group-prepend">
+                            <input id="TienKhachTra" name="TienKhachTra" type="text" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h1 class="col-7">Trả Lại</h1>
+                    <div class="col-5">
+                        <h1 name="TraLai"></h1>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="dong">Đóng</button>
+                <button type="button" class="btn btn-default" id="btntreohoadon">Treo Hóa Đơn</button>
+                <button type="button" class="btn btn-default" onclick="DeleteBill()">Hủy Hóa Đơn</button>
+                <button type="button" class="btn btn-primary" id="btnImprimir">Lên BIll</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="posreceipt"></div>
+<div class="modal" tabindex="-1" role="dialog" id="changesetting">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cài Đặt</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Kho hàng</label>
+                    <div class=" col-lg-9 col-md-9 col-sm-12">
+                        <select class="form-control is-valid" id="WareHouses" name="param">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Cửa Hàng</label>
+                    <div class=" col-lg-9 col-md-9 col-sm-12">
+                        <select class="form-control is-valid" id="Store" name="param">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-3 col-sm-12">Quầy Bán</label>
+                    <div class=" col-lg-9 col-md-9 col-sm-12">
+                        <select class="form-control is-valid" id="Stalls" name="param">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="Save();" type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
+    <!--begin::Item-->
+    <li class="nav-item mb-2" id="kt_demo_panel_toggle" data-toggle="tooltip" title="" data-placement="right" data-original-title="Check out more demos">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-success btn-hover-success" href="#">
+
+            <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
+                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                    <i class="flaticon2-gear"></i>
+                </span>
+                <span class="tooltiptext1">Cài Đặt Máy In</span>
+
+                <!--end::Svg Icon-->
+            </span>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Layout Builder">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://preview.keenthemes.com/metronic/demo1/builder.html" target="_blank">
+            <i class="flaticon2-gear"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="baocaodauca">
+            <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
+                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                    <img src="~/Images/icons8-play-graph-report-16.91.png" />
+                </span>
+                <span class="tooltiptext1">Báo Cáo Đầu Ca</span>
+                <!--end::Svg Icon-->
+            </span>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="baocaoketca">
+            <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
+                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                    <img src="~/Images/icons8-stop-graph-report-16.91.png" />
+                </span>
+                <span class="tooltiptext1">Báo Cáo Kết Ca</span>
+                <!--end::Svg Icon-->
+            </span>
+        </a>
+    </li>
+    <!--end::Item-->
+</ul>
+<!--end::Sticky Toolbar-->
+<!--begin::Demo Panel-->
+
+<div id="kt_demo_panel" class="offcanvas offcanvas-right p-10">
+    <!--begin::Header-->
+    <div class="offcanvas-header d-flex align-items-center justify-content-between pb-7" kt-hidden-height="47" style="">
+        <h4 class="font-weight-bold m-0">Cài Đặ Máy In</h4>
+        <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_demo_panel_close">
+            <i class="ki ki-close icon-xs text-muted"></i>
+        </a>
+    </div>
+    <!--end::Header-->
+    <!--begin::Content-->
+    <div class="offcanvas-content">
+        <main role="main" class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Cài Đặt Mặc Định</h1>
+                </div>
+                <!-- Aquí pon las col-x necesarias, comienza tu contenido, etcétera -->
+                <div class="col-12 col-lg-6">
+                    <strong>Chọn Máy in: </strong>
+                    <p id="impresoraSeleccionada"></p>
+                    <div class="form-group">
+                        <select class="form-control" id="listaDeImpresoras"></select>
+                    </div>
+                    <button class="btn btn-primary btn-sm"
+                            id="btnRefrescarLista">
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary btn-sm"
+                            id="btnEstablecerImpresora">
+                        Lấy Mắc Định
+                    </button>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <button class="btn btn-warning btn-sm" id="btnLimpiarLog">Clear</button>
+                    <pre id="estado"></pre>
+                </div>
+            </div>
+        </main>
+    </div>
+    <!--end::Content-->
+</div>
+<div class="modal" id="firstreport" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Báo Cáo Đầu Ca</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Nhân Viên</label>
+                    <div class="col-8">
+                        <div class="input-group" name="nhanvien">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label" >Ngày Bán Hàng</label>
+                    <div class="col-8">
+                        <div class="input-group" name="Date">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Ca Bán Hàng</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <select class="form-control" id="caban">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Tiền Đâu Ca</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="" id="tiendauca" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddReportFirst()">In</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="reportlendshift" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Báo Cáo Kết Ca</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Nhập Mã Seri Đầu Ca Hoặc Quét Seri QR</label>
+                    <div class="col-8">
+                        <input class="form-control" type="text" placeholder="Nhập Seri Đầu Ca hoặc Quét QR" id="seri" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Nhân Viên</label>
+                    <div class="col-8">
+                        <div class="input-group" name="nhanvienfirst">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Ngày Bán Hàng</label>
+                    <div class="col-8">
+                        <div class="input-group" name="Datefirst">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Ca Bán Hàng</label>
+                    <div class="col-8">
+                        <div class="input-group" name="caban">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Tiền Đâu Ca</label>
+                    <div class="col-8">
+                        <div class="input-group" name="tiendauca">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group  row">
+                    <div class="col-12" style="height: 300px;overflow-y: scroll;">
+                        <table class="table">
+                            <thead>
+                                <tr role="row">
+                                    <th >Stt</th>
+                                    <th >Số HĐ</th>
+                                    <th >Tổng Tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbdreportbill">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Tiền Cuối Ca</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="" id="tiencuoica" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-4 col-form-label">Tiền Thực Bán</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input class="form-control" type="text" placeholder="" id="tienthucban" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="AddRepoFirst()()">In</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="namehangbill">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tên Hóa Đơn Treo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <input placeholder="Tên Hóa Đơn Treo" id="deshangbill"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="HangBill()">Save changes</button>
+                <a href="/Home/Index" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        Shift()
+        ValidateMoney('tiendauca')
+        ValidateMoney('tiencuoica')
+        ValidateMoney('tienthucban')
+        function Shift() {
+            $.ajax({
+                url: '/home/Shift',
+                type: 'get',
+                success: function (data) {
+                    $('#caban').empty();
+                    if (data.code == 200) {
+                        $('div[name="nhanvien"]').append(data.nv);
+                        let table = '<option value="' + data.ca + '">' + data.ca + '</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#caban').append(table);
+                    } else {
+                        alert(data.msg)
+                    }
+                }
+            })
+        }
+    </script>
+    <script src="~/Scripts/Home.js"></script>
+}
