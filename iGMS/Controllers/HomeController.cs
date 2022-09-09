@@ -546,23 +546,6 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult HangBill(string deshangbill)
-        {
-            try
-            {
-                var a = db.Bills.OrderBy(x => x.Id).ToList().LastOrDefault();
-                var b = db.Bills.Find(a.Id);
-                b.HangBill = false;
-                b.Description = deshangbill;
-                db.SaveChanges();
-                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpPost]
         public JsonResult DeleteBill()
         {
             try
