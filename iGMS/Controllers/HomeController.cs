@@ -640,42 +640,7 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        //------------------RFID---------------
-        [HttpGet]
-        public JsonResult AllShowEPC()
-        {
-            try
-            {
-                var stall = (Stall)Session["Stalls"];
-                var store = (Stall)Session["Store"];
-                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length > 0 && x.IdStall == stall.Id && x.Idstore == store.Id)
-                         select new
-                         {
-                             id = b.IdEPC
-                         }).ToList();
-                return Json(new { code = 200,a=a }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpGet]
-        public JsonResult CompareEPC(string epc)
-        {
-            try
-            {
-                var a = (from b in db.EPCs.Where(x => x.IdEPC == epc)
-                         select new
-                         {
-                             idgood = b.IdGoods
-                         }).ToList();
-                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
+
+
     }
 }

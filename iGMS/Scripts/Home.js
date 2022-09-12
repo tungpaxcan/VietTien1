@@ -973,21 +973,24 @@ function Dong() {
 
 
 //----------------RFID-------------------
-$.ajax({
-    url: '/home/AllShowEPC',
-    type: 'get',
-    success: function (data) {
-        if (data.code == 200) {
-            $.each(data.a, function (k, v) {
-                CompareEPC(v.id)
-            })
+function AllShowEPC() {
+    $.ajax({
+        url: '/rfid/AllShowEPC',
+        type: 'get',
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    CompareEPC(v.id)
+                })
+            }
         }
-    }
-})
+    })
+}
 
+setInterval(function () { AllShowEPC() }, 500);
 function CompareEPC(epc) {
     $.ajax({
-        url: '/home/CompareEPC',
+        url: '/rfid/CompareEPC',
         type: 'get',
         data: {
             epc
