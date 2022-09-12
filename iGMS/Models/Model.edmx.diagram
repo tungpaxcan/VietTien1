@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="310294a032c04f22b1058ae3a428cbaa" Name="Diagram1">
+        <EntityTypeShape EntityType="iGMSModel.Bill" Width="1.5" PointX="3" PointY="52.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.CateGood" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.CategoryGood" Width="1.5" PointX="7.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Color" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Customer" Width="1.5" PointX="0.75" PointY="44.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Delivery" Width="1.5" PointX="8.25" PointY="30.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailBill" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailEPC" Width="1.5" PointX="9.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailGoodOrder" Width="1.5" PointX="8.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailReportEndShift" Width="1.5" PointX="5.25" PointY="53.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailSupplierGood" Width="1.5" PointX="5.25" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailWareHouse" Width="1.5" PointX="5.25" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.EPC" Width="1.5" PointX="5.25" PointY="31.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.GeneralAccounting" Width="1.5" PointX="0.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Good" Width="1.5" PointX="3" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.GroupGood" Width="1.5" PointX="0.75" PointY="31.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Industry" Width="1.5" PointX="1.5" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.InternalAccounting" Width="1.5" PointX="0.75" PointY="41.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.License" Width="1.5" PointX="9.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Material" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Method" Width="1.5" PointX="6" PointY="37.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.NumberShift" Width="1.5" PointX="3.75" PointY="64.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PaymentMethod" Width="1.5" PointX="3.75" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Promotion" Width="1.5" PointX="5.25" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PurchaseOrder" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PurchaseOrderReport" Width="1.5" PointX="10.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Receipt" Width="1.5" PointX="8.25" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.ReportFirstShift" Width="1.5" PointX="3.75" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.ReportlEndShift" Width="1.5" PointX="6" PointY="59" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Role" Width="1.5" PointX="1.5" PointY="71.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.RoleAdmin" Width="1.5" PointX="1.5" PointY="76.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.SalesOrder" Width="1.5" PointX="6" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Season" Width="1.5" PointX="0.75" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Size" Width="1.5" PointX="0.75" PointY="22.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Stall" Width="1.5" PointX="0.75" PointY="53" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Store" Width="1.5" PointX="1.5" PointY="58.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Supplier" Width="1.5" PointX="3" PointY="29.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.TypeSale" Width="1.5" PointX="10.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.TypeStatu" Width="1.5" PointX="3.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Unit" Width="1.5" PointX="0.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.User" Width="1.5" PointX="0.75" PointY="64.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.WareHouse" Width="1.5" PointX="3.75" PointY="23.625" IsExpanded="true" />
+        <AssociationConnector Association="iGMSModel.FK_Bill_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Bill_Stalls" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Bill_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Bill_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailBill_Bill" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailReportEndShift_Bill" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_CateGoods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_Color" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Customer_GeneralAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Customer_GroupGoods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Customer_InternalAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Delivery_Method" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Delivery_SalesOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Delivery_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailBill_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailGoodOrder_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailGoodOrder_PurchaseOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailGoodOrder_SalesOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailReportEndShift_ReportlEndShift" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailSupplierGoods_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailSupplierGoods_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailWareHouse_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailWareHouse_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailWareHouse_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_EPC_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_GeneralAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Supplier_GeneralAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_Material" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_Season" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Goods_Unit" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Promotion_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_GroupGoods_Industry" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Supplier_GroupGoods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_InternalAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Supplier_InternalAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Receipt_Method" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportFirstShift_NumberShift" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_NumberShift" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_TypeStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_WareHouse" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Receipt_PurchaseOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportFirstShift_Stalls" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportFirstShift_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportFirstShift_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_ReportFirstShift" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_Stalls" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_Stalls1" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_Store" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Users_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Users_RoleAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_SalesOrder_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_Stalls_Store" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

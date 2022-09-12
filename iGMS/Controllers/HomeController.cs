@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -551,7 +552,14 @@ namespace iGMS.Controllers
             try
             {
                 var a = db.Bills.OrderBy(x => x.Id).ToList().LastOrDefault();
-                var b = db.Bills.Find(a.Id);
+                var b = db.Bills.SingleOrDefault(x=>x.Id==a.Id);
+                var c = db.DetailBills.Where(x => x.IdBill == a.Id).ToList();
+                for(int i = 0; i < c.Count(); i++)
+                {
+                    var d = db.DetailBills.Find(c[i].Id);
+                    db.DetailBills.Remove(d);
+                    db.SaveChanges();
+                }
                 db.Bills.Remove(b);
                 db.SaveChanges();
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
@@ -561,13 +569,108 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult EPC()
+        [HttpGet]
+        public JsonResult OpenImpresora()
         {
             try
             {
+                Process.Start("plugin_impresora_termica_64_bits.exe");
+                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult AllHangBill(string seachhoadontreo)
+        {
+            try
+            {
+                var a = (from b in db.Bills.Where(x => x.HangBill == false)
+                         select new
+                         {
+                             id = b.Id,
+                             des = b.Description,
+                         }).ToList().Where(x=>x.des.ToLower().Contains(seachhoadontreo)|| x.des.Contains(seachhoadontreo));
+                return Json(new { code = 200,a=a }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult DetailHangBill(int id)
+        {
+            try
+            {
+                var a = (from b in db.DetailBills.Where(x => x.IdBill == id)
+                         select new
+                         {
+                             id = b.Id,
+                             idgoods = b.IdGoods
+                         }).ToList();
+                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult DeleteHangBill(int id)
+        {
+            try
+            {
+                var c = db.DetailBills.Where(x => x.IdBill == id).ToList();
+                for (int i = 0; i < c.Count(); i++)
+                {
+                    var d = db.DetailBills.Find(c[i].Id);
+                    db.DetailBills.Remove(d);
+                    db.SaveChanges();
+                }
+                var e = db.Bills.Find(id);
+                db.Bills.Remove(e);
                 db.SaveChanges();
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        //------------------RFID---------------
+        [HttpGet]
+        public JsonResult AllShowEPC()
+        {
+            try
+            {
+                var stall = (Stall)Session["Stalls"];
+                var store = (Stall)Session["Store"];
+                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length > 0 && x.IdStall == stall.Id && x.Idstore == store.Id)
+                         select new
+                         {
+                             id = b.IdEPC
+                         }).ToList();
+                return Json(new { code = 200,a=a }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult CompareEPC(string epc)
+        {
+            try
+            {
+                var a = (from b in db.EPCs.Where(x => x.IdEPC == epc)
+                         select new
+                         {
+                             idgood = b.IdGoods
+                         }).ToList();
+                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

@@ -12,12 +12,10 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EPC
+    public partial class DetailEPC
     {
-        public int Id { get; set; }
-        public string IdGoods { get; set; }
         public string IdEPC { get; set; }
-    
-        public virtual Good Good { get; set; }
+        public string IdStall { get; set; }
+        public string Idstore { get; set; }
     }
 }

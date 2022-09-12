@@ -1,10 +1,10 @@
-﻿////$('#idgoods').keyup(function () {
-////    var id = $('#idgoods').val().trim();
-////    if (id.length == 13) {
-////        Goods(id);
-////    }
+﻿$('#idgoods').keyup(function () {
+    var id = $('#idgoods').val().trim();
+    if (id.length == 13) {
+        Goods(id);
+    }
 
-////})
+})
 $('input[name="iduser"]').keyup(function () {
     var id = $('input[name="iduser"]').val().trim();
     if (id.length == 9) {
@@ -574,13 +574,13 @@ function IN() {
                     impresora.setAlign("left");
                     impresora.write("Tên Hàng Hóa\tSL\tCK\tGiá\tTổng\n");
                     $.each(data.d, function (k, v) {
-                        impresora.write(v.namegoods + "\t" + v.amount + "\t" + v.discount + "\t" + v.price + "\t" + v.totalmoney + "\n");
+                        impresora.write(v.namegoods + "\t" + v.amount + "\t" + v.discount + "\t" + Money(v.price) + "\t" + Money(v.totalmoney) + "\n");
                         impresora.write("----------------------\n");
                         
                     })
                     impresora.setAlign("right");
                     impresora.write("Tiền Hàng : " + th + "\n");
-                    impresora.write("Tiền Phải Thu : " + th + "\n");
+                    impresora.write("Tiền Phải Thu : " +th + "\n");
                     impresora.write("Tiền Khách Trả : " + tkt + "\n");
                     impresora.write("Tiền Trả Lại : " + ttl + "\n");
                     impresora.setAlign("left");
@@ -589,17 +589,18 @@ function IN() {
                     impresora.write("Mở Cửa Mỗi Ngày Từ\n");
                     impresora.write("Cảm Ơn Và Hẹn Gặp Lại\n");
                     impresora.write("Quý Khách Vui Lòng Mang Hóa Dơn khi Đổi Hàng\n");
-                    impresora.write("Thời Hạn Đổi Hàng : 5 Ngày Kể Từ khi Mua\n");
-                    impresora.setAlign("right");
-                    impresora.write("Số Seri : "+v.id+"\n");
+                    impresora.write("Thời Hạn Đổi Hàng : 5 Ngày Kể Từ khi Mua\n");   
+                    impresora.setAlign("center");
                     impresora.qr(v.id, 80);
+                    impresora.setAlign("right");
+                    impresora.write("Số Seri : " + v.id + "\n");
              
                     impresora.cut();
                     impresora.cutPartial(); // Pongo este y también cut porque en ocasiones no funciona con cut, solo con cutPartial
                     impresora.cash();
                     impresora.imprimirEnImpresora($listaDeImpresoras.value);
                 })
-                window.location.href = "https://localhost:44342/"
+                window.location.href = "/Home/Index"
                
             }
             else {
@@ -661,7 +662,7 @@ function PrintReportFirstShift() {
                     impresora.write("Nhân Viên : " + v.nv + "\n");
                     impresora.write("--------------------------------\n");
                     impresora.write("Tổng Tiền \n");
-                    impresora.write("Tiền Đầu Ca:" + v.moneyfirst + " \n");
+                    impresora.write("Tiền Đầu Ca:" + Money(v.moneyfirst) + " \n");
                     impresora.setAlign("center");
                     impresora.write("--------------------------------\n");
                     impresora.write("Nhân Viên Kí Tên \n");
@@ -671,13 +672,13 @@ function PrintReportFirstShift() {
                     impresora.write("\n");
                     impresora.qr(v.id, 80);
                     impresora.setAlign("right");
-                    impresora.write("Số Seri : " + v.id + " \n");
+                    impresora.write("Số Seri : " + v.id + " \n");   
                     impresora.cut();
                     impresora.cutPartial(); // Pongo este y también cut porque en ocasiones no funciona con cut, solo con cutPartial
                     impresora.cash();
                     impresora.imprimirEnImpresora($listaDeImpresoras.value);
                 })
-                window.location.href = "https://localhost:44342/"
+                window.location.href = "Home/Index"
 
             }
             else {
@@ -697,10 +698,18 @@ $('#seri').keypress(function (e) {
         ReportBill(seri)
     }
 })
-function AddRepoFirst() {
+function AddReportEndShift() {
     var seri = $('#seri').val().trim();
-    var tiencuoica = $('#tiencuoica').val().trim().substring(1).replace(/,/, "");
-    var tienthucban = $('#tienthucban').val().trim().substring(1).replace(/,/, "");
+    var tiencuoica = $('#tiencuoica').val().trim().substring(1).replace(/,/g, "");
+    var tienthucban = $('#tienthucban').val().trim().substring(1).replace(/,/g, "");
+    if (tiencuoica.length == 0) {
+        alert("Nhập Tiền Cuối Ca !!")
+        return;
+    }
+    if (tienthucban.length == 0) {
+        alert("Nhập Tiền Cuối Ca !!")
+        return;
+    }
     $.ajax({
         url: '/home/AddReportEndShift',
         type: 'post',
@@ -778,7 +787,7 @@ function PrintReportEndShift() {
                     impresora.write("------------------------\n");
                     impresora.setFontSize(1, 1);
                     impresora.setAlign("left");
-                    impresora.write("Quầy : " + v.stall + "\t");
+                    impresora.write("Quầy : " + v.stall + "-\t");
                     impresora.setAlign("right");
                     impresora.write("Ngày : " + v.date + "\n");
                     impresora.setAlign("left");
@@ -789,13 +798,14 @@ function PrintReportEndShift() {
                     impresora.write("--------------------------------\n");
                     impresora.write("Số HĐ\tTổng Tiền\n");
                     $.each(data.d, function (k, v) {
-                        impresora.write("" + v.id + "\t"+v.sumprice+"\n");
+                        impresora.write("" + v.id + "\t" + Money(v.sumprice)  + "\n");
                     })
                     impresora.write("--------------------------------\n");
+                    impresora.setAlign("left");
                     impresora.write("Tổng Tiền \n");
-                    impresora.write("Tiền Đầu Ca:" + v.moneyfirst + " \n");
-                    impresora.write("Tiền Cuối Ca:" + v.moneyend + " \n");
-                    impresora.write("Tiền Thực Bán:" + v.realmoney + " \n");
+                    impresora.write("Tiền Đầu Ca:" + Money(v.moneyfirst) + " \n");
+                    impresora.write("Tiền Cuối Ca:" + Money(v.moneyend) + " \n");
+                    impresora.write("Tiền Thực Bán:" + Money(v.realmoney) + " \n");
                     impresora.setAlign("center");
                     impresora.write("--------------------------------\n");
                     impresora.write("Nhân Viên Kí Tên \n");
@@ -811,7 +821,7 @@ function PrintReportEndShift() {
                     impresora.cash();
                     impresora.imprimirEnImpresora($listaDeImpresoras.value);
                 })
-                window.location.href = "https://localhost:44342/"
+                window.location.href = "/Home/Index"
 
             }
             else {
@@ -825,8 +835,8 @@ $('#btntreohoadon').click(function () {
     $('#namehangbill').modal('show')
     $('#TinhTien').css("display", "none")
 })
-$('#dong').click(function () {
-    $('#TinhTien').css("display", "none")
+$('#hoadontreo').click(function () {
+    $('#modalhoadontreo').modal('show')
 })
 function HangBill() {
     var deshangbill = $('#deshangbill').val().trim();
@@ -843,6 +853,100 @@ function HangBill() {
         }
     })
 }
+
+var seachhoadontreo = "";
+AllHangBill(seachhoadontreo);
+
+$('#seachhoadontreo').keyup(function () {
+    seachhoadontreo = $('#seachhoadontreo').val().trim();
+    AllHangBill(seachhoadontreo)
+})
+function AllHangBill(seachhoadontreo) {
+    $.ajax({
+        url: '/home/AllHangBill',
+        type: 'get',
+        data: {
+            seachhoadontreo
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                var Stt = 1;
+                $('#tbdhoadontreo').empty()
+                $.each(data.a, function (k, v) {
+                    let tbd = '<tr id="' + v.id + '">';
+                    tbd += '<td>' + (Stt++) + '</td>';
+                    tbd += '<td>' + v.id + '</td>';
+                    tbd += '<td>' + v.des + '</td>';
+                    tbd += '<td class="action" nowrap="nowrap">';
+                    tbd += '<div class="dropdown dropdown-inline">';
+                    tbd += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">';
+                    tbd += '<i class="la la-cog"></i></a>';
+                    tbd += '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">';
+                    tbd += '<ul class="nav nav-hoverable flex-column">';
+                    tbd += '<li class="nav-item"><a class="nav-link"name="open" onclick="DetailHangBill(' + v.id + ')">';
+                    tbd += '<i class="nav-icon la la-print"></i><span class="nav-text">Mở</span></a></li>';
+                    tbd += '<li class="nav-item"><a class="nav-link" name="delete" onclick="DeleteHangBill(' + v.id + ')">';
+                    tbd += '<i class="nav-icon la la-trash"></i><span class="nav-text">Delete</span></a></li>';
+                    tbd += '</ul></div></div>';
+                    tbd += '</td>';
+                    tbd += '</tr > ';
+                    $('#tbdhoadontreo').append(tbd)
+                })
+            }
+        }
+    })
+}
+
+
+function DetailHangBill(id) {
+    $.ajax({
+        url: '/home/DetailHangBill',
+        type: 'get',
+        data: {
+            id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                $('#tbd').empty();
+                AllHangBill(seachhoadontreo);
+                $('#modalhoadontreo').modal('hide')
+                $.each(data.a, function (k, v) {                 
+                    Goods(v.idgoods)
+                })
+                DeleteHangBill(id)
+            }
+        }
+    })
+}
+
+function DeleteHangBill(id) {
+    $.ajax({
+        url: '/home/DeleteHangBill',
+        type: 'post',
+        data: {
+            id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                AllHangBill(seachhoadontreo);
+            }
+        }
+    })
+}
+
+//--------------mo ung dung de in----------
+function OpenImpresora() {
+    $.ajax({
+        url: '/home/OpenImpresora',
+        type: 'get',
+        success: function (data) {
+
+        }
+    })
+
+}
+
+//-------------xóa bill-----------------
 function DeleteBill() {
     $.ajax({
         url: '/home/DeleteBill',
@@ -854,17 +958,45 @@ function DeleteBill() {
         }
     })
 }
-
-function EPC() {
+//-------------xóa bill-----------------
+function Dong() {
     $.ajax({
-        url: '/home/EPC',
+        url: '/home/DeleteBill',
         type: 'post',
+        success: function (data) {
+            if (data.code == 200) {
+                $('#TinhTien').css("display", "none")
+            }
+        }
+    })
+}
+
+
+//----------------RFID-------------------
+$.ajax({
+    url: '/home/AllShowEPC',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            $.each(data.a, function (k, v) {
+                CompareEPC(v.id)
+            })
+        }
+    }
+})
+
+function CompareEPC(epc) {
+    $.ajax({
+        url: '/home/CompareEPC',
+        type: 'get',
         data: {
             epc
         },
         success: function (data) {
             if (data.code == 200) {
-                window.location.href = "/Home/Index"
+                $.each(data.a, function (k, v) {
+                    Goods(v.idgood)
+                })
             }
         }
     })

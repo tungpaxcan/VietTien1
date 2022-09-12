@@ -70,7 +70,7 @@ function Goods(pagenum, page, seach) {
                         JsBarcode(".barcode"+v.id, v.id, {
                             format: "UPC",
                         });
-                    } else if (v.id.length == 12 || v.id.length==13) {
+                    } else if ( v.id.length==13) {
                         JsBarcode(".barcode"+v.id, v.id, {
                             format: "EAN13",
                         });
@@ -425,7 +425,7 @@ $('#id').keyup(function () {
         JsBarcode("#barcode", id, {
             format: "UPC",
         });
-    } else if ( id.length==12) {
+    } else if ( id.length==13) {
         JsBarcode("#barcode", id, {
             format: "EAN13",
         });

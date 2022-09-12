@@ -112,83 +112,6 @@
 
     </div>
 </div>
-<div class="modal" id="BILL" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" style="text-align:center;width:100%">
-            <div class="modal-body" id="BILLS">
-                <h4 id="storebill"></h4>
-                <h4 id="addressbill"></h4>
-                <p>*</p>
-                <h1>Hóa Đơn Thanh Toán</h1>
-                <div class="form-group row">
-                    <h4 class=" col-6" id="idbillbill"></h4>
-                    <h4 class=" col-6" id="stallsbill"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-6" id="datebill"></h4>
-                    <h4 class="col-6" id="timebill"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-6" id="userTNbill"></h4>
-                    <h4 class="col-6" id="SaleShift"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-12" id="customerbill"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-12" id="pointbill"></h4>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Tên hàng Hóa</th>
-                            <th>SL</th>
-                            <th>CK</th>
-                            <th>Giá</th>
-                            <th>Tổng</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbdgoods">
-                        <tr>
-                            <td>SSSSSS</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>100000</td>
-                            <td>100000</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="form-group row">
-                    <h4 class="col-6" id="totalmoneybill"></h4>
-                    <h4 class="col-6" id="totalmoneybill1"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-6" id=""></h4>
-                    <h4 class="col-6" id="TienKhach"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-6" id=""></h4>
-                    <h4 class="col-6" id="refundsbill"></h4>
-                </div>
-                <div class="form-group row">
-                    <h4 class="col-6">Bao Gồm Thuế GTGT 10%</h4>
-                </div>
-                <h4>Mở Cửa MỖi Ngày Từ </h4>
-                <h4>Cảm Ơn Và Hẹn Gặp Lại</h4>
-                <h4>Quý Khách Vui Lòng Mang Theo Hóa Đơn Khi Đổi Hàng</h4>
-                <h4>Thời Hạn Đổi Hàng: 5 Ngày Kể Từ Khi Mua</h4>
-                <div class="form-group row">
-                    <p class="col-6">Chữ Kí Khách Hàng</p>
-                    <p class="col-6">NVBH</p>
-                </div>
-            </div>
-            <div class="modal-footer" id=hide>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="IN" class="btn btn-primary">IN</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal" tabindex="-1" role="dialog" id="TinhTien">
     <div class="modal-dialog" role="document">
@@ -222,7 +145,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" id="dong">Đóng</button>
+                <button type="button" class="btn btn-default"onclick="Dong()">Đóng</button>
                 <button type="button" class="btn btn-default" id="btntreohoadon">Treo Hóa Đơn</button>
                 <button type="button" class="btn btn-default" onclick="DeleteBill()">Hủy Hóa Đơn</button>
                 <button type="button" class="btn btn-primary" id="btnImprimir">Lên BIll</button>
@@ -270,44 +193,40 @@
     </div>
 </div>
 <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
-    <!--begin::Item-->
     <li class="nav-item mb-2" id="kt_demo_panel_toggle" data-toggle="tooltip" title="" data-placement="right" data-original-title="Check out more demos">
         <a class="btn btn-sm btn-icon btn-bg-light btn-icon-success btn-hover-success" href="#">
 
             <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
-                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
                 <span class="svg-icon svg-icon-primary svg-icon-2x">
                     <i class="flaticon2-gear"></i>
                 </span>
-                <span class="tooltiptext1">Cài Đặt Máy In</span>
-
-                <!--end::Svg Icon-->
+                <span class="tooltiptext1" style=" margin-left: -120px;">Cài Đặt Máy In</span>
             </span>
         </a>
     </li>
-    <!--end::Item-->
-    <!--begin::Item-->
-    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Layout Builder">
-        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://preview.keenthemes.com/metronic/demo1/builder.html" target="_blank">
-            <i class="flaticon2-gear"></i>
+
+    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="hoadontreo">
+            <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
+                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                    <img src="~/Images/icons8-hanger-16.png" />
+                </span>
+                <span class="tooltiptext1" style=" margin-left: -120px;">Hóa Đơn Treo</span>
+            </span>
         </a>
     </li>
-    <!--end::Item-->
-    <!--begin::Item-->
+
     <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
         <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="baocaodauca">
             <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
-                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
                 <span class="svg-icon svg-icon-primary svg-icon-2x">
                     <img src="~/Images/icons8-play-graph-report-16.91.png" />
                 </span>
-                <span class="tooltiptext1">Báo Cáo Đầu Ca</span>
-                <!--end::Svg Icon-->
+                <span class="tooltiptext1" style=" margin-left: -120px;">Báo Cáo Đầu Ca</span>
             </span>
         </a>
     </li>
-    <!--end::Item-->
-    <!--begin::Item-->
+
     <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
         <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="baocaoketca">
             <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
@@ -315,20 +234,19 @@
                 <span class="svg-icon svg-icon-primary svg-icon-2x">
                     <img src="~/Images/icons8-stop-graph-report-16.91.png" />
                 </span>
-                <span class="tooltiptext1">Báo Cáo Kết Ca</span>
+                <span class="tooltiptext1" style=" margin-left: -120px;">Báo Cáo Kết Ca</span>
                 <!--end::Svg Icon-->
             </span>
         </a>
     </li>
-    <!--end::Item-->
+
 </ul>
-<!--end::Sticky Toolbar-->
-<!--begin::Demo Panel-->
+
 
 <div id="kt_demo_panel" class="offcanvas offcanvas-right p-10">
     <!--begin::Header-->
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-7" kt-hidden-height="47" style="">
-        <h4 class="font-weight-bold m-0">Cài Đặ Máy In</h4>
+        <h4 class="font-weight-bold m-0">Cài Đặt Máy In</h4>
         <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_demo_panel_close">
             <i class="ki ki-close icon-xs text-muted"></i>
         </a>
@@ -355,6 +273,10 @@
                     <button class="btn btn-primary btn-sm"
                             id="btnEstablecerImpresora">
                         Lấy Mắc Định
+                    </button> 
+                    <button class="btn btn-primary btn-sm"
+                            onclick="OpenImpresora()">
+                        Mở Ứng Dụng In
                     </button>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -494,7 +416,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="AddRepoFirst()()">In</button>
+                <button type="button" class="btn btn-primary" onclick="AddReportEndShift()">In</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -514,6 +436,28 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="HangBill()">Save changes</button>
+                <a href="/Home/Index" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalhoadontreo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input placeholder="Tìm Hóa Đơn Treo" id="seachhoadontreo" type="search"  />
+            </div>
+            <table class="table">
+                <thead><tr><th>Stt</th><th>Số HĐ</th><th>Ghi Chú</th><th></th></tr></thead>
+                <tbody id="tbdhoadontreo"></tbody>
+            </table>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="">Save changes</button>
                 <a href="/Home/Index" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
