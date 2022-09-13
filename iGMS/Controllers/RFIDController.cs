@@ -17,8 +17,8 @@ namespace iGMS.Controllers
         {
             try
             {
-                var stall = (Stall)Session["Stalls"];
-                var store = (Stall)Session["Store"];
+                //var stall = (Stall)Session["Stalls"];
+                //var store = (Stall)Session["Store"];
                 var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length > 0 /*&& x.IdStall == stall.Id && x.Idstore == store.Id*/)
                          select new
                          {
@@ -41,6 +41,21 @@ namespace iGMS.Controllers
                          {
                              idgood = b.IdGoods
                          }).ToList();
+                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult DeleteEPC(string epc)
+        {
+            try
+            {
+                var a = db.DetailEPCs.Find(epc);
+                db.DetailEPCs.Remove(a);
+                db.SaveChanges();
                 return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

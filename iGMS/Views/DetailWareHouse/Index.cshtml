@@ -193,27 +193,6 @@
     </div>
 </div>
 @section scripts{
-    <script>
-        Receipt()
-        function Receipt() {
-            $.ajax({
-                url: '/detailwarehouse/Receipt',
-                type: 'get',
-                success: function (data) {
-                    $('select[name="idReceipt"]').empty();
-                    if (data.code == 200) {
-                        let table = '<option value="-1">Chọn Phiếu Nhập</option>'
-                        $.each(data.c, function (k, v) {
-                            table += '<option value="' + v.id + '">' + v.id + '</option>'
-                        });
-                        $('select[name="idReceipt"]').append(table);
-                    } else (
-                        alert(data.msg)
-                    )
-                }
-            })
-        }
-    </script>
-    @Scripts.Render("~/bundles/bootstrap")
+
     <script src="~/Scripts/DetailWareHouse.js"></script>
 }

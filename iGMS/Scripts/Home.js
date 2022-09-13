@@ -999,7 +999,21 @@ function CompareEPC(epc) {
             if (data.code == 200) {
                 $.each(data.a, function (k, v) {
                     Goods(v.idgood)
+                    DeleteEPC(epc)
                 })
+            }
+        }
+    })
+}
+function DeleteEPC(epc) {
+    $.ajax({
+        url: '/rfid/DeleteEPC',
+        type: 'post',
+        data: {
+            epc
+        },
+        success: function (data) {
+            if (data.code == 200) {
             }
         }
     })
