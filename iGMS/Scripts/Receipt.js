@@ -60,6 +60,7 @@
                     table += '<td>'+v.tax+'</td>'
                     table += '<td>'+v.pricetax+'</td>'
                     table += '<td>'+v.sumprice+'</td>'
+                    table += '<td></td>'
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)

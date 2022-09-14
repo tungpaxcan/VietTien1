@@ -2256,6 +2256,7 @@
     <Content Include="Images\icons8-hanger-16.png" />
     <Content Include="Images\icons8-play-graph-report-16.91.png" />
     <Content Include="Images\icons8-purchase-order-19.5.png" />
+    <Content Include="Images\icons8-remove-38.png" />
     <Content Include="Images\icons8-stop-graph-report-16.91.png" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

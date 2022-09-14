@@ -220,7 +220,7 @@ function Goods(id) {
                         table += '<td class="price" id="price' + v.id + '">' + (v.price) + '</td>'
                         table += '<td class="discount" id="discount' + v.id + '">' + v.discount + '</td>'
                         table += '<td class="totalmoney" id="totalmoney' + v.id + '"></td>'
-                        table += '<td>' + v.categoods + '</td>'
+                        table += '<td>' + v.categoods + '</td></tr>'
 
                         $('#tbd').append(table);
                         var amount = document.getElementById('amount' + v.id + '').innerText
@@ -442,12 +442,7 @@ $('#SaveBill').click(function () {
     })
 })
 
-/**/
-//$('#IN').click(function () {
-//    $('hide').css('display','none ')
-//    printDiv('BILL');
-//    $('#BILL').modal('hide');
-//})
+
 
 const $estado = document.querySelector("#estado"),
     $listaDeImpresoras = document.querySelector("#listaDeImpresoras"),
@@ -974,6 +969,16 @@ function Dong() {
     })
 }
 
+//-------------xóa HH ban------------
+$(document).on('click', 'div[name="deleteHH"]', function (e) {
+    var id = $('#idgoods').val().trim();
+    DeleteHH("HH" + id);
+    TongGiaTri()
+})
+function DeleteHH(id) {
+    document.getElementById(id).remove();
+   
+}
 
 //----------------RFID-------------------
 function AllShowEPC() {
