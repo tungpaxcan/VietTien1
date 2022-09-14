@@ -1,5 +1,5 @@
-﻿$('select[name="purchaseorder"]').change(function () {
-    var purchaseorder = $('select[name="purchaseorder"] option:selected').val();
+﻿$('input[name="purchaseorder"]').keyup(function () {
+    var purchaseorder = $('input[name="purchaseorder"] ').val();
     var id = $('#id').val().trim();
     var d = new Date()
     $.ajax({

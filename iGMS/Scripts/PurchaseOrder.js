@@ -75,6 +75,7 @@ function ListGoods(supplier, seach, checkboxesChecked) {
                     })
                
                 });
+
                 Active(checkboxesChecked);
                 $('input[name="change"]').click(function () {
                     var id = $(this).closest('tr').attr('id')
@@ -326,13 +327,25 @@ function BILL() {
                             $('span[name="datepaydh"]').empty()
                             $('span[name="sumpricedh"]').empty()
                             $('span[name="Tong"]').empty();
+                            var qr 
+
                             $.each(data.c, function (k, v) {
+                                
                                 $('span[name="iddh"]').append(v.id)
                                 $('span[name="datedh"]').append(v.datedh)
                                 $('span[name="paydh"]').append(v.paydh)
                                 $('span[name="datepaydh"]').append(v.datepaydh)
                                 $('span[name="sumpricedh"]').append(v.sumpricedh)
                                 $('span[name="Tong"]').append(to_vietnamese(v.sumpricedh))
+                                qr = v.id
+                            })
+                            $('#qrcode').empty();
+                            new QRCode(document.getElementById("qrcode"), {
+                                text: qr,
+                                width: 100,
+                                height: 100,
+                                correctLevel: QRCode.CorrectLevel.H
+
                             })
                             $.ajax({
                                 url: '/purchaseorder/Bill2',
@@ -370,8 +383,10 @@ function BILL() {
                                             sums1 += (Number(sum1[i]))
                                         }
                                         $('span[name="sumpricediscount"]').append(sums)
-                                        $('span[name="sumpricetax"]').append(sums1)                                    
+                                        $('span[name="sumpricetax"]').append(sums1)
+                                   
                                         $('#BILL').modal('show')
+
                                     }
                                     else {
                                         alert("Tạo Đơn Vị Thất Bại")
