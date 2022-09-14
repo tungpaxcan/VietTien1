@@ -26,6 +26,17 @@
     <script src="~/Scripts/jquery.scannerdetection.js"></script>
     <script src="~/Scripts/Login.js"></script>
     <script src="~/Scripts/md5.min.js"></script>
+    <script src="~/Scripts/ebapi-modules.js"></script>
+    <script>
+        EB.Barcode.enable({
+            allDecoders: true
+        }, fnBarcodeScanned);
+        function fnBarcodeScanned(jsonObject) {
+            // alert("Barcode Scanned:{" + JSON.stringify(jsonObject) + "}");
+            document.getElementById('id').value = jsonObject.data;
+        }
+
+    </script>
 </body>
 </html>
 

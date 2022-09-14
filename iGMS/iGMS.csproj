@@ -140,6 +140,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AppWareHouseController.cs" />
     <Compile Include="Controllers\AuthorizationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CateGoodsController.cs" />
@@ -2327,7 +2328,9 @@
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\DetailWareHouse.js" />
+    <Content Include="Scripts\ebapi-modules.js" />
     <Content Include="Scripts\EditUser.js" />
+    <Content Include="Scripts\elements.js" />
     <Content Include="Scripts\Goods.js" />
     <Content Include="Scripts\GroupGoods.js" />
     <Content Include="Scripts\Home.js" />
@@ -2437,6 +2440,7 @@
     <Content Include="Views\PurchaseOrder\Index.cshtml" />
     <Content Include="Views\Receipt\Index.cshtml" />
     <Content Include="Views\DetailWareHouse\Index.cshtml" />
+    <Content Include="Views\AppWareHouse\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
