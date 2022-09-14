@@ -6,6 +6,10 @@ $('#id').keyup(function () {
         Scan(id);
     }
 })
+var id = $('#id').val().trim();
+if (id.length == 9) {
+    Scan(id);
+}
 
 
 
@@ -63,9 +67,8 @@ $(document).scannerDetection({
     endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
     avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
-    minLength:9,
+    minLength:1,
     onComplete: function (barcode, qty) {
-        $('#id').val(barcode);
         Scan(barcode);
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)

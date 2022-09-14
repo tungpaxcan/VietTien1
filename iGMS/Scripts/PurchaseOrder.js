@@ -1,17 +1,42 @@
 ﻿var d = new Date();
+var seach = '';
+var checkboxesChecked = [];
 //----------Change::supplier--------------
 $('#supplier').change(function () {
     var supplier = $("#supplier option:selected").val();
     $('#listgoods').modal('show')
-    ListGoods(supplier)
+    ListGoods(supplier, seach, checkboxesChecked)
 
 })
 
-function ListGoods(supplier) {
+//------------tim kiem-------------------
+$('#seachidgood').keyup(function () {
+    var supplier = $("#supplier option:selected").val();
+    seach = $('#seachidgood').val().trim();
+    var checkboxes = document.getElementsByName('change');
+    // loop over them all
+    for (var i = 0; i < checkboxes.length; i++) {
+        // And stick the checked ones onto an array...
+  /*      if ($('#seachidgood').val().trim().length <= 1) {*/
+        if (checkboxes[i].checked) {
+            if (checkboxesChecked.includes(checkboxes[i].value) == false) {
+                checkboxesChecked.push(checkboxes[i].value);
+            }
+            else {
+
+            }
+        }
+    }
+    ListGoods(supplier, seach, checkboxesChecked)
+
+})
+
+
+function ListGoods(supplier, seach, checkboxesChecked) {
     $.ajax({
         url: '/purchaseorder/ListGoods',
         type: 'get',
-        data: { supplier},
+        data: { supplier, seach },
         success: function (data) {
             var Stt = 1;
             $('#tbd').empty();
@@ -19,7 +44,7 @@ function ListGoods(supplier) {
             if (data.code == 200) {
                 $.each(data.c, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
-                    table += '<td class="datatable-cell-sorted datatable-cell-center datatable-cell datatable-cell-check" data-field="RecordID" aria-label="2"><span style="width: 30px;"><label class="checkbox checkbox-single kt-checkbox--solid"><input  onclick="Sumprice();" type="checkbox" value="' + v.id + '" name="change">&nbsp;<span></span></label></span></td>'
+                    table += '<td class="datatable-cell-sorted datatable-cell-center datatable-cell datatable-cell-check" data-field="RecordID" aria-label="2"><span style="width: 30px;"><label class="checkbox checkbox-single kt-checkbox--solid"><input id="'+v.id+'abc" onclick="Sumprice();" type="checkbox" value="' + v.id + '" name="change">&nbsp;<span></span></label></span></td>'
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
@@ -48,15 +73,34 @@ function ListGoods(supplier) {
                     $('#tax' + v.id + '').keyup(function () {
                         PriceTax(v.id)
                     })
-                   
-                });
                
+                });
+                Active(checkboxesChecked);
+                $('input[name="change"]').click(function () {
+                    var id = $(this).closest('tr').attr('id')
+                    var change = $(this).is(":checked");
+                    if (change == false) {
+                        checkboxesChecked.splice(checkboxesChecked.indexOf('' + id + ''), 1)
+                    }
+                })
             } else (
                 alert(data.msg)
             )
         }
     })
 }
+
+//---------lap cac san pham da dc tich khi tim kiem
+
+function Active(checkboxesChecked) {
+
+    for (var i = 0; i < checkboxesChecked.length; i++) {
+        var good = checkboxesChecked[i]
+        $('#' + good + 'abc').attr('checked', true)
+    }
+}
+
+
 $('#allchange').click(function () {
    
     var allchange = $('#allchange').is(":checked");

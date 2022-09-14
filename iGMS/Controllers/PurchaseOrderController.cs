@@ -196,7 +196,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpGet]
-        public JsonResult ListGoods(string supplier)
+        public JsonResult ListGoods(string supplier,string seach)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace iGMS.Controllers
                              purchaseprice = b.PurchasePrice==null?0:b.PurchasePrice,
                              purchasediscount= b.PurchaseDiscount==null?0:b.PurchaseDiscount,
                              purchasetax = b.PurchaseTax == null ? 10 : b.PurchaseTax
-                         }).ToList();
+                         }).ToList().Where(x=>x.id.Contains(seach));
                 return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -255,6 +255,24 @@ namespace iGMS.Controllers
         }
         [HttpGet]
         public JsonResult Store()
+        {
+            try
+            {
+                var c = (from b in db.Stores.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name,
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Active()
         {
             try
             {
