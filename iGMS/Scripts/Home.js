@@ -1,6 +1,6 @@
 ﻿$('#idgoods').keyup(function () {
     var id = $('#idgoods').val().trim();
-    if (id.length == 13) {
+    if (id.length == 3) {
         Goods(id);
     }
 
@@ -258,7 +258,7 @@ $(document).scannerDetection({
     endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
     avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
-    minLength: 9,
+    minLength: 1,
     onComplete: function (barcode, qty) {
         Goods(barcode)
 
@@ -378,16 +378,16 @@ function UpLoadft() {
 
 
 $('input[name="TienKhachTra"]').keyup(function () {
-    ValidateMoney('TienKhachTra')
+/*    ValidateMoney('TienKhachTra')*/
     $('h1[name="TraLai"]').empty();
-    var a = $('input[name="TienKhachTra"]').val().trim().substring(1).replace(/,/g,'');
+    var a = $('input[name="TienKhachTra"]').val().trim()/*.substring(1).replace(/,/g,'')*/;
     var b = $('h1[name="sumprice2"]').text().substring(1).replace(/,/g,'')
     $('h1[name="TraLai"]').append(Money(parseInt(a) - parseInt(b)))
 })
 
 $('#SaveBill').click(function () {
     $('h1[name="sumprice2"]').empty();
-    $('#TinhTien').css("display", "block")
+  
     $('h1[name="sumprice2"]').append($('h1[name="sumprice"]').text())
     var idcustomer = $('input[name="idcustomer"]').val();
     var sumprice = $('h1[name="sumprice2"]').text().substring(1).replace(/,/g, '');
@@ -417,10 +417,13 @@ $('#SaveBill').click(function () {
                         },
                         success: function (data) {
                             if (data.code == 200) {
-                             
+                                $('#TinhTien').css("display", "block")
                             }
                             else if (data.code == 100) {
-                                alert(idgoods+" Hết Hàng !!!")
+                                alert(data.msg)
+                            }
+                            else if (data.code == 1) {
+                                alert(data.msg)
                             }
                             else {
                                 alert(data.msg)
@@ -616,7 +619,7 @@ $('#baocaodauca').click(function () {
 })
 
 function AddReportFirst() {
-    var tiendauca = $('#tiendauca').val().trim().substring(1).replace(/,/, "");
+    var tiendauca = $('#tiendauca').val().trim()/*.substring(1).replace(/,/, "")*/;
     var caban = $('#caban option:selected').val()
     $.ajax({
         url: '/home/AddReportShift',
@@ -700,8 +703,8 @@ $('#seri').keypress(function (e) {
 })
 function AddReportEndShift() {
     var seri = $('#seri').val().trim();
-    var tiencuoica = $('#tiencuoica').val().trim().substring(1).replace(/,/g, "");
-    var tienthucban = $('#tienthucban').val().trim().substring(1).replace(/,/g, "");
+    var tiencuoica = $('#tiencuoica').val().trim()/*.substring(1).replace(/,/g, "")*/;
+    var tienthucban = $('#tienthucban').val().trim()/*.substring(1).replace(/,/g, "")*/;
     if (tiencuoica.length == 0) {
         alert("Nhập Tiền Cuối Ca !!")
         return;
@@ -987,7 +990,7 @@ function AllShowEPC() {
     })
 }
 
-setInterval(function () { AllShowEPC() }, 500);
+setInterval(function () { AllShowEPC() }, 1000);
 function CompareEPC(epc) {
     $.ajax({
         url: '/rfid/CompareEPC',

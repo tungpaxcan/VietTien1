@@ -263,7 +263,23 @@ namespace iGMS.Controllers
             {
                 var store = (Store)Session["Store"];
                 var e = db.DetailWareHouses.SingleOrDefault(x => x.IdStore == store.Id && x.IdGoods == idgoods);
-                e.Inventory -= float.Parse(amounts);
+                if (e == null)
+                {
+                    return Json(new { code = 100,msg=idgoods+" : Hàng Chưa Có Trong Kho !!!" }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    if (e.Inventory <= 0)
+                    {
+                        return Json(new { code = 1 ,msg=idgoods+" : Hết Hàng !!!"}, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        e.Inventory -= float.Parse(amounts);
+                    }
+                  
+                }
+                
                 var idbill = db.Bills.OrderBy(x => x.Id);
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
