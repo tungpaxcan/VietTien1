@@ -51,10 +51,13 @@ namespace iGMS.Controllers
             try
             {
                 var a = db.Users.SingleOrDefault(x => x.Id==id);
+                var user = a.User1;
+                var pass = a.Pass;
                 if (a != null)
                 {
                     Session["user"] = a;
-                    return Json(new { code = 200, Url = "/Home/Index" }, JsonRequestBehavior.AllowGet);
+
+                    return Json(new { code = 200, Url = "/Home/Index", user= user, pass= pass }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {

@@ -6,10 +6,6 @@ $('#id').keyup(function () {
         Scan(id);
     }
 })
-var id = $('#id').val().trim();
-if (id.length == 9) {
-    Scan(id);
-}
 
 
 
@@ -22,6 +18,9 @@ function Scan(id) {
         },
         success: function (data) {
             if (data.code == 200) {
+                $('#user').val(data.user);
+                $('#pass').val(data.pass);
+
                 window.location.href = data.Url;
                 
             } else if (data.code == 300) {
