@@ -48,19 +48,19 @@
 
                 })
                 $.each(data.c, function (k, v) {
-                    let table = '<tr id="' + v.id + '" role="row" class="odd">';
+                    let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.unit + '</td>'
-                    table += '<td>'+v.amount+'</td>'
+                    table += '<td id="amountresult'+v.id+'">'+v.amount+'</td>'
                     table += '<td>'+v.price+'</td>'
                     table += '<td>'+v.discount+'</td>'
                     table += '<td>'+v.pricediscount+'</td>'
                     table += '<td>'+v.tax+'</td>'
                     table += '<td>'+v.pricetax+'</td>'
-                    table += '<td>'+v.sumprice+'</td>'
-                    table += '<td></td>'
+                    table += '<td>' + v.sumprice + '</td>'
+                    table += '<td id="result' + v.id + '">0</td>'
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
@@ -79,6 +79,7 @@
                     table += '</tr>';
                     $('#tbdct').append(table);
                 });
+             
             } else (
                 alert(data.msg)
             )
@@ -170,4 +171,53 @@ function LastReceipt() {
 
 $('#btnct').click(function () {
     $('#CT').modal('show')
+
 })
+
+
+function CompareReceipt(barcode) {
+    var amounttext = $('#result' + barcode + '').text();
+    var amountresulttext = $('#amountresult' + barcode + '').text();
+    var amount = Number(amounttext)
+    var amountresult = Number(amountresulttext)
+    var GoodPucharseOder = $('.tablenhan .nhanhang').map(function () {
+
+        return this.id;
+    })
+    for (var i = 0; i < GoodPucharseOder.length; i++) {
+        if (GoodPucharseOder[i] == barcode) {
+            
+            amount += 1;
+            if (amount > amountresult) {
+                return;
+            } else {
+                $('#result' + barcode + '').text(amount)
+            }
+            if (amount == amountresult) {
+                $('#result' + barcode + '').css('background', 'green')
+            } else if (amount < amountresult) {
+                $('#result' + barcode + '').css('background', 'yellow')
+            } else if (amount <= 0) {
+                $('#result' + barcode + '').css('background', 'red')
+            }
+           
+        }
+    }
+}
+
+//-----------------------------
+$(document).scannerDetection({
+    timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+    startChar: [120],
+    endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+    avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
+    ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
+    minLength: 1,
+    onComplete: function (barcode, qty) {
+        CompareReceipt(barcode)
+
+    }, // main callback function
+    scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
+    scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
+    onError: function (string) { alert('Error ' + string); }
+});
