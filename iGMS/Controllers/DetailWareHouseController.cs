@@ -42,14 +42,7 @@ namespace iGMS.Controllers
                 var nameAdmin = session.Name;
                 var e = db.DetailWareHouses.SingleOrDefault(x => (x.IdWareHouse == idwarehouse || x.IdStore == idwarehouse) && x.IdGoods == idgood);
                 var f = db.Receipts.Find(idReceipt);
-                var c = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == idgood && x.IdPurchaseOrder == f.IdPurchaseOrder);
-                if (c.Amount == 0)
-                {
-                    db.DetailGoodOrders.Remove(c);
-                }
-
-                db.Receipts.Remove(f);
-                db.SaveChanges();
+                f.Status = true;
                 if (e != null)
                 {
                     e.Inventory += amount;

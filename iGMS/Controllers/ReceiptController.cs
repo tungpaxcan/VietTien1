@@ -87,21 +87,6 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Hiểm thị dữ liệu thất bại" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult DaNhan(string id,string amounttext,int purchaseorder)
-        {
-            try
-            {
-                var c = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder);
-                c.Amount -= (int.Parse(amounttext));
-                db.SaveChanges();
-                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
         [HttpGet]
         public JsonResult PurchaseOrder()
         {

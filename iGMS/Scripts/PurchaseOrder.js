@@ -328,7 +328,7 @@ function BILL() {
                             $('span[name="Tong"]').empty();
                             $('#qrcode').empty();
                             $.each(data.c, function (k, v) {
-                                $('span[name="iddh"]').append("00000"+v.id)
+                                $('span[name="iddh"]').append(v.id)
                                 $('span[name="datedh"]').append(v.datedh)
                                 $('span[name="paydh"]').append(v.paydh)
                                 $('span[name="datepaydh"]').append(v.datepaydh)
