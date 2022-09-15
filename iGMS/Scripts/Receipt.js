@@ -90,7 +90,7 @@
 //-------------------add--------------------
 function Add() {
     var id = $('#id').val().trim();
-    var purchaseorder = $('select[name="purchaseorder"] option:selected').val();
+    var purchaseorder = $('input[name="purchaseorder"]').val();
     var method = $('#method option:selected').val();
     var user1 = $('user1 option:selected').val();
     var user2 = $('user2 option:selected').val();

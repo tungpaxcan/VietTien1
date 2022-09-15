@@ -327,8 +327,14 @@ function BILL() {
                             $('span[name="datepaydh"]').empty()
                             $('span[name="sumpricedh"]').empty()
                             $('span[name="Tong"]').empty();
-                            var qr 
+                            var qr = new QRCode(document.getElementById("qrcode"), {
 
+                                width: 100,
+                                height: 100,
+                                correctLevel: QRCode.CorrectLevel.H
+
+                            })
+                            var text
                             $.each(data.c, function (k, v) {
                                 
                                 $('span[name="iddh"]').append(v.id)
@@ -337,16 +343,11 @@ function BILL() {
                                 $('span[name="datepaydh"]').append(v.datepaydh)
                                 $('span[name="sumpricedh"]').append(v.sumpricedh)
                                 $('span[name="Tong"]').append(to_vietnamese(v.sumpricedh))
-                                qr = v.id
+                                text = v.id
                             })
-                            $('#qrcode').empty();
-                            new QRCode(document.getElementById("qrcode"), {
-                                text: qr,
-                                width: 100,
-                                height: 100,
-                                correctLevel: QRCode.CorrectLevel.H
-
-                            })
+                            qr.clear()
+                            qr.makeCode(text)
+                           
                             $.ajax({
                                 url: '/purchaseorder/Bill2',
                                 type: 'get',
