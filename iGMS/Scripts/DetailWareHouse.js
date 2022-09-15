@@ -1,6 +1,6 @@
 ﻿var d = new Date()
-$('input[name="idReceipt"]').change(function () {
-    var idReceipt = $('input[name = "idReceipt"]').val();
+$('select[name="idReceipt"]').change(function () {
+    var idReceipt = $('select[name = "idReceipt"] option:selected').val();
     
     $.ajax({
         url: '/detailwarehouse/Show',
@@ -32,9 +32,17 @@ $('input[name="idReceipt"]').change(function () {
                 $.each(data.d, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + (Stt++) + '</td>'
-                    table += '<td name="idgoods" >' + v.id + '</td>'
+                    table += '<td name="idgoods" data-amount="' + v.amount + '">' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
-                    table += '<td><input type="number"name="amount' + v.id + '" /></td>'
+                    table += '<td>' + v.unit + '</td>'
+                    table += '<td>' + v.amount + '</td>'
+                    table += '<td>' + v.price + '</td>'
+                    table += '<td>' + v.discount + '</td>'
+                    table += '<td>' + v.pricediscount + '</td>'
+                    table += '<td>' + v.tax + '</td>'
+                    table += '<td>' + v.pricetax + '</td>'
+                    table += '<td>' + v.sumprice + '</td>'
+
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
                     $('tbody[name="tbd"]').append(table);
@@ -42,7 +50,14 @@ $('input[name="idReceipt"]').change(function () {
                     table1 += '<td>' + (Stt++) + '</td>'
                     table1 += '<td>' + v.id + '</td>'
                     table1 += '<td>' + v.name + '</td>'
-                    table1 += '<td name="tbd1amount' + v.id + '"></td>'
+                    table1 += '<td>' + v.unit + '</td>'
+                    table1 += '<td>' + v.amount + '</td>'
+                    table1 += '<td>' + v.price + '</td>'
+                    table1 += '<td>' + v.discount + '</td>'
+                    table1 += '<td>' + v.pricediscount + '</td>'
+                    table1 += '<td>' + v.tax + '</td>'
+                    table1 += '<td>' + v.pricetax + '</td>'
+                    table1 += '<td>' + v.sumprice + '</td>'
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
@@ -69,14 +84,13 @@ $('input[name="idReceipt"]').change(function () {
 //------------------------Add----------------------
 
 function Add() {
-    var idReceipt = $('input[name = "idReceipt"]').val();
+    var idReceipt = $('select[name = "idReceipt"] option:selected').val();
     var idwarehouse = $('span[name="warehouse"]').attr('id');
     var idsupplier = $('span[name="namesupplier"]').attr('id')
     var idgoods = document.getElementsByName('idgoods')
     for (let i = 0; i < idgoods.length; i++) {
         var idgood = idgoods[i].innerText;
-        var amount = $('input[name="amount' + idgood + '"]').val().trim();
-        $('td[name="tbd1amount' + idgood + '"]').text(amount)
+        var amount = idgoods[i].getAttribute("data-amount");
         $.ajax({
             url: '/detailwarehouse/Add',
             type: 'post',
@@ -84,7 +98,6 @@ function Add() {
                 idwarehouse, idsupplier, idgood, amount, idReceipt
             },
             success: function (data) {
-               
                 $('#BILL').modal('show')
                 Last()
             }
