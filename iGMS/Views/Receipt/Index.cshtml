@@ -1,4 +1,4 @@
-﻿    
+﻿
 @{
     ViewBag.Title = "Lập Phiếu Nhận Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,7 +32,7 @@
         <div class="form-group row">
             <label class="col-form-label col-2">Số Đơn Hàng</label>
             <div class="col-10">
-                <input class="form-control " id="purchaseorder" name="purchaseorder" />
+                <input class="form-control " data-size="7" data-live-search="true" name="purchaseorder" />
             </div>
         </div>
         <div class="form-group row">
@@ -91,7 +91,6 @@
                 <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
                     <thead>
                         <tr role="row">
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Trạng Thái</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
@@ -103,7 +102,7 @@
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">%Thuế GTGT</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tiền Thuế GTGT</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
-
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Trạng Thái</th>
                         </tr>
                     </thead>
                     <tbody name="tbd">
@@ -181,6 +180,7 @@
                             <th class="">%Thuế GTGT</th>
                             <th class="">Tiền Thuế GTGT</th>
                             <th class="">Thành Tiền</th>
+                            <th>Trạng Thái</th>
                         </tr>
                     </thead>
                     <tbody name="tbd">
@@ -196,7 +196,7 @@
                     <div class="col-4">
                         <p>Người Nhận</p>
                         <p>(Ký, ghi rõ họ tên)</p>
-                    </div>
+                    </div> 
                     <div class="col-4">
                         Ngày.....Tháng....Năm........
                         <p>Người Lập Đơn hàng</p>
@@ -215,20 +215,21 @@
     <div class="modal-dialog" role="document" style="max-width:1100px">
         <div class="modal-content">
             <div class="modal-body" id="inct">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Stt</th>
-                            <th>Số Seri</th>
-                            <th>Số CT</th>
-                            <th>Ngày CT</th>
-                            <th>Tiền Thuế</th>
-                            <th>Tiền CT</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbdct">
-                    </tbody>
-                </table>
+               <table class="table table-bordered">
+                   <thead>
+                       <tr>
+                           <th>Stt</th>
+                           <th>Số Seri</th>
+                           <th>Số CT</th>
+                           <th>Ngày CT</th>
+                           <th>Tiền Thuế</th>
+                           <th>Tiền CT</th>
+                       </tr>
+                   </thead>
+                   <tbody id="tbdct">
+                       
+                   </tbody>
+               </table>
             </div>
             <div class="modal-footer" id=hide>
                 <a type="button" href="/Receipt/Index" class="btn btn-secondary">Close</a>
@@ -267,7 +268,7 @@
                 }
             })
         }
-
+        
         function Method() {
             $.ajax({
                 url: '/Receipt/Method',
@@ -288,5 +289,4 @@
         }
     </script>
     <script src="~/Scripts/Receipt.js"></script>
-    <script src="~/Scripts/ebapi-modules.js"></script>
 }
