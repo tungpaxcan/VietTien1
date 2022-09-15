@@ -62,7 +62,7 @@
                     table += '<td>'+v.tax+'</td>'
                     table += '<td>'+v.pricetax+'</td>'
                     table += '<td>' + v.sumprice + '</td>'
-                    table += '<td style="background:red" id="result' + v.id + '">0</td>'
+                    table += '<td class="resultnhanhang" style="background:red" id="result' + v.id + '">0</td>'
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
@@ -117,12 +117,39 @@ function Add() {
             if (data.code == 200) {
                 LastReceipt()
                 $('#BILL').modal('show')
+                DaNhan(purchaseorder)
             } else if (data.code == 300) {
                 alert(data.msg)
             }
         }
     })
 }
+
+function DaNhan(purchaseorder) {
+    var ResultReceipt = $('.tablenhan .resultnhanhang').map(function () {
+        return this.id;
+    })
+    for (var i = 0; i < ResultReceipt.length; i++) {
+        var ids = ResultReceipt[i];
+        var id = ids.substring(6)
+        var amounttext = $('#result' + id + '').text();
+        $.ajax({
+            url: '/receipt/DaNhan',
+            type: 'post',
+            data: {
+                id, amounttext, purchaseorder
+            },
+            success: function (data) {
+                if (data.code == 200) {
+
+                } else if (data.code == 300) {
+                    alert(data.msg)
+                }
+            }
+        })
+    }
+}
+
 function AddCT() {
     var id = $('#id').val().trim();
     var sumpricetax = $('#sumpricetax').text()
@@ -199,14 +226,18 @@ function CompareReceipt(barcode) {
             if (amount > amountresult) {
                 return;
             } else {
-                $('#result' + barcode + '').text(amount)
+                $('.tablenhan #result' + barcode + '').text(amount)
+                $('.modal #result' + barcode + '').text(amount)
             }
             if (amount == amountresult) {
-                $('#result' + barcode + '').css('background', 'green')
+                $('.tablenhan #result' + barcode + '').css('background', 'green')
+                $('.modal #result' + barcode + '').css('background', 'green')
             } else if (amount < amountresult) {
-                $('#result' + barcode + '').css('background', 'yellow')
+                $('.tablenhan #result' + barcode + '').css('background', 'yellow')
+                $('.modal #result' + barcode + '').css('background', 'yellow')
             } else if (amount <= 0) {
-                $('#result' + barcode + '').css('background', 'red')
+                $('.tablenhan #result' + barcode + '').css('background', 'red')
+                $('.modal #result' + barcode + '').css('background', 'red')
             }
            
         }
@@ -228,14 +259,4 @@ $(document).scannerDetection({
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
-});
-
-$(document).ready(function () {
-         EB.Barcode.enable({
-            allDecoders: true
-        }, fnBarcodeScanned);
-        function fnBarcodeScanned(jsonObject) {
-            // alert("Barcode Scanned:{" + JSON.stringify(jsonObject) + "}");
-             CompareReceipt(jsonObject.data);
-        }
 });
