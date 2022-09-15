@@ -221,3 +221,13 @@ $(document).scannerDetection({
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
+
+$(document).ready(function () {
+         EB.Barcode.enable({
+            allDecoders: true
+        }, fnBarcodeScanned);
+        function fnBarcodeScanned(jsonObject) {
+            // alert("Barcode Scanned:{" + JSON.stringify(jsonObject) + "}");
+             CompareReceipt(jsonObject.data);
+        }
+});
