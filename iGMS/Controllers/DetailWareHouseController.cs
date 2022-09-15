@@ -47,6 +47,7 @@ namespace iGMS.Controllers
                 {
                     db.DetailGoodOrders.Remove(c);
                 }
+                f.Status = true;
                 db.SaveChanges();
                 if (e != null)
                 {

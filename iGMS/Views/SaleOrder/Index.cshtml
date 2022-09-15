@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewBag.Title = "Lên Đơn Hàng Mua";
+    ViewBag.Title = "Đặt Hàng Bán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            Lên Đơn Hàng Mua
+            Lên Đơn Hàng Bán
         </h3>
     </div>
     <!--begin::Form-->
@@ -20,24 +20,24 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Đơn Hàng <span style="color:red"> (*) </span></label>
+            <label for="example-password-input" class="col-2 col-form-label">Tên Đơn Hàng Bán <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Tên Đơn Hàng" id="name" />
+                    <input class="form-control" type="text" placeholder="Tên Đơn Hàng Bán" id="name" />
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-3 col-form-label">Nơi Nhập Hàng<span style="color:red"> (*) </span></label>
+            <label class="col-3 col-form-label">Nơi Xuất Hàng<span style="color:red"> (*) </span></label>
             <div class="col-9 col-form-label">
                 <div class="radio-inline">
                     <label class="radio radio-success">
-                        <input type="radio" value="CH"  name="radio"checked="checked" />
+                        <input type="radio" value="CH" name="radio" />
                         <span></span>
                         Cửa Hàng
                     </label>
                     <label class="radio radio-success">
-                        <input type="radio" name="radio" value="KH"  />
+                        <input type="radio" name="radio" value="KH" checked="checked" />
                         <span></span>
                         Kho Hàng
                     </label>
@@ -47,21 +47,28 @@
         <div class="form-group row">
             <label for="example-search-input" class="col-2 col-form-label">Nhập Tại Kho<span style="color:red"> (*) </span></label>
             <div class="col-10">
-                <select class="form-control" id="warehouse"disabled>
+                <select class="form-control" id="warehouse">
                 </select>
             </div>
         </div>
         <div class="form-group row">
             <label for="example-search-input" class="col-2 col-form-label">Nhập Tại Cửa Hàng<span style="color:red"> (*) </span></label>
             <div class="col-10">
-                <select class="form-control" id="store" >
+                <select class="form-control" id="store" disabled>
                 </select>
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-search-input" class="col-2 col-form-label">Nhà Cung Cấp<span style="color:red"> (*) </span></label>
+            <label for="example-search-input" class="col-2 col-form-label">Khách Hàng<span style="color:red"> (*) </span></label>
             <div class="col-10">
-                <select class="form-control" id="supplier">
+                <select class="form-control" id="customerKH">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Nhân Viên Bán<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <select class="form-control" id="user">
                 </select>
             </div>
         </div>
@@ -73,11 +80,12 @@
                          width="38" height="38"
                          viewBox="0 0 48 48"
                          style=" fill:#000000;">
-                    <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path>
-                    <path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path>
-                    <path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path>
-                    <path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path>
-                    <path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path></svg>
+                        <path fill="#616161" d="M34.6 28.1H38.6V45.1H34.6z" transform="rotate(-45.001 36.586 36.587)"></path>
+                        <path fill="#616161" d="M20 4A16 16 0 1 0 20 36A16 16 0 1 0 20 4Z"></path>
+                        <path fill="#37474F" d="M36.2 32.1H40.2V44.400000000000006H36.2z" transform="rotate(-45.001 38.24 38.24)"></path>
+                        <path fill="#64B5F6" d="M20 7A13 13 0 1 0 20 33A13 13 0 1 0 20 7Z"></path>
+                        <path fill="#BBDEFB" d="M26.9,14.2c-1.7-2-4.2-3.2-6.9-3.2s-5.2,1.2-6.9,3.2c-0.4,0.4-0.3,1.1,0.1,1.4c0.4,0.4,1.1,0.3,1.4-0.1C16,13.9,17.9,13,20,13s4,0.9,5.4,2.5c0.2,0.2,0.5,0.4,0.8,0.4c0.2,0,0.5-0.1,0.6-0.2C27.2,15.3,27.2,14.6,26.9,14.2z"></path>
+                    </svg>
                     <input class="form-control" type="search" placeholder="Tìm Mã Hàng" id="seachidgood" />
                 </div>
                 <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
@@ -136,7 +144,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-search-input" class="col-2 col-form-label">Ngày Giao Hàng<span style="color:red"> (*) </span></label>
+            <label for="example-search-input" class="col-2 col-form-label">Ngày Nhận Hàng<span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <input class="form-control" type="date" placeholder="" id="deliverydate" />
             </div>
@@ -165,80 +173,8 @@
             <div class="col-2">
             </div>
             <div class="col-10">
-                <button type="submit"  class="btn btn-success mr-2" onclick="Add()">Tạo Đơn Hàng</button>
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Tạo Đơn Hàng</button>
                 <a href="/PurchaseOrder/Index" type="reset" class="btn btn-secondary">Cancel</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal" id="BILL" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width:1100px">
-        <div class="modal-content">
-            <div class="modal-body"  id="in">
-                <div class="row">
-                    <div class="col-6">
-                        <p> <span name="namesupplier"></span></p>
-                        <p><span name="addresssupplier"></span></p>
-                        <p>ĐT : <span name="phonesupplier"></span> -  <span name="faxsupplier"></span></p>
-
-                    </div>
-                    <div class="col-4" style="transform: translate(60%, 0px);">
-                        <p>Số ĐH : <span name="iddh"></span></p>
-                        <p>Ngày ĐH : <span name="datedh"></span></p>
-                    </div>
-                    <div class="col-2" style="transform: translate(30%, 0px);">
-                        <div id="qrcode"></div>
-                    </div>
-
-                </div>
-                <div class="" style="text-align:center">
-                    <h1>Đơn Hàng Mua</h1>
-                </div>
-                <p >- Nhà Cung Cấp : <span name="namesupplier"></span></p>
-                <p>- Địa Chỉ :<span name="addresssupplier"></span></p>
-                <p>- Phương Thức Thanh Toán : <span name="paydh"></span></p>
-                <p>- Thời Hạn Thanh Toán : <span name="datepaydh"></span></p>
-                <table class="table table-bordered" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width:100%;">
-                    <thead>
-                        <tr role="row">
-                            <th>Stt</th>
-                            <th class="">Mã Hàng</th>
-                            <th class="">Tên Hàng</th>
-                            <th class="">Đơn Vị</th>
-                            <th class="">Số Lượng</th>
-                            <th class="">Đơn Giá</th>
-                            <th class="">%Chiết Khấu</th>
-                            <th class="">Tiền Chiết Khấu</th>
-                            <th class="">%Thuế GTGT</th>
-                            <th class="">Tiền Thuế GTGT</th>
-                            <th class="">Thành Tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbdmodal">
-                    </tbody>
-                </table>
-                <div style="transform: translate(80%, 0px);">
-                    <p>- Tổng Tiền Chiết Khấu : <span name="sumpricediscount"></span></p>
-                    <p>- Tổng Tiền Thuế : <span name="sumpricetax"></span></p>
-                    <p>- Tổng Tiền Đơn Hàng : <span name="sumpricedh"></span></p>
-                </div>
-                 <p>Tổng Thành Tiền : <span name="Tong"></span></p>
-                <div class="row" style="text-align:center">
-                    <div class="col-6" >
-                        <p ><span name="namesupplier"></span></p>
-                        <p name="">Người Xác Nhận</p>
-                        <p name="">(Ký, ghi rõ họ tên)</p>
-                    </div>
-                    <div class="col-6">
-                        Ngày.....Tháng....Năm........
-                        <p>Người Lập Đơn hàng</p>
-                        <p>(Ký, ghi rõ họ tên)</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer" id=hide>
-                <a type="button"  href="/PurchaseOrder/Index"  class="btn btn-secondary" >Close</a>
-                <button type="button" onclick="printDiv('in')" class="btn btn-primary">IN</button>
             </div>
         </div>
     </div>
@@ -246,25 +182,43 @@
 
 @section scripts{
     <script>
-        Supplier();
+        Customer();
+        UserSale();
         WareHouse();
         Store();
         PayMethod();
-     
+
         ValidateMoney('partialpay')
-        //--------------------Select::Supplier--------------
-        function Supplier() {
+        function Customer() {
             $.ajax({
-                url: '/purchaseorder/Supplier',
+                url: '/saleorder/Customer',
                 type: 'get',
                 success: function (data) {
-                    $('#supplier').empty();
+                    $('#customerKH').empty();
                     if (data.code == 200) {
-                        let table = '<option value="-1">Chọn Nhà Cung Cấp</option>'
+                        let table = '<option value="-1">Chọn Khách Hàng</option>';
                         $.each(data.c, function (k, v) {
-                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                            table += '<option value="' + v.id + '">' + v.id + " : " + v.name + '</option>';
                         });
-                        $('#supplier').append(table);
+                        $('#customerKH').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        function UserSale() {
+            $.ajax({
+                url: '/saleorder/UserSale',
+                type: 'get',
+                success: function (data) {
+                    $('#user').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Nhân Viên Bán</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.id + " : " + v.name + '</option>'
+                        });
+                        $('#user').append(table);
                     } else (
                         alert(data.msg)
                     )
@@ -327,5 +281,5 @@
         }
 
     </script>
-    <script src="~/Scripts/PurchaseOrder.js"></script>
+    <script src="~/Scripts/SaleOrder.js"></script>
 }

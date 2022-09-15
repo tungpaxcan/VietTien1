@@ -21,17 +21,20 @@ namespace iGMS.Models
             this.DetailGoodOrders = new HashSet<DetailGoodOrder>();
         }
     
-        public string Id { get; set; }
+        public int Id { get; set; }
         public Nullable<int> IdTypeStatus { get; set; }
         public Nullable<int> IdPayMethod { get; set; }
+        public string IdWareHouse { get; set; }
         public string IdStore { get; set; }
         public string IdCustomer { get; set; }
         public string IdUser { get; set; }
         public Nullable<int> IdTypeSales { get; set; }
         public string Name { get; set; }
         public Nullable<System.DateTime> DatePay { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
         public Nullable<bool> PayStatus { get; set; }
         public Nullable<double> Receivable { get; set; }
+        public Nullable<double> Liabilities { get; set; }
         public Nullable<double> PartialPay { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

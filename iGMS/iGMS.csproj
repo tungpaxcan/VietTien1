@@ -159,6 +159,7 @@
     <Compile Include="Controllers\RFIDController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\Root.cs" />
+    <Compile Include="Controllers\SaleOrderController.cs" />
     <Compile Include="Controllers\SeasonController.cs" />
     <Compile Include="Controllers\SizeController.cs" />
     <Compile Include="Controllers\StallsController.cs" />
@@ -2360,6 +2361,7 @@
     <Content Include="Scripts\QRCODE.min.js" />
     <Content Include="Scripts\Receipt.js" />
     <Content Include="Scripts\Register.js" />
+    <Content Include="Scripts\SaleOrder.js" />
     <Content Include="Scripts\Season.js" />
     <Content Include="Scripts\Size.js" />
     <Content Include="Scripts\Stalls.js" />
@@ -2442,6 +2444,7 @@
     <Content Include="Views\Receipt\Index.cshtml" />
     <Content Include="Views\DetailWareHouse\Index.cshtml" />
     <Content Include="Views\AppWareHouse\Index.cshtml" />
+    <Content Include="Views\SaleOrder\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

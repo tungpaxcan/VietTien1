@@ -104,7 +104,7 @@
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IdMethod" Type="int" />
-          <Property Name="IdSalesOrder" Type="varchar" MaxLength="20" />
+          <Property Name="IdSalesOrder" Type="int" />
           <Property Name="AddRess" Type="nvarchar" MaxLength="250" />
           <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="Description" Type="nvarchar(max)" />
@@ -147,7 +147,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdPurchaseOrder" Type="int" />
-          <Property Name="IdSalesOrder" Type="varchar" MaxLength="20" />
+          <Property Name="IdSalesOrder" Type="int" />
           <Property Name="Price" Type="float" />
           <Property Name="Discount" Type="float" />
           <Property Name="PriceDiscount" Type="float" />
@@ -471,17 +471,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="IdTypeStatus" Type="int" />
           <Property Name="IdPayMethod" Type="int" />
+          <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="IdStore" Type="varchar" MaxLength="20" />
           <Property Name="IdCustomer" Type="varchar" MaxLength="20" />
           <Property Name="IdUser" Type="varchar" MaxLength="20" />
           <Property Name="IdTypeSales" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="DatePay" Type="datetime" />
+          <Property Name="DeliveryDate" Type="datetime" />
           <Property Name="PayStatus" Type="bit" />
           <Property Name="Receivable" Type="float" />
+          <Property Name="Liabilities" Type="float" />
           <Property Name="PartialPay" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
@@ -1709,7 +1712,7 @@
           </Key>
           <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdMethod" Type="Int32" />
-          <Property Name="IdSalesOrder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdSalesOrder" Type="Int32" />
           <Property Name="AddRess" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1757,7 +1760,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdPurchaseOrder" Type="Int32" />
-          <Property Name="IdSalesOrder" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdSalesOrder" Type="Int32" />
           <Property Name="Price" Type="Double" />
           <Property Name="Discount" Type="Double" />
           <Property Name="PriceDiscount" Type="Double" />
@@ -2146,17 +2149,20 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="IdTypeStatus" Type="Int32" />
           <Property Name="IdPayMethod" Type="Int32" />
+          <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdStore" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdCustomer" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdUser" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdTypeSales" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="DatePay" Type="DateTime" Precision="3" />
+          <Property Name="DeliveryDate" Type="DateTime" Precision="3" />
           <Property Name="PayStatus" Type="Boolean" />
           <Property Name="Receivable" Type="Double" />
+          <Property Name="Liabilities" Type="Double" />
           <Property Name="PartialPay" Type="Double" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -3805,14 +3811,17 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdTypeStatus" ColumnName="IdTypeStatus" />
                 <ScalarProperty Name="IdPayMethod" ColumnName="IdPayMethod" />
+                <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
                 <ScalarProperty Name="IdCustomer" ColumnName="IdCustomer" />
                 <ScalarProperty Name="IdUser" ColumnName="IdUser" />
                 <ScalarProperty Name="IdTypeSales" ColumnName="IdTypeSales" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="DatePay" ColumnName="DatePay" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
                 <ScalarProperty Name="PayStatus" ColumnName="PayStatus" />
                 <ScalarProperty Name="Receivable" ColumnName="Receivable" />
+                <ScalarProperty Name="Liabilities" ColumnName="Liabilities" />
                 <ScalarProperty Name="PartialPay" ColumnName="PartialPay" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
