@@ -184,14 +184,12 @@ namespace iGMS.Controllers
             }
         }
         [HttpGet]
-        public JsonResult ReceipLast()
+        public JsonResult ReceipLast(string id)
         {
             try
             {
-                var idlast = db.Receipts.OrderBy(x => x.Id).ToList().LastOrDefault();
-                var idpn = idlast.Id;
-                var datepn = idlast.CreateDate.Value.Day+"/"+ idlast.CreateDate.Value.Month + "/" + idlast.CreateDate.Value.Year;
-                return Json(new { code = 200,idpn = idpn,datepn = datepn }, JsonRequestBehavior.AllowGet);
+                var a = (from b in db.Receipts.Where(x => x.Id == id) select new { id = b.Id, datepn = b.CreateDate.Value.Day+"/"+ b.CreateDate.Value.Month+"/"+ b.CreateDate.Value.Year }).ToList();
+                return Json(new { code = 200,a=a}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

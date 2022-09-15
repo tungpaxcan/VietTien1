@@ -1,5 +1,6 @@
-﻿$('select[name="purchaseorder"]').change(function () {
-    var purchaseorder = $('select[name="purchaseorder"] option:selected').val();
+﻿$('input[name="purchaseorder"]').keyup(function () {
+    var purchaseorders = $('input[name="purchaseorder"]').val();
+    var purchaseorder = purchaseorders.substring(5);
     var id = $('#id').val().trim();
     var d = new Date()
     $.ajax({
@@ -23,6 +24,7 @@
             $('span[name="Tong"]').empty();
             $('#tbdct').empty();
             $('#sumpricetax').empty();
+            $('#qrcode').empty();
             var Stt = 1;
             var pricetax = 0;
             if (data.code == 200) {
@@ -155,15 +157,22 @@ function AddCT() {
 
 //-------------LastReceip----------
 function LastReceipt() {
+    var id = $('#id').val().trim();
     $.ajax({
         url: '/receipt/ReceipLast',
         type: 'get',
+        data: {
+            id
+        },
         success: function (data) {
             $('span[name="idpn"]').empty()
             $('span[name="datepn"]').empty()
             if (data.code == 200) {
-                $('span[name="idpn"]').append(data.idpn)
-                $('span[name="datepn"]').append(data.datepn)
+                $.each(data.a, function (k, v) {
+                    $('span[name="idpn"]').append(v.id)
+                    $('span[name="datepn"]').append(v.datepn)
+                })
+              
             }
         }
     })
@@ -171,7 +180,6 @@ function LastReceipt() {
 
 $('#btnct').click(function () {
     $('#CT').modal('show')
-
 })
 
 
