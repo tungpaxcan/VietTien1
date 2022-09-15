@@ -1,5 +1,5 @@
-﻿$('input[name="purchaseorder"]').keyup(function () {
-    var purchaseorder = $('input[name="purchaseorder"] ').val();
+﻿$('select[name="purchaseorder"]').change(function () {
+    var purchaseorder = $('select[name="purchaseorder"] option:selected').val();
     var id = $('#id').val().trim();
     var d = new Date()
     $.ajax({
@@ -60,7 +60,7 @@
                     table += '<td>'+v.tax+'</td>'
                     table += '<td>'+v.pricetax+'</td>'
                     table += '<td>' + v.sumprice + '</td>'
-                    table += '<td id="result' + v.id + '">0</td>'
+                    table += '<td style="background:red" id="result' + v.id + '">0</td>'
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
