@@ -85,6 +85,33 @@ namespace iGMS.Controllers
 
             return ("");
         }
+        [HttpPost]
+        public JsonResult getBarcodeByEPC(string[] tags)
+        
+        {
+            List<string> lstBar = new List<string>();
+            try
+            {
+                foreach (var tag in tags)
+                {
+                    var barcode = db.EPCs.FirstOrDefault(b => b.IdEPC == tag);
+                    if(barcode != null)
+                    {
+                        if (!lstBar.Contains(barcode.IdGoods))
+                        {
+                            lstBar.Add(barcode.IdGoods);
+                        }
+                       
+                    }
+                 
+                }
+                return Json(new { code = 200, barcode = lstBar}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
 
     }
 }

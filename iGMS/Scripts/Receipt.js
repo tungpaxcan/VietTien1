@@ -234,8 +234,8 @@ function CompareReceipt(barcode) {
                 $('.tablenhan #result' + barcode + '').css('background', 'green')
                 $('.modal #result' + barcode + '').css('background', 'green')
             } else if (amount < amountresult) {
-                $('.tablenhan #result' + barcode + '').css('background', 'yellow')
-                $('.modal #result' + barcode + '').css('background', 'yellow')
+                $('.tablenhan #result' + barcode + '').css('background', '#ffa800')
+                $('.modal #result' + barcode + '').css('background', '#ffa800')
             } else if (amount <= 0) {
                 $('.tablenhan #result' + barcode + '').css('background', 'red')
                 $('.modal #result' + barcode + '').css('background', 'red')
@@ -262,42 +262,4 @@ $(document).scannerDetection({
     onError: function (string) { alert('Error ' + string); }
 });
 
-$(document).ready(function () {
-    EB.Barcode.enable({
-        allDecoders: true
-    }, MouseCheck);
-    
-});
 
-
-
-function MouseCheck(code) {
-    
-    var txt = getText(document.activeElement);
-   
-    
-    if (txt == 'purchaseorder') {
-        setPurchaseOrderText(code.data)
-        
-    } else {
-
-        fnBarcodeScanned(code.data)
-    }
-
-}
-
-function getText(elem) {
-    if ((elem.tagName === "INPUT" && elem.type === "text")) {
-
-        return elem.id
-    }
-    return null;
-}
-
-function fnBarcodeScanned(jsonObject) {
-    CompareReceipt(jsonObject);
-}
-
-function setPurchaseOrderText(code) {
-    $('#purchaseorder').val(code)
-}

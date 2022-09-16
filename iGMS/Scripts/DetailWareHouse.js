@@ -17,6 +17,7 @@ $('input[name="idReceipt"]').keyup(function () {
             $('tbody[name="tbd1"]').empty();
             $('#tbdct').empty();
             var Stt = 1;
+            var Sttt = 1;
             var pricetax = 0;
             if (data.code == 200) {
                 $.each(data.c, function (k, v) {
@@ -30,7 +31,8 @@ $('input[name="idReceipt"]').keyup(function () {
                     $('span[name="warehouse"]').attr('id', v.idwarehouse)
                 })
                 $.each(data.d, function (k, v) {
-                    let table = '<tr id="' + v.id + '" role="row" class="odd">';
+                    let table = '<tr id="' + v.id + '" role="row" class="odd ">';
+                    
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td><input type="number"name="amount' + v.id + '" /></td>'
                     table += '<td name="idgoods" >' + v.id + '</td>'
@@ -40,7 +42,7 @@ $('input[name="idReceipt"]').keyup(function () {
                     pricetax += Number(v.pricetax)
                     $('tbody[name="tbd"]').append(table);
                     let table1 = '<tr id="' + v.id + '" role="row" class="odd">';
-                    table1 += '<td>' + (Stt++) + '</td>'
+                    table1 += '<td>' + (Sttt++) + '</td>'
                     table1 += '<td>' + v.id + '</td>'
                     table1 += '<td>' + v.name + '</td>'
                     table1 += '<td name="tbd1amount' + v.id + '"></td>'
@@ -51,7 +53,7 @@ $('input[name="idReceipt"]').keyup(function () {
                 });
                 $.each(data.c, function (k, v) {
                     let table = '<tr role="row" class="odd">';
-                    table += '<td>' + (Stt++) + '</td>'
+                    table += '<td>' + (Sttt++) + '</td>'
                     table += '<td>' + idReceipt + '</td>'
                     table += '<td>' + idReceipt + '</td>'
                     table += '<td>' + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + '</td>'
@@ -144,3 +146,38 @@ function Last() {
 $('#btnct').click(function () {
     $('#CT').modal('show')
 })
+
+//-----------------------------
+
+//MC3300
+$(document).ready(function () {
+    EB.Barcode.enable({
+        allDecoders: true
+    }, MouseCheck);
+
+});
+
+
+function MouseCheck(code) {
+
+    var txt = getText(document.activeElement);
+    if (txt == 'idReceipt') {
+        setPurchaseOrderText(code.data)
+
+    } 
+
+}
+
+function getText(elem) {
+    if ((elem.tagName === "INPUT" && elem.type === "text")) {
+
+        return elem.id
+    }
+    return null;
+}
+
+
+function setPurchaseOrderText(code) {
+    $('#idReceipt').val(code)
+}
+

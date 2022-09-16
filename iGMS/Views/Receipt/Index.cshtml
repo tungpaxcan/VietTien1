@@ -1,4 +1,4 @@
-﻿    
+﻿
 @{
     ViewBag.Title = "Lập Phiếu Nhận Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -85,6 +85,16 @@
                 <span name="warehouse"></span>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Phuong thuc quet</label>
+            <div class="col-5">
+                <button id="btnRFID" onclick="RFIDEnumrate()" class="btn btn-bg-primary">RFID</button>
+            </div>
+            <div class="col-5">
+                <button class="btn btn-bg-danger" onclick="BarcodeEnumrate()">Barcode</button>
+            </div>
+        </div>
+       
         <div class="form-group  row tablenhan">
             <label for="example-search-input" class="col-2 col-form-label">Hàng Hóa<span style="color:red"> (*) </span></label>
             <div class="col-10" style="height: 500px;overflow-y: scroll;">
@@ -290,4 +300,97 @@
     </script>
     <script src="~/Scripts/Receipt.js"></script>
     <script src="~/Scripts/ebapi-modules.js"></script>
-}
+    <script src="~/Scripts/elements.js"></script>
+    <script type="text/javascript">
+        //RFID
+        var lstEpc = [];
+        rfid.statusEvent = "statusEvent(%json)";
+        rfid.tagEvent = "TagHandler(%json)";
+        function TagHandler(tagarray) {
+           
+            for (i = 0; i < tagarray.TagData.length; i++) {
+                var epc = tagarray.TagData[i].tagID
+                lstEpc.push(epc)
+            }
+            
+            rfidTagQty(lstEpc)
+        }
+        function RFIDEnumrate() {
+            EB.Barcode.disable()
+            alert('Bat dau quet')
+            rfid.transport = 'serial'
+            rfid.enumerate();
+            rfid.readerID = 'RFID1';
+            rfid.connect();
+
+        }
+
+       
+        ///Kiem tra so luong bang rfid
+        function rfidTagQty(epc) {
+            $.ajax({
+                url: '/RFID/getBarcodeByEPC',
+                type: 'POST',
+                data: {
+                    tags: epc
+                },
+                success: function (result) {
+                    if (result.code = 200) {
+                        $.each(result.barcode, function (i, d) {
+                            
+                            CompareReceipt(d)
+
+                        })
+                    } else {
+                        alert("error")
+                    }
+                }
+            })
+        }
+
+        //Barcode
+        // MC3300
+        $(document).ready(function () {
+            BarcodeEnumrate()
+
+        });
+        function BarcodeEnumrate() {
+            rfid.stop()
+            EB.Barcode.enable({
+                allDecoders: true
+            }, MouseCheck);
+        }
+
+        function MouseCheck(code) {
+
+            var txt = getText(document.activeElement);
+
+
+            if (txt == 'purchaseorder') {
+                setPurchaseOrderText(code.data)
+
+            } else {
+
+                fnBarcodeScanned(code.data)
+            }
+
+        }
+
+        function getText(elem) {
+            if ((elem.tagName === "INPUT" && elem.type === "text")) {
+
+                return elem.id
+            }
+            return null;
+        }
+
+        function fnBarcodeScanned(jsonObject) {
+            CompareReceipt(jsonObject);
+        }
+
+        function setPurchaseOrderText(code) {
+            $('#purchaseorder').val(code)
+        }
+    </script>
+    
+   
