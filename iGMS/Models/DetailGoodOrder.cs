@@ -24,6 +24,7 @@ namespace iGMS.Models
         public Nullable<double> TaxGTGT { get; set; }
         public Nullable<double> PriceTax { get; set; }
         public Nullable<double> Amount { get; set; }
+        public Nullable<double> Amount1 { get; set; }
         public Nullable<double> Sumprice { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

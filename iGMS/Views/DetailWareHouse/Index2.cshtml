@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "Lập Phiếu Xuất Kho";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Lập Phiếu Xuất Kho
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group mb-8">
+            <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                <div class="alert-text">
+                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Số Đơn Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control selectpicker" id="idsaleorder" name="" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Xuất Tại Kho</label>
+            <div class="col-10">
+                <span name="K"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-search-input" class="col-2 col-form-label">Khách Hàng</label>
+            <div class="col-10">
+                <span name="customer"></span>
+            </div>
+        </div>
+        <div class="form-group  row">
+            <label for="example-search-input" class="col-2 col-form-label">Hàng Hóa<span style="color:red;"> (*) </span></label>
+            <div class="col-10" style="height: 500px;overflow-y: scroll;">
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Trạng Thái</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
+                        </tr>
+                    </thead>
+                    <tbody name="tbd">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Tạo Phiếu Xuất Kho </button>
+                <button type="submit" class="btn btn-success mr-2" id="btnct">Chứng Từ Đính Kèm </button>
+                <a href="/DetailWareHouse/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/XuatKho.js"></script>
+
+}

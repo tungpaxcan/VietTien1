@@ -424,6 +424,8 @@ $('#SaveBill').click(function () {
                             }
                             else if (data.code == 1) {
                                 alert(data.msg)
+                            } else if (data.code==2) {
+                                alert(data.msg)
                             }
                             else {
                                 alert(data.msg)

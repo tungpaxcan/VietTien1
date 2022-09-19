@@ -19,6 +19,8 @@ namespace iGMS.Models
         {
             this.Deliveries = new HashSet<Delivery>();
             this.DetailGoodOrders = new HashSet<DetailGoodOrder>();
+            this.DetailSaleOrders = new HashSet<DetailSaleOrder>();
+            this.DetailSaleOrders1 = new HashSet<DetailSaleOrder>();
         }
     
         public int Id { get; set; }
@@ -43,10 +45,18 @@ namespace iGMS.Models
         public string ModifyBy { get; set; }
         public Nullable<bool> Status { get; set; }
     
+        public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Delivery> Deliveries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailGoodOrder> DetailGoodOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailSaleOrder> DetailSaleOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailSaleOrder> DetailSaleOrders1 { get; set; }
+        public virtual PaymentMethod PaymentMethod { get; set; }
+        public virtual Store Store { get; set; }
         public virtual User User { get; set; }
+        public virtual WareHouse WareHouse { get; set; }
     }
 }

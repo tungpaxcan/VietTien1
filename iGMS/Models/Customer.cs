@@ -18,6 +18,7 @@ namespace iGMS.Models
         public Customer()
         {
             this.Bills = new HashSet<Bill>();
+            this.SalesOrders = new HashSet<SalesOrder>();
         }
     
         public string Id { get; set; }
@@ -55,5 +56,7 @@ namespace iGMS.Models
         public virtual GeneralAccounting GeneralAccounting { get; set; }
         public virtual GroupGood GroupGood { get; set; }
         public virtual InternalAccounting InternalAccounting { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

@@ -37,7 +37,7 @@
                         Cửa Hàng
                     </label>
                     <label class="radio radio-success">
-                        <input type="radio" name="radio" value="KH" checked="checked" />
+                        <input id="check" type="radio" name="radio" value="KH" checked="checked" />
                         <span></span>
                         Kho Hàng
                     </label>
@@ -45,14 +45,14 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-search-input" class="col-2 col-form-label">Nhập Tại Kho<span style="color:red"> (*) </span></label>
+            <label for="example-search-input" class="col-2 col-form-label">Xuất Tại Kho<span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <select class="form-control" id="warehouse">
                 </select>
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-search-input" class="col-2 col-form-label">Nhập Tại Cửa Hàng<span style="color:red"> (*) </span></label>
+            <label for="example-search-input" class="col-2 col-form-label">Xuất Tại Cửa Hàng<span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <select class="form-control" id="store" disabled>
                 </select>
@@ -91,7 +91,6 @@
                 <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
                     <thead>
                         <tr role="row">
-                            <th data-field="RecordID" class="datatable-cell-center datatable-cell datatable-cell-check"><span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all kt-checkbox--solid"><input type="checkbox" id="allchange">&nbsp;<span></span></label></span></th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
@@ -103,7 +102,9 @@
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">%Thuế GTGT</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tiền Thuế GTGT</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending"></th>
                         </tr>
+                        
                     </thead>
                     <tbody id="tbd">
                     </tbody>
@@ -179,7 +180,75 @@
         </div>
     </div>
 </div>
+<div class="modal" id="BILL" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width:1100px">
+        <div class="modal-content">
+            <div class="modal-body" id="in">
+                <div class="row">
+                    <div class="col-6">
+                        <p> <span name="nameware"></span></p>
+                    </div>
+                    <div class="col-4" style="transform: translate(60%, 0px);">
+                        <p>Số ĐH : <span name="iddh"></span></p>
+                        <p>Ngày ĐH : <span name="datedh"></span></p>
+                    </div>
+                    <div class="col-2" style="transform: translate(30%, 0px);">
+                        <div id="qrcode"></div>
+                    </div>
 
+                </div>
+                <div class="" style="text-align:center">
+                    <h1>Đơn Hàng Bán</h1>
+                </div>
+                <p>- Khách Hàng : <span name="customer"></span></p>
+                <p>- Địa Chỉ :<span name="address"></span></p>
+                <p>- Phương Thức Thanh Toán : <span name="paydh"></span></p>
+                <p>- Thời Hạn Thanh Toán : <span name="datepaydh"></span></p>
+                <table class="table table-bordered" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width:100%;">
+                    <thead>
+                        <tr role="row">
+                            <th>Stt</th>
+                            <th class="">Mã Hàng</th>
+                            <th class="">Tên Hàng</th>
+                            <th class="">Đơn Vị</th>
+                            <th class="">Số Lượng</th>
+                            <th class="">Đơn Giá</th>
+                            <th class="">%Chiết Khấu</th>
+                            <th class="">Tiền Chiết Khấu</th>
+                            <th class="">%Thuế GTGT</th>
+                            <th class="">Tiền Thuế GTGT</th>
+                            <th class="">Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbdmodal">
+                    </tbody>
+                </table>
+                <div style="transform: translate(80%, 0px);">
+                    <p>- Tổng Tiền Chiết Khấu : <span name="sumpricediscount"></span></p>
+                    <p>- Tổng Tiền Thuế : <span name="sumpricetax"></span></p>
+                    <p>- Tổng Tiền Đơn Hàng : <span name="sumpricedh"></span></p>
+                </div>
+                <p>Tổng Thành Tiền : <span name="Tong"></span></p>
+                <div class="row" style="text-align:center">
+                    <div class="col-6">
+                        <p><span name="namesupplier"></span></p>
+                        <p name="">Người Xác Nhận</p>
+                        <p name="">(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div class="col-6">
+                        Ngày.....Tháng....Năm........
+                        <p>Người Lập Đơn hàng</p>
+                        <p>(Ký, ghi rõ họ tên)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id=hide>
+                <a type="button" href="/SaleOrder/Index" class="btn btn-secondary">Close</a>
+                <button type="button" onclick="printDiv('in')" class="btn btn-primary">IN</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script>
         Customer();

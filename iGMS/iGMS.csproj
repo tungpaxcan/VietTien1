@@ -202,6 +202,9 @@
     <Compile Include="Models\DetailReportEndShift.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DetailSaleOrder.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DetailSupplierGood.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -2371,6 +2374,7 @@
     <Content Include="Scripts\Unit.js" />
     <Content Include="Scripts\Validate.js" />
     <Content Include="Scripts\WareHouse.js" />
+    <Content Include="Scripts\XuatKho.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2445,6 +2449,7 @@
     <Content Include="Views\DetailWareHouse\Index.cshtml" />
     <Content Include="Views\AppWareHouse\Index.cshtml" />
     <Content Include="Views\SaleOrder\Index.cshtml" />
+    <Content Include="Views\DetailWareHouse\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

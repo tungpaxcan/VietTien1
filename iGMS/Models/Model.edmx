@@ -154,6 +154,7 @@
           <Property Name="TaxGTGT" Type="float" />
           <Property Name="PriceTax" Type="float" />
           <Property Name="Amount" Type="float" />
+          <Property Name="Amount1" Type="float" />
           <Property Name="Sumprice" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
@@ -169,6 +170,28 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdBill" Type="int" />
           <Property Name="IdEndShift" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="DetailSaleOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGoods" Type="varchar" MaxLength="20" />
+          <Property Name="IdSaleOrder" Type="int" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Amount1" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="Tax" Type="float" />
+          <Property Name="PriceTax" Type="float" />
+          <Property Name="PriceDiscount" Type="float" />
+          <Property Name="SumPrice" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
@@ -471,7 +494,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdTypeStatus" Type="int" />
           <Property Name="IdPayMethod" Type="int" />
           <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
@@ -841,6 +864,42 @@
             </Principal>
             <Dependent Role="DetailReportEndShift">
               <PropertyRef Name="IdEndShift" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_Goods">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdGoods" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_SalesOrder">
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdSaleOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_SalesOrder1">
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdSaleOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1240,6 +1299,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesOrder_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrder_PaymentMethods">
+          <End Role="PaymentMethods" Type="Self.PaymentMethods" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdPayMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrder_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdStore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SalesOrder_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
           <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
@@ -1249,6 +1344,18 @@
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrder_WareHouse">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdWareHouse" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1335,6 +1442,7 @@
           <EntitySet Name="DetailEPC" EntityType="Self.DetailEPC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailGoodOrder" EntityType="Self.DetailGoodOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailReportEndShift" EntityType="Self.DetailReportEndShift" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailSaleOrder" EntityType="Self.DetailSaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailWareHouse" EntityType="Self.DetailWareHouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EPC" EntityType="Self.EPC" Schema="dbo" store:Type="Tables" />
@@ -1434,6 +1542,18 @@
           <AssociationSet Name="FK_DetailReportEndShift_ReportlEndShift" Association="Self.FK_DetailReportEndShift_ReportlEndShift">
             <End Role="ReportlEndShift" EntitySet="ReportlEndShift" />
             <End Role="DetailReportEndShift" EntitySet="DetailReportEndShift" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_Goods" Association="Self.FK_DetailSaleOrder_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_SalesOrder" Association="Self.FK_DetailSaleOrder_SalesOrder">
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_SalesOrder1" Association="Self.FK_DetailSaleOrder_SalesOrder1">
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrder" />
           </AssociationSet>
           <AssociationSet Name="FK_DetailSupplierGoods_Goods" Association="Self.FK_DetailSupplierGoods_Goods">
             <End Role="Goods" EntitySet="Goods" />
@@ -1567,8 +1687,24 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="ReportlEndShift" EntitySet="ReportlEndShift" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_Customer" Association="Self.FK_SalesOrder_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_PaymentMethods" Association="Self.FK_SalesOrder_PaymentMethods">
+            <End Role="PaymentMethods" EntitySet="PaymentMethods" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_Store" Association="Self.FK_SalesOrder_Store">
+            <End Role="Store" EntitySet="Store" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
           <AssociationSet Name="FK_SalesOrder_Users" Association="Self.FK_SalesOrder_Users">
             <End Role="Users" EntitySet="Users" />
+            <End Role="SalesOrder" EntitySet="SalesOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_WareHouse" Association="Self.FK_SalesOrder_WareHouse">
+            <End Role="WareHouse" EntitySet="WareHouse" />
             <End Role="SalesOrder" EntitySet="SalesOrder" />
           </AssociationSet>
           <AssociationSet Name="FK_Stalls_Store" Association="Self.FK_Stalls_Store">
@@ -1705,6 +1841,7 @@
           <NavigationProperty Name="GeneralAccounting" Relationship="Self.FK_Customer_GeneralAccounting" FromRole="Customer" ToRole="GeneralAccounting" />
           <NavigationProperty Name="GroupGood" Relationship="Self.FK_Customer_GroupGoods" FromRole="Customer" ToRole="GroupGoods" />
           <NavigationProperty Name="InternalAccounting" Relationship="Self.FK_Customer_InternalAccounting" FromRole="Customer" ToRole="InternalAccounting" />
+          <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_Customer" FromRole="Customer" ToRole="SalesOrder" />
         </EntityType>
         <EntityType Name="Delivery">
           <Key>
@@ -1767,6 +1904,7 @@
           <Property Name="TaxGTGT" Type="Double" />
           <Property Name="PriceTax" Type="Double" />
           <Property Name="Amount" Type="Double" />
+          <Property Name="Amount1" Type="Double" />
           <Property Name="Sumprice" Type="Double" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
@@ -1793,6 +1931,31 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Bill" Relationship="Self.FK_DetailReportEndShift_Bill" FromRole="DetailReportEndShift" ToRole="Bill" />
           <NavigationProperty Name="ReportlEndShift" Relationship="Self.FK_DetailReportEndShift_ReportlEndShift" FromRole="DetailReportEndShift" ToRole="ReportlEndShift" />
+        </EntityType>
+        <EntityType Name="DetailSaleOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdSaleOrder" Type="Int32" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Amount1" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="Tax" Type="Double" />
+          <Property Name="PriceTax" Type="Double" />
+          <Property Name="PriceDiscount" Type="Double" />
+          <Property Name="SumPrice" Type="Double" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Good" Relationship="Self.FK_DetailSaleOrder_Goods" FromRole="DetailSaleOrder" ToRole="Goods" />
+          <NavigationProperty Name="SalesOrder" Relationship="Self.FK_DetailSaleOrder_SalesOrder" FromRole="DetailSaleOrder" ToRole="SalesOrder" />
+          <NavigationProperty Name="SalesOrder1" Relationship="Self.FK_DetailSaleOrder_SalesOrder1" FromRole="DetailSaleOrder" ToRole="SalesOrder" />
         </EntityType>
         <EntityType Name="DetailSupplierGood">
           <Key>
@@ -1873,6 +2036,7 @@
           <NavigationProperty Name="Color" Relationship="Self.FK_Goods_Color" FromRole="Goods" ToRole="Color" />
           <NavigationProperty Name="DetailBills" Relationship="Self.FK_DetailBill_Goods" FromRole="Goods" ToRole="DetailBill" />
           <NavigationProperty Name="DetailGoodOrders" Relationship="Self.FK_DetailGoodOrder_Goods" FromRole="Goods" ToRole="DetailGoodOrder" />
+          <NavigationProperty Name="DetailSaleOrders" Relationship="Self.FK_DetailSaleOrder_Goods" FromRole="Goods" ToRole="DetailSaleOrder" />
           <NavigationProperty Name="DetailSupplierGoods" Relationship="Self.FK_DetailSupplierGoods_Goods" FromRole="Goods" ToRole="DetailSupplierGoods" />
           <NavigationProperty Name="DetailWareHouses" Relationship="Self.FK_DetailWareHouse_Goods" FromRole="Goods" ToRole="DetailWareHouse" />
           <NavigationProperty Name="EPCs" Relationship="Self.FK_EPC_Goods" FromRole="Goods" ToRole="EPC" />
@@ -1987,6 +2151,7 @@
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_PaymentMethods" FromRole="PaymentMethods" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_PaymentMethods" FromRole="PaymentMethods" ToRole="SalesOrder" />
         </EntityType>
         <EntityType Name="Promotion">
           <Key>
@@ -2149,7 +2314,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdTypeStatus" Type="Int32" />
           <Property Name="IdPayMethod" Type="Int32" />
           <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -2170,9 +2335,15 @@
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
           <NavigationProperty Name="Deliveries" Relationship="Self.FK_Delivery_SalesOrder" FromRole="SalesOrder" ToRole="Delivery" />
           <NavigationProperty Name="DetailGoodOrders" Relationship="Self.FK_DetailGoodOrder_SalesOrder" FromRole="SalesOrder" ToRole="DetailGoodOrder" />
+          <NavigationProperty Name="DetailSaleOrders" Relationship="Self.FK_DetailSaleOrder_SalesOrder" FromRole="SalesOrder" ToRole="DetailSaleOrder" />
+          <NavigationProperty Name="DetailSaleOrders1" Relationship="Self.FK_DetailSaleOrder_SalesOrder1" FromRole="SalesOrder" ToRole="DetailSaleOrder" />
+          <NavigationProperty Name="PaymentMethod" Relationship="Self.FK_SalesOrder_PaymentMethods" FromRole="SalesOrder" ToRole="PaymentMethods" />
+          <NavigationProperty Name="Store" Relationship="Self.FK_SalesOrder_Store" FromRole="SalesOrder" ToRole="Store" />
           <NavigationProperty Name="User" Relationship="Self.FK_SalesOrder_Users" FromRole="SalesOrder" ToRole="Users" />
+          <NavigationProperty Name="WareHouse" Relationship="Self.FK_SalesOrder_WareHouse" FromRole="SalesOrder" ToRole="WareHouse" />
         </EntityType>
         <EntityType Name="Season">
           <Key>
@@ -2237,6 +2408,7 @@
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_Store" FromRole="Store" ToRole="PurchaseOrder" />
           <NavigationProperty Name="ReportFirstShifts" Relationship="Self.FK_ReportFirstShift_Store" FromRole="Store" ToRole="ReportFirstShift" />
           <NavigationProperty Name="ReportlEndShifts" Relationship="Self.FK_ReportlEndShift_Store" FromRole="Store" ToRole="ReportlEndShift" />
+          <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_Store" FromRole="Store" ToRole="SalesOrder" />
           <NavigationProperty Name="Stalls" Relationship="Self.FK_Stalls_Store" FromRole="Store" ToRole="Stalls" />
         </EntityType>
         <EntityType Name="Supplier">
@@ -2349,6 +2521,7 @@
           <NavigationProperty Name="Deliveries" Relationship="Self.FK_Delivery_WareHouse" FromRole="WareHouse" ToRole="Delivery" />
           <NavigationProperty Name="DetailWareHouses" Relationship="Self.FK_DetailWareHouse_WareHouse" FromRole="WareHouse" ToRole="DetailWareHouse" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_WareHouse" FromRole="WareHouse" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_WareHouse" FromRole="WareHouse" ToRole="SalesOrder" />
         </EntityType>
         <Association Name="FK_Bill_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
@@ -2482,6 +2655,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesOrder_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdCustomer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Delivery_Method">
           <End Role="Method" Type="Self.Method" Multiplicity="0..1" />
           <End Role="Delivery" Type="Self.Delivery" Multiplicity="*" />
@@ -2575,6 +2760,42 @@
             </Principal>
             <Dependent Role="DetailReportEndShift">
               <PropertyRef Name="IdEndShift" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_Goods">
+          <End Role="Goods" Type="Self.Good" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdGoods" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_SalesOrder">
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdSaleOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailSaleOrder_SalesOrder1">
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
+          <End Role="DetailSaleOrder" Type="Self.DetailSaleOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SalesOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailSaleOrder">
+              <PropertyRef Name="IdSaleOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2830,6 +3051,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesOrder_PaymentMethods">
+          <End Role="PaymentMethods" Type="Self.PaymentMethod" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMethods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdPayMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseOrder_Store">
           <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
           <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
@@ -3010,6 +3243,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SalesOrder_Store">
+          <End Role="Store" Type="Self.Store" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdStore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SalesOrder_Users">
           <End Role="Users" Type="Self.User" Multiplicity="0..1" />
           <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
@@ -3019,6 +3264,18 @@
             </Principal>
             <Dependent Role="SalesOrder">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SalesOrder_WareHouse">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SalesOrder">
+              <PropertyRef Name="IdWareHouse" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3045,6 +3302,7 @@
           <EntitySet Name="DetailEPCs" EntityType="Self.DetailEPC" />
           <EntitySet Name="DetailGoodOrders" EntityType="Self.DetailGoodOrder" />
           <EntitySet Name="DetailReportEndShifts" EntityType="Self.DetailReportEndShift" />
+          <EntitySet Name="DetailSaleOrders" EntityType="Self.DetailSaleOrder" />
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGood" />
           <EntitySet Name="DetailWareHouses" EntityType="Self.DetailWareHouse" />
           <EntitySet Name="EPCs" EntityType="Self.EPC" />
@@ -3121,6 +3379,10 @@
             <End Role="InternalAccounting" EntitySet="InternalAccountings" />
             <End Role="Customer" EntitySet="Customers" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_Customer" Association="Self.FK_SalesOrder_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Delivery_Method" Association="Self.FK_Delivery_Method">
             <End Role="Method" EntitySet="Methods" />
             <End Role="Delivery" EntitySet="Deliveries" />
@@ -3152,6 +3414,18 @@
           <AssociationSet Name="FK_DetailReportEndShift_ReportlEndShift" Association="Self.FK_DetailReportEndShift_ReportlEndShift">
             <End Role="ReportlEndShift" EntitySet="ReportlEndShifts" />
             <End Role="DetailReportEndShift" EntitySet="DetailReportEndShifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_Goods" Association="Self.FK_DetailSaleOrder_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_SalesOrder" Association="Self.FK_DetailSaleOrder_SalesOrder">
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailSaleOrder_SalesOrder1" Association="Self.FK_DetailSaleOrder_SalesOrder1">
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+            <End Role="DetailSaleOrder" EntitySet="DetailSaleOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_DetailSupplierGoods_Goods" Association="Self.FK_DetailSupplierGoods_Goods">
             <End Role="Goods" EntitySet="Goods" />
@@ -3237,6 +3511,10 @@
             <End Role="PaymentMethods" EntitySet="PaymentMethods" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_PaymentMethods" Association="Self.FK_SalesOrder_PaymentMethods">
+            <End Role="PaymentMethods" EntitySet="PaymentMethods" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrder_Store" Association="Self.FK_PurchaseOrder_Store">
             <End Role="Store" EntitySet="Stores" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
@@ -3297,8 +3575,16 @@
             <End Role="RoleAdmin" EntitySet="RoleAdmins" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_Store" Association="Self.FK_SalesOrder_Store">
+            <End Role="Store" EntitySet="Stores" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_SalesOrder_Users" Association="Self.FK_SalesOrder_Users">
             <End Role="Users" EntitySet="Users" />
+            <End Role="SalesOrder" EntitySet="SalesOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SalesOrder_WareHouse" Association="Self.FK_SalesOrder_WareHouse">
+            <End Role="WareHouse" EntitySet="WareHouses" />
             <End Role="SalesOrder" EntitySet="SalesOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_Stalls_Store" Association="Self.FK_Stalls_Store">
@@ -3468,6 +3754,7 @@
                 <ScalarProperty Name="TaxGTGT" ColumnName="TaxGTGT" />
                 <ScalarProperty Name="PriceTax" ColumnName="PriceTax" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Amount1" ColumnName="Amount1" />
                 <ScalarProperty Name="Sumprice" ColumnName="Sumprice" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -3484,6 +3771,29 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdBill" ColumnName="IdBill" />
                 <ScalarProperty Name="IdEndShift" ColumnName="IdEndShift" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetailSaleOrders">
+            <EntityTypeMapping TypeName="iGMSModel.DetailSaleOrder">
+              <MappingFragment StoreEntitySet="DetailSaleOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
+                <ScalarProperty Name="IdSaleOrder" ColumnName="IdSaleOrder" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Amount1" ColumnName="Amount1" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="PriceTax" ColumnName="PriceTax" />
+                <ScalarProperty Name="PriceDiscount" ColumnName="PriceDiscount" />
+                <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />

@@ -4,49 +4,50 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="88ceed1fba4d4e309cfb5f3818408619" Name="Diagram1">
-        <EntityTypeShape EntityType="iGMSModel.Bill" Width="1.5" PointX="3" PointY="51.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.CateGood" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.CategoryGood" Width="1.5" PointX="7.75" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Color" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Customer" Width="1.5" PointX="0.75" PointY="44" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Delivery" Width="1.5" PointX="8.25" PointY="29.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailBill" Width="1.5" PointX="5.25" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailEPC" Width="1.5" PointX="9.75" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailGoodOrder" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailReportEndShift" Width="1.5" PointX="5.25" PointY="52.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailSupplierGood" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.DetailWareHouse" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.EPC" Width="1.5" PointX="5.25" PointY="30.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.GeneralAccounting" Width="1.5" PointX="0.75" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Good" Width="1.5" PointX="3" PointY="12.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.GroupGood" Width="1.5" PointX="0.75" PointY="30.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Industry" Width="1.5" PointX="1.5" PointY="36.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.InternalAccounting" Width="1.5" PointX="0.75" PointY="40.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.License" Width="1.5" PointX="10.75" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Material" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Method" Width="1.5" PointX="6" PointY="37.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.NumberShift" Width="1.5" PointX="3.75" PointY="63.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.PaymentMethod" Width="1.5" PointX="3.75" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Promotion" Width="1.5" PointX="5.25" PointY="32.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.PurchaseOrder" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.PurchaseOrderReport" Width="1.5" PointX="9.75" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Receipt" Width="1.5" PointX="8.25" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.ReportFirstShift" Width="1.5" PointX="3.75" PointY="58.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.ReportlEndShift" Width="1.5" PointX="6" PointY="58.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Role" Width="1.5" PointX="1.5" PointY="70.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.RoleAdmin" Width="1.5" PointX="1.5" PointY="75.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.SalesOrder" Width="1.5" PointX="6" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Season" Width="1.5" PointX="0.75" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Size" Width="1.5" PointX="0.75" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Stall" Width="1.5" PointX="0.75" PointY="52.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Store" Width="1.5" PointX="1.5" PointY="58.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Supplier" Width="1.5" PointX="3" PointY="29.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.TypeSale" Width="1.5" PointX="10.75" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.TypeStatu" Width="1.5" PointX="3.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.Unit" Width="1.5" PointX="0.75" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.User" Width="1.5" PointX="0.75" PointY="63.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="iGMSModel.WareHouse" Width="1.5" PointX="3.75" PointY="22.625" IsExpanded="true" />
+      <Diagram DiagramId="a88cacb9433844148ab8df6aa6d6e0b9" Name="Diagram1">
+        <EntityTypeShape EntityType="iGMSModel.Bill" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.CateGood" Width="1.5" PointX="0.75" PointY="17" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.CategoryGood" Width="1.5" PointX="5.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Color" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Customer" Width="1.5" PointX="0.75" PointY="30.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Delivery" Width="1.5" PointX="5.25" PointY="59.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailBill" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailEPC" Width="1.5" PointX="2.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailGoodOrder" Width="1.5" PointX="8.25" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailReportEndShift" Width="1.5" PointX="5.25" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailSaleOrder" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailSupplierGood" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.DetailWareHouse" Width="1.5" PointX="8.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.EPC" Width="1.5" PointX="5.25" PointY="38.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.GeneralAccounting" Width="1.5" PointX="1.5" PointY="48.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Good" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.GroupGood" Width="1.5" PointX="1.5" PointY="51.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Industry" Width="1.5" PointX="1.5" PointY="55.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.InternalAccounting" Width="1.5" PointX="1.5" PointY="59.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.License" Width="1.5" PointX="7.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Material" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Method" Width="1.5" PointX="6" PointY="45.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.NumberShift" Width="1.5" PointX="8" PointY="41" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="39.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Promotion" Width="1.5" PointX="5.25" PointY="40.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PurchaseOrder" Width="1.5" PointX="6" PointY="27.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.PurchaseOrderReport" Width="1.5" PointX="7.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Receipt" Width="1.5" PointX="8.25" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.ReportFirstShift" Width="1.5" PointX="8" PointY="35.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.ReportlEndShift" Width="1.5" PointX="10.25" PointY="33.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Role" Width="1.5" PointX="1.5" PointY="70.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.RoleAdmin" Width="1.5" PointX="1.5" PointY="75.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.SalesOrder" Width="1.5" PointX="3" PointY="41.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Season" Width="1.5" PointX="0.75" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Size" Width="1.5" PointX="0.75" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Stall" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Store" Width="1.5" PointX="0.75" PointY="42.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Supplier" Width="1.5" PointX="3.75" PointY="25.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.TypeSale" Width="1.5" PointX="7.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.TypeStatu" Width="1.5" PointX="3.75" PointY="32.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.Unit" Width="1.5" PointX="0.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.User" Width="1.5" PointX="0.75" PointY="63.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="iGMSModel.WareHouse" Width="1.5" PointX="0.75" PointY="79" IsExpanded="true" />
         <AssociationConnector Association="iGMSModel.FK_Bill_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Bill_Stalls" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Bill_Store" ManuallyRouted="false" />
@@ -58,6 +59,7 @@
         <AssociationConnector Association="iGMSModel.FK_Customer_GeneralAccounting" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Customer_GroupGoods" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Customer_InternalAccounting" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_SalesOrder_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Delivery_Method" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Delivery_SalesOrder" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Delivery_WareHouse" ManuallyRouted="false" />
@@ -66,6 +68,9 @@
         <AssociationConnector Association="iGMSModel.FK_DetailGoodOrder_PurchaseOrder" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_DetailGoodOrder_SalesOrder" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_DetailReportEndShift_ReportlEndShift" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailSaleOrder_Goods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailSaleOrder_SalesOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_DetailSaleOrder_SalesOrder1" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_DetailSupplierGoods_Goods" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_DetailSupplierGoods_Supplier" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_DetailWareHouse_Goods" ManuallyRouted="false" />
@@ -87,6 +92,7 @@
         <AssociationConnector Association="iGMSModel.FK_ReportFirstShift_NumberShift" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_NumberShift" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_PaymentMethods" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_SalesOrder_PaymentMethods" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_Store" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_Supplier" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_PurchaseOrder_TypeStatus" ManuallyRouted="false" />
@@ -102,7 +108,9 @@
         <AssociationConnector Association="iGMSModel.FK_ReportlEndShift_Users" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Users_Role" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Users_RoleAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_SalesOrder_Store" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_SalesOrder_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="iGMSModel.FK_SalesOrder_WareHouse" ManuallyRouted="false" />
         <AssociationConnector Association="iGMSModel.FK_Stalls_Store" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

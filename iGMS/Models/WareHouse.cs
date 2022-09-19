@@ -20,6 +20,7 @@ namespace iGMS.Models
             this.Deliveries = new HashSet<Delivery>();
             this.DetailWareHouses = new HashSet<DetailWareHouse>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.SalesOrders = new HashSet<SalesOrder>();
         }
     
         public string Id { get; set; }
@@ -37,5 +38,7 @@ namespace iGMS.Models
         public virtual ICollection<DetailWareHouse> DetailWareHouses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

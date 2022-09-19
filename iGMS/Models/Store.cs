@@ -22,6 +22,7 @@ namespace iGMS.Models
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
             this.ReportFirstShifts = new HashSet<ReportFirstShift>();
             this.ReportlEndShifts = new HashSet<ReportlEndShift>();
+            this.SalesOrders = new HashSet<SalesOrder>();
             this.Stalls = new HashSet<Stall>();
         }
     
@@ -45,6 +46,8 @@ namespace iGMS.Models
         public virtual ICollection<ReportFirstShift> ReportFirstShifts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ReportlEndShift> ReportlEndShifts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Stall> Stalls { get; set; }
     }

@@ -12,17 +12,19 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PaymentMethod
+    public partial class DetailSaleOrder
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PaymentMethod()
-        {
-            this.PurchaseOrders = new HashSet<PurchaseOrder>();
-            this.SalesOrders = new HashSet<SalesOrder>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string IdGoods { get; set; }
+        public Nullable<int> IdSaleOrder { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public Nullable<int> Amount1 { get; set; }
+        public Nullable<double> Price { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public Nullable<double> Tax { get; set; }
+        public Nullable<double> PriceTax { get; set; }
+        public Nullable<double> PriceDiscount { get; set; }
+        public Nullable<double> SumPrice { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
@@ -30,9 +32,8 @@ namespace iGMS.Models
         public string ModifyBy { get; set; }
         public Nullable<bool> Status { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+        public virtual Good Good { get; set; }
+        public virtual SalesOrder SalesOrder { get; set; }
+        public virtual SalesOrder SalesOrder1 { get; set; }
     }
 }

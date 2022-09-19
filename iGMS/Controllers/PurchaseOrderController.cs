@@ -72,6 +72,7 @@ namespace iGMS.Controllers
                 d.TaxGTGT = tax;
                 d.PriceTax = pricetax;
                 d.Amount = amount;
+                d.Amount1 = amount;
                 d.Sumprice = sumpricegoods;
                 d.CreateDate = DateTime.Now;
                 d.CreateBy = nameAdmin;

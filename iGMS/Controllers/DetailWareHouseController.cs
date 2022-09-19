@@ -15,6 +15,10 @@ namespace iGMS.Controllers
         {
             return View();
         }
+        public ActionResult Index2()
+        {
+            return View();
+        }
         [HttpGet]
         public JsonResult Receipt()
         {
@@ -165,6 +169,78 @@ namespace iGMS.Controllers
             catch (Exception e)
             {
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Show2(int id)
+        {
+            try
+            {
+                var a = (from b in db.SalesOrders.Where(x => x.Id == id)
+                         select new
+                         {
+                             K = b.IdWareHouse==null?b.Store.Name:b.WareHouse.Name,
+                             Kid = b.IdWareHouse==null?b.IdStore:b.IdWareHouse,
+                             customer = b.Customer.Name,
+
+                         }).ToList();
+                var c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id)
+                         select new
+                         {
+                             amount=b.Amount,
+                             id = b.IdGoods,
+                             name=b.Good.Name,
+
+                         }).ToList();
+                return Json(new { code = 200, a = a,c=c }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult Tru(string id,int idsaleorder,string amount,string K)
+        {
+            try
+            {
+                var a = db.DetailSaleOrders.SingleOrDefault(x => x.IdGoods == id && x.IdSaleOrder == idsaleorder);
+                
+                var H = "";
+                var E = "";
+                if (K.Contains("CH"))
+                {
+                    H = K;
+                    E = null;
+                }
+                else
+                {
+                    E = K;
+                    H = null;
+                }
+                var b = db.DetailWareHouses.Single(x=>x.IdGoods==id&&x.IdWareHouse==E&&x.IdStore==H);
+                if (b == null)
+                {
+                }
+                else
+                {
+                    if (b.Inventory < float.Parse(amount))
+                    {
+                        return Json(new { code = 1, msg = "Không Đủ hàng Giảm Số Lượng !!!" }, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        a.Amount -= int.Parse(amount);
+                        b.Inventory -= float.Parse(amount);
+                        db.SaveChanges();
+                    }
+                  
+                }
+                return Json(new { code = 200, msg = "Chưa Có Hàng Trong kho !!!" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Chưa Có Hàng Trong kho !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

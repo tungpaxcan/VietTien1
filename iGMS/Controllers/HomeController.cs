@@ -272,6 +272,9 @@ namespace iGMS.Controllers
                     if (e.Inventory <= 0)
                     {
                         return Json(new { code = 1 ,msg=idgoods+" : Hết Hàng !!!"}, JsonRequestBehavior.AllowGet);
+                    }else if (e.Inventory<=float.Parse(amounts))
+                    {
+                        return Json(new { code = 2, msg = idgoods + " : Không đủ Hàng Trong Kho !!!\n Giảm Số Lượng !!!" }, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
