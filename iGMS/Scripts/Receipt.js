@@ -1,4 +1,9 @@
 ﻿$('input[name="purchaseorder"]').keyup(function () {
+    getDetailGoodOrder()
+})
+
+//----DetailGoodOrder----
+function getDetailGoodOrder() {
     var purchaseorders = $('input[name="purchaseorder"]').val();
     var purchaseorder = purchaseorders.substring(5);
     var id = $('#id').val().trim();
@@ -40,8 +45,8 @@
                     $('span[name="warehouse"]').append(v.warehouse)
                     $('#sumprice').append(Money(v.sumprice))
                     $('span[name="Tong"]').append(to_vietnamese(v.sumprice))
-                  
-                    
+
+
                 });
                 new QRCode(document.getElementById("qrcode"), {
                     text: $('#id').val().trim(),
@@ -56,39 +61,39 @@
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.unit + '</td>'
-                    table += '<td id="amountresult'+v.id+'">'+v.amount+'</td>'
-                    table += '<td>'+v.price+'</td>'
-                    table += '<td>'+v.discount+'</td>'
-                    table += '<td>'+v.pricediscount+'</td>'
-                    table += '<td>'+v.tax+'</td>'
-                    table += '<td>'+v.pricetax+'</td>'
+                    table += '<td id="amountresult' + v.id + '">' + v.amount + '</td>'
+                    table += '<td>' + v.price + '</td>'
+                    table += '<td>' + v.discount + '</td>'
+                    table += '<td>' + v.pricediscount + '</td>'
+                    table += '<td>' + v.tax + '</td>'
+                    table += '<td>' + v.pricetax + '</td>'
                     table += '<td>' + v.sumprice + '</td>'
-                   
+
 
                     table += '</tr>';
                     pricetax += Number(v.pricetax)
                     $('tbody[name="tbd"]').append(table);
-                   
+
                 });
                 $.each(data.d, function (k, v) {
                     let table = '<tr role="row" class="odd">';
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + id + '</td>'
                     table += '<td>' + id + '</td>'
-                    table += '<td>' + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()+'</td>'
-                    table += '<td id="sumpricetax">' + pricetax+'</td>'
+                    table += '<td>' + d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear() + '</td>'
+                    table += '<td id="sumpricetax">' + pricetax + '</td>'
                     table += '<td id="sumpriceli">' + v.sumprice + '</td>'
 
                     table += '</tr>';
                     $('#tbdct').append(table);
                 });
-             
+
             } else (
                 alert(data.msg)
             )
         }
     })
-})
+}
 
 //-------------------add--------------------
 function Add() {
