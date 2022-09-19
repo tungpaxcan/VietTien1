@@ -85,22 +85,22 @@
     <script type="text/javascript">
         $(document).ready(function () {
             BarcodeEnumrate()
-            //if (/Android/i.test(navigator.userAgent)) {
-            //    $("#HandHeld").show()
-            //} else {
-            //    $("#HandHeld").hide()
-            //}
+            if (/Android/i.test(navigator.userAgent)) {
+                $("#HandHeld").show()
+            } else {
+                $("#HandHeld").hide()
+            }
         });
 
         $("#ScanMethod").change(function () {
             var id = $('#idsaleorder').val().trim().substring(5)
             if ($(this).is(":checked")) {
                 console.log('bar')
-                /*BarcodeEnumrate()*/
+                BarcodeEnumrate()
                 Show(id)
             } else {
                 console.log('rfid')
-                //RFIDEnumrate()
+                RFIDEnumrate()
                 Show(id)
 
             }
@@ -172,7 +172,7 @@
             var txt = getText(document.activeElement);
 
 
-            if (txt == 'purchaseorder') {
+            if (txt == 'idsaleorder') {
                 setPurchaseOrderText(code.data)
 
             } else {
@@ -195,7 +195,7 @@
         }
 
         function setPurchaseOrderText(code) {
-            $('#purchaseorder').val(code)
+            $('#idsaleorder').val(code)
         }
     </script>
 }
