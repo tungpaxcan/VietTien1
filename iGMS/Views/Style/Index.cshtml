@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "Danh Sách Chất Liệu";
+    ViewBag.Title = "Danh Sách Phong Cách";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,7 +9,7 @@
     <div class="card-header flex-wrap py-5">
         <div class="card-title">
             <h3 class="card-label">
-                Danh Sách Chất Liệu
+                Danh Sách Phong Cách
             </h3>
         </div>
         <div class="card-toolbar">
@@ -50,7 +50,7 @@
                             </a>
                         </li>
                         <li class="navi-item">
-                            <a onclick="ExportSCV('kt_datatable','ChatLieu')" class="navi-link">
+                            <a onclick="ExportSCV('kt_datatable','PhongCach')" class="navi-link">
                                 <span class="navi-icon">
                                     <i class="la la-file-text-o"></i>
                                 </span>
@@ -72,14 +72,13 @@
             </div>
             <!--end::Dropdown-->
             <!--begin::Button-->
-            <a href="/Material/Adds" class="btn btn-primary font-weight-bolder">
+            <a href="/Style/Adds" class="btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                     <span class="svg-icon svg-icon-primary svg-icon-2x">
-
-                        <img src="~/Images/icons-add.png" />
+                        <i class="icon-xl fas fa-user-plus"></i>
                     </span>
                     <!--end::Svg Icon-->
-                </span>Thêm Chất Liệu
+                </span>Thêm Phong Cách
             </a>
             <!--end::Button-->
         </div>
@@ -137,9 +136,10 @@
 
 <!-- Button trigger modal-->
 @section scripts{
-    <script src="~/Scripts/Material.js"></script>
 
+    <script src="~/Scripts/Style.js"></script>
 
 }
+
 
 

@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class GroupGoodsController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: GroupGoods
         public ActionResult Index()
         {
@@ -39,7 +39,7 @@ namespace iGMS.Controllers
             try
             {
                 var pageSize = pagenum;
-                var a = (from b in db.GroupGoods.Where(x => x.Id > 0)
+                var a = (from b in db.GroupGoods.Where(x => x.Id.Length > 0)
                          select new
                          {
                              id = b.Id,
@@ -57,15 +57,15 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         [HttpPost]
-        public JsonResult Add(int idindustry,string name, string des)
+        public JsonResult Add(int idindustry,string name, string des,string id)
         {
             try
             {
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
                 var d = new GroupGood();
+                d.Id = id;
                 d.Name = name;
                 d.IdIndustry = idindustry;
                 d.Description = des;
@@ -82,7 +82,7 @@ namespace iGMS.Controllers
 
 
         [HttpPost]
-        public JsonResult Edit(int id,int idindustry, string name, string des)
+        public JsonResult Edit(string id,int idindustry, string name, string des)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace iGMS.Controllers
         }
 
         [HttpPost]
-        public JsonResult Delete(int id)
+        public JsonResult Delete(string id)
         {
             try
             {

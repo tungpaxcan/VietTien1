@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class RFIDController : Controller
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: RFID
         //------------------RFID---------------
         [HttpGet]

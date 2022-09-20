@@ -30,12 +30,20 @@ namespace iGMS.Models
         public string IdWareHouse { get; set; }
         public string IdCate { get; set; }
         public string IdUnit { get; set; }
-        public string IdMaterial { get; set; }
+        public string Material { get; set; }
         public string IdSeason { get; set; }
         public string IdColor { get; set; }
         public string IdSize { get; set; }
+        public string IdStyle { get; set; }
+        public string IdGender { get; set; }
+        public string IdGroupGood { get; set; }
+        public string StyleColorSize { get; set; }
+        public string SKU { get; set; }
+        public string Company { get; set; }
         public string Name { get; set; }
+        public string IdCoo { get; set; }
         public Nullable<double> Price { get; set; }
+        public Nullable<double> PriceNew { get; set; }
         public Nullable<double> PriceTax { get; set; }
         public Nullable<double> InternalPrice { get; set; }
         public Nullable<double> GTGTInternalTax { get; set; }
@@ -55,6 +63,7 @@ namespace iGMS.Models
     
         public virtual CateGood CateGood { get; set; }
         public virtual Color Color { get; set; }
+        public virtual Coo Coo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailBill> DetailBills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -67,9 +76,11 @@ namespace iGMS.Models
         public virtual ICollection<DetailWareHouse> DetailWareHouses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<EPC> EPCs { get; set; }
-        public virtual Material Material { get; set; }
+        public virtual Gender Gender { get; set; }
+        public virtual GroupGood GroupGood { get; set; }
         public virtual Season Season { get; set; }
         public virtual Size Size { get; set; }
+        public virtual Style Style { get; set; }
         public virtual Unit Unit { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Promotion> Promotions { get; set; }

@@ -1,13 +1,14 @@
-﻿
+﻿@model iGMS.Models.Style
 @{
-    ViewBag.Title = "Thêm Chất Liệu";
+    ViewBag.Title = "Edits";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<input id="id" value="@Model.Id" hidden />
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            Thêm Chất Liệu
+            Sửa Phong Cách
         </h3>
     </div>
     <!--begin::Form-->
@@ -20,19 +21,11 @@
                 </div>
             </div>
         </div>
-          <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Mã Chất Liệu <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Mã Chất Liệu" id="id" />
-                </div>
-            </div>
-        </div>
         <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Chất Liệu <span style="color:red"> (*) </span></label>
+            <label for="example-password-input" class="col-2 col-form-label">Tên Đơn Vị <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Tên Chất Liệu" id="name" />
+                    <input class="form-control" type="text" placeholder="Tên Đơn Vị" id="name" value="@Model.Name" />
                 </div>
             </div>
         </div>
@@ -42,14 +35,15 @@
             <div class="col-2">
             </div>
             <div class="col-10">
-                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Submit</button>
-                <a href="/Material/Index" type="reset" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-success mr-2" onclick="Edit()">Submit</button>
+                <a href="/Style/Index" type="reset" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
 </div>
 @section scripts{
 
-    <script src="~/Scripts/Material.js"></script>
+    <script src="~/Scripts/Style.js"></script>
 }
+
 

@@ -26,7 +26,6 @@ function Goods(pagenum, page, seach) {
                 $.each(data.c, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + (Stt++) + '</td>'
-                    table += '<td id="barcodehh' + v.id + '"><svg class="barcode' + v.id +'" ></svg></td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.unit + '</td>'
                     table += '<td>' + v.price + '</td>'
@@ -54,32 +53,6 @@ function Goods(pagenum, page, seach) {
                     table += '</tr>';
         
                     $('#tbd').append(table);
-                    if (v.id.length == 2) {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "EAN2",
-                        });
-                    } else if (v.id.length == 5) {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "EAN5",
-                        });
-                    } else if (v.id.length == 7 ) {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "EAN8",
-                        });
-                    } else if (v.id.length == 11) {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "UPC",
-                        });
-                    } else if ( v.id.length==13) {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "EAN13",
-                        });
-                    
-                    } else {
-                        JsBarcode(".barcode"+v.id, v.id, {
-                            format: "CODE128",
-                        });
-                    }
                 });
 
                 //--------------------------------
@@ -144,9 +117,9 @@ function Add() {
     var id = $('#id').val().trim();
     var categoods = $("#categoods option:selected").val();
     var name = $("#name").val().trim();
-    var price = $("#price").val().trim().substring(1).replace(/,$/, '.').replace(/,/g, "");;
+    var price = $("#price").val().trim()
     var pricetax = $("#pricetax").val().trim();
-    var internalprice = $("#internalprice").val().trim().substring(1).replace(/,$/, '.').replace(/,/g, "");;
+    var internalprice = $("#internalprice").val().trim()
     var gtgtinternaltax = $("#gtgtinternaltax").val().trim();
     var discount = $("#discount").val().trim();
     var internaldiscount = $("#internaldiscount").val().trim();
@@ -156,7 +129,6 @@ function Add() {
     var maximuminventory = $("#maximuminventory").val().trim().length == 0 ? 1e10 : $("#maximuminventory").val().trim()
     var des = $("#des").val().trim().length == 0 ? "Không Có" : $("#des").val().trim();;
     var unit = $("#unit1 option:selected").val();
-    var material = $("#material option:selected").val();
     var season = $("#season option:selected").val();
     var color = $("#color option:selected").val();
     var size = $("#size option:selected").val();
@@ -188,8 +160,8 @@ function Add() {
         data: {
             id, categoods, name, price, pricetax,
             internalprice, gtgtinternaltax, discount, internaldiscount,
-            expiry, warrantyperiod, minimuminventory, maximuminventory, des, unit,
-            material, season, color, size
+            expiry, warrantyperiod, minimuminventory, maximuminventory, des, unit
+            , season, color, size
 
         },
         success: function (data) {
@@ -245,9 +217,9 @@ function Edit() {
     var id = $('#id').val().trim();
     var categoods = $("#categoods option:selected").val();
     var name = $("#name").val().trim();
-    var price = $("#price").val().trim().substring(1).replace(/,$/, '.').replace(/,/g,"");
+    var price = $("#price").val().trim()
     var pricetax = $("#pricetax").val().trim();
-    var internalprice = $("#internalprice").val().trim().substring(1).replace(/,$/, '.').replace(/,/g, "");
+    var internalprice = $("#internalprice").val().trim()
     var gtgtinternaltax = $("#gtgtinternaltax").val().trim();
     var discount = $("#discount").val().trim();
     var internaldiscount = $("#internaldiscount").val().trim();
@@ -257,7 +229,6 @@ function Edit() {
     var maximuminventory = $("#maximuminventory").val().trim().length == 0 ? 1e10 : $("#maximuminventory").val().trim()
     var des = $("#des").val().trim().length == 0 ? "Không Có" : $("#des").val().trim();;
     var unit = $("#unit1 option:selected").val();
-    var material = $("#material option:selected").val();
     var season = $("#season option:selected").val();
     var color = $("#color option:selected").val();
     var size = $("#size option:selected").val();
@@ -295,7 +266,7 @@ function Edit() {
             id, categoods, name, price, pricetax,
             internalprice, gtgtinternaltax, discount, internaldiscount,
             expiry, warrantyperiod, minimuminventory, maximuminventory, des, unit,
-            material, season, color, size
+            season, color, size
 
         },
         success: function (data) {

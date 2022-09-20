@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="iGMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="VietTienModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="Id" />
@@ -64,12 +64,24 @@
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
           <Property Name="Status" Type="bit" />
         </EntityType>
+        <EntityType Name="Coo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="IdGroupGoods" Type="int" />
+          <Property Name="IdGroupGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdGeneral" Type="varchar" MaxLength="20" />
           <Property Name="IdInternal" Type="varchar" MaxLength="20" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
@@ -228,6 +240,19 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdEPC" Type="varchar" MaxLength="35" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="GeneralAccounting">
           <Key>
@@ -243,12 +268,20 @@
           <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="IdCate" Type="varchar" MaxLength="20" />
           <Property Name="IdUnit" Type="varchar" MaxLength="20" />
-          <Property Name="IdMaterial" Type="varchar" MaxLength="20" />
+          <Property Name="Material" Type="nvarchar(max)" />
           <Property Name="IdSeason" Type="varchar" MaxLength="20" />
           <Property Name="IdColor" Type="varchar" MaxLength="20" />
           <Property Name="IdSize" Type="varchar" MaxLength="20" />
+          <Property Name="IdStyle" Type="varchar" MaxLength="20" />
+          <Property Name="IdGender" Type="varchar" MaxLength="20" />
+          <Property Name="IdGroupGood" Type="varchar" MaxLength="20" />
+          <Property Name="StyleColorSize" Type="varchar" MaxLength="100" />
+          <Property Name="SKU" Type="varchar" MaxLength="100" />
+          <Property Name="Company" Type="nvarchar(max)" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="IdCoo" Type="varchar" MaxLength="20" />
           <Property Name="Price" Type="float" />
+          <Property Name="PriceNew" Type="float" />
           <Property Name="PriceTax" Type="float" />
           <Property Name="InternalPrice" Type="float" />
           <Property Name="GTGTInternalTax" Type="float" />
@@ -270,7 +303,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="IdIndustry" Type="int" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="Description" Type="nvarchar(max)" />
@@ -308,18 +341,6 @@
           <Property Name="PriceTax" Type="float" />
           <Property Name="SumPrice" Type="float" />
           <Property Name="Description" Type="nvarchar(max)" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
-          <Property Name="ModifyDate" Type="datetime" />
-          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
-          <Property Name="Status" Type="bit" />
-        </EntityType>
-        <EntityType Name="Material">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -568,12 +589,24 @@
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
           <Property Name="Status" Type="bit" />
         </EntityType>
+        <EntityType Name="Style">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
         <EntityType Name="Supplier">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="IdGroupGoods" Type="int" />
+          <Property Name="IdGroupGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdGeneral" Type="varchar" MaxLength="20" />
           <Property Name="IdInternal" Type="varchar" MaxLength="20" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
@@ -999,15 +1032,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Goods_Material">
-          <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+        <Association Name="FK_Goods_Coo">
+          <End Role="Coo" Type="Self.Coo" Multiplicity="0..1" />
           <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Material">
+            <Principal Role="Coo">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Goods">
-              <PropertyRef Name="IdMaterial" />
+              <PropertyRef Name="IdCoo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_GroupGoods">
+          <End Role="GroupGoods" Type="Self.GroupGoods" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGoods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdGroupGood" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1032,6 +1089,18 @@
             </Principal>
             <Dependent Role="Goods">
               <PropertyRef Name="IdSize" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Style">
+          <End Role="Style" Type="Self.Style" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Style">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdStyle" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1431,11 +1500,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="iGMSModelStoreContainer">
+        <EntityContainer Name="VietTienModelStoreContainer">
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CateGoods" EntityType="Self.CateGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryGoods" EntityType="Self.CategoryGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Color" EntityType="Self.Color" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coo" EntityType="Self.Coo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Delivery" EntityType="Self.Delivery" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailBill" EntityType="Self.DetailBill" Schema="dbo" store:Type="Tables" />
@@ -1446,13 +1516,13 @@
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailWareHouse" EntityType="Self.DetailWareHouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EPC" EntityType="Self.EPC" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralAccounting" EntityType="Self.GeneralAccounting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Goods" EntityType="Self.Goods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGoods" EntityType="Self.GroupGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Industry" EntityType="Self.Industry" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InternalAccounting" EntityType="Self.InternalAccounting" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="License" EntityType="Self.License" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Material" EntityType="Self.Material" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Method" EntityType="Self.Method" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NumberShift" EntityType="Self.NumberShift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" Schema="dbo" store:Type="Tables" />
@@ -1469,6 +1539,7 @@
           <EntitySet Name="Size" EntityType="Self.Size" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stalls" EntityType="Self.Stalls" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Style" EntityType="Self.Style" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeSale" EntityType="Self.TypeSale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TypeStatus" EntityType="Self.TypeStatus" Schema="dbo" store:Type="Tables" />
@@ -1587,8 +1658,16 @@
             <End Role="Color" EntitySet="Color" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
-          <AssociationSet Name="FK_Goods_Material" Association="Self.FK_Goods_Material">
-            <End Role="Material" EntitySet="Material" />
+          <AssociationSet Name="FK_Goods_Coo" Association="Self.FK_Goods_Coo">
+            <End Role="Coo" EntitySet="Coo" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Gender" Association="Self.FK_Goods_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_GroupGoods" Association="Self.FK_Goods_GroupGoods">
+            <End Role="GroupGoods" EntitySet="GroupGoods" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Season" Association="Self.FK_Goods_Season">
@@ -1597,6 +1676,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Size" Association="Self.FK_Goods_Size">
             <End Role="Size" EntitySet="Size" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Style" Association="Self.FK_Goods_Style">
+            <End Role="Style" EntitySet="Style" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Unit" Association="Self.FK_Goods_Unit">
@@ -1736,7 +1819,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="iGMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="VietTienModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="Id" />
@@ -1804,12 +1887,25 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Color" FromRole="Color" ToRole="Goods" />
         </EntityType>
+        <EntityType Name="Coo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Coo" FromRole="Coo" ToRole="Goods" />
+        </EntityType>
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IdGroupGoods" Type="Int32" />
+          <Property Name="IdGroupGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdGeneral" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdInternal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -1991,7 +2087,21 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdEPC" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Good" Relationship="Self.FK_EPC_Goods" FromRole="EPC" ToRole="Goods" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Gender" FromRole="Gender" ToRole="Goods" />
         </EntityType>
         <EntityType Name="GeneralAccounting">
           <Key>
@@ -2010,12 +2120,20 @@
           <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdCate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdUnit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="IdMaterial" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Material" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IdSeason" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdColor" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdSize" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdStyle" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdGender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdGroupGood" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="StyleColorSize" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SKU" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Company" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IdCoo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Price" Type="Double" />
+          <Property Name="PriceNew" Type="Double" />
           <Property Name="PriceTax" Type="Double" />
           <Property Name="InternalPrice" Type="Double" />
           <Property Name="GTGTInternalTax" Type="Double" />
@@ -2034,15 +2152,18 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="CateGood" Relationship="Self.FK_Goods_CateGoods" FromRole="Goods" ToRole="CateGoods" />
           <NavigationProperty Name="Color" Relationship="Self.FK_Goods_Color" FromRole="Goods" ToRole="Color" />
+          <NavigationProperty Name="Coo" Relationship="Self.FK_Goods_Coo" FromRole="Goods" ToRole="Coo" />
           <NavigationProperty Name="DetailBills" Relationship="Self.FK_DetailBill_Goods" FromRole="Goods" ToRole="DetailBill" />
           <NavigationProperty Name="DetailGoodOrders" Relationship="Self.FK_DetailGoodOrder_Goods" FromRole="Goods" ToRole="DetailGoodOrder" />
           <NavigationProperty Name="DetailSaleOrders" Relationship="Self.FK_DetailSaleOrder_Goods" FromRole="Goods" ToRole="DetailSaleOrder" />
           <NavigationProperty Name="DetailSupplierGoods" Relationship="Self.FK_DetailSupplierGoods_Goods" FromRole="Goods" ToRole="DetailSupplierGoods" />
           <NavigationProperty Name="DetailWareHouses" Relationship="Self.FK_DetailWareHouse_Goods" FromRole="Goods" ToRole="DetailWareHouse" />
           <NavigationProperty Name="EPCs" Relationship="Self.FK_EPC_Goods" FromRole="Goods" ToRole="EPC" />
-          <NavigationProperty Name="Material" Relationship="Self.FK_Goods_Material" FromRole="Goods" ToRole="Material" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK_Goods_Gender" FromRole="Goods" ToRole="Gender" />
+          <NavigationProperty Name="GroupGood" Relationship="Self.FK_Goods_GroupGoods" FromRole="Goods" ToRole="GroupGoods" />
           <NavigationProperty Name="Season" Relationship="Self.FK_Goods_Season" FromRole="Goods" ToRole="Season" />
           <NavigationProperty Name="Size" Relationship="Self.FK_Goods_Size" FromRole="Goods" ToRole="Size" />
+          <NavigationProperty Name="Style" Relationship="Self.FK_Goods_Style" FromRole="Goods" ToRole="Style" />
           <NavigationProperty Name="Unit" Relationship="Self.FK_Goods_Unit" FromRole="Goods" ToRole="Unit" />
           <NavigationProperty Name="Promotions" Relationship="Self.FK_Promotion_Goods" FromRole="Goods" ToRole="Promotion" />
         </EntityType>
@@ -2050,7 +2171,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdIndustry" Type="Int32" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2060,6 +2181,7 @@
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Customers" Relationship="Self.FK_Customer_GroupGoods" FromRole="GroupGoods" ToRole="Customer" />
+          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_GroupGoods" FromRole="GroupGoods" ToRole="Goods" />
           <NavigationProperty Name="Industry" Relationship="Self.FK_GroupGoods_Industry" FromRole="GroupGoods" ToRole="Industry" />
           <NavigationProperty Name="Suppliers" Relationship="Self.FK_Supplier_GroupGoods" FromRole="GroupGoods" ToRole="Supplier" />
         </EntityType>
@@ -2100,19 +2222,6 @@
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
-        </EntityType>
-        <EntityType Name="Material">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" />
-          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Material" FromRole="Material" ToRole="Goods" />
         </EntityType>
         <EntityType Name="Method">
           <Key>
@@ -2411,12 +2520,25 @@
           <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_Store" FromRole="Store" ToRole="SalesOrder" />
           <NavigationProperty Name="Stalls" Relationship="Self.FK_Stalls_Store" FromRole="Store" ToRole="Stalls" />
         </EntityType>
+        <EntityType Name="Style">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Style" FromRole="Style" ToRole="Goods" />
+        </EntityType>
         <EntityType Name="Supplier">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IdGroupGoods" Type="Int32" />
+          <Property Name="IdGroupGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdGeneral" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdInternal" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
@@ -2616,6 +2738,18 @@
             </Principal>
             <Dependent Role="Goods">
               <PropertyRef Name="IdColor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Coo">
+          <End Role="Coo" Type="Self.Coo" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Good" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coo">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdCoo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2871,6 +3005,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Goods_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Good" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdGender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PurchaseOrder_GeneralAccounting">
           <End Role="GeneralAccounting" Type="Self.GeneralAccounting" Multiplicity="0..1" />
           <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
@@ -2895,15 +3041,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Goods_Material">
-          <End Role="Material" Type="Self.Material" Multiplicity="0..1" />
+        <Association Name="FK_Goods_GroupGoods">
+          <End Role="GroupGoods" Type="Self.GroupGood" Multiplicity="0..1" />
           <End Role="Goods" Type="Self.Good" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Material">
+            <Principal Role="GroupGoods">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Goods">
-              <PropertyRef Name="IdMaterial" />
+              <PropertyRef Name="IdGroupGood" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2928,6 +3074,18 @@
             </Principal>
             <Dependent Role="Goods">
               <PropertyRef Name="IdSize" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Style">
+          <End Role="Style" Type="Self.Style" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Good" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Style">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdStyle" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3291,11 +3449,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="iGMSEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="VietTienEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Bills" EntityType="Self.Bill" />
           <EntitySet Name="CateGoods" EntityType="Self.CateGood" />
           <EntitySet Name="CategoryGoods" EntityType="Self.CategoryGood" />
           <EntitySet Name="Colors" EntityType="Self.Color" />
+          <EntitySet Name="Coos" EntityType="Self.Coo" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Deliveries" EntityType="Self.Delivery" />
           <EntitySet Name="DetailBills" EntityType="Self.DetailBill" />
@@ -3306,13 +3465,13 @@
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGood" />
           <EntitySet Name="DetailWareHouses" EntityType="Self.DetailWareHouse" />
           <EntitySet Name="EPCs" EntityType="Self.EPC" />
+          <EntitySet Name="Genders" EntityType="Self.Gender" />
           <EntitySet Name="GeneralAccountings" EntityType="Self.GeneralAccounting" />
           <EntitySet Name="Goods" EntityType="Self.Good" />
           <EntitySet Name="GroupGoods" EntityType="Self.GroupGood" />
           <EntitySet Name="Industries" EntityType="Self.Industry" />
           <EntitySet Name="InternalAccountings" EntityType="Self.InternalAccounting" />
           <EntitySet Name="Licenses" EntityType="Self.License" />
-          <EntitySet Name="Materials" EntityType="Self.Material" />
           <EntitySet Name="Methods" EntityType="Self.Method" />
           <EntitySet Name="NumberShifts" EntityType="Self.NumberShift" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
@@ -3329,6 +3488,7 @@
           <EntitySet Name="Sizes" EntityType="Self.Size" />
           <EntitySet Name="Stalls" EntityType="Self.Stall" />
           <EntitySet Name="Stores" EntityType="Self.Store" />
+          <EntitySet Name="Styles" EntityType="Self.Style" />
           <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
           <EntitySet Name="TypeSales" EntityType="Self.TypeSale" />
           <EntitySet Name="TypeStatus" EntityType="Self.TypeStatu" />
@@ -3365,6 +3525,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Color" Association="Self.FK_Goods_Color">
             <End Role="Color" EntitySet="Colors" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Coo" Association="Self.FK_Goods_Coo">
+            <End Role="Coo" EntitySet="Coos" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer_GeneralAccounting" Association="Self.FK_Customer_GeneralAccounting">
@@ -3451,6 +3615,10 @@
             <End Role="Goods" EntitySet="Goods" />
             <End Role="EPC" EntitySet="EPCs" />
           </AssociationSet>
+          <AssociationSet Name="FK_Goods_Gender" Association="Self.FK_Goods_Gender">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrder_GeneralAccounting" Association="Self.FK_PurchaseOrder_GeneralAccounting">
             <End Role="GeneralAccounting" EntitySet="GeneralAccountings" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
@@ -3459,8 +3627,8 @@
             <End Role="GeneralAccounting" EntitySet="GeneralAccountings" />
             <End Role="Supplier" EntitySet="Suppliers" />
           </AssociationSet>
-          <AssociationSet Name="FK_Goods_Material" Association="Self.FK_Goods_Material">
-            <End Role="Material" EntitySet="Materials" />
+          <AssociationSet Name="FK_Goods_GroupGoods" Association="Self.FK_Goods_GroupGoods">
+            <End Role="GroupGoods" EntitySet="GroupGoods" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Season" Association="Self.FK_Goods_Season">
@@ -3469,6 +3637,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Size" Association="Self.FK_Goods_Size">
             <End Role="Size" EntitySet="Sizes" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Style" Association="Self.FK_Goods_Style">
+            <End Role="Style" EntitySet="Styles" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Unit" Association="Self.FK_Goods_Unit">
@@ -3597,9 +3769,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="iGMSModelStoreContainer" CdmEntityContainer="iGMSEntities">
+        <EntityContainerMapping StorageEntityContainer="VietTienModelStoreContainer" CdmEntityContainer="VietTienEntities">
           <EntitySetMapping Name="Bills">
-            <EntityTypeMapping TypeName="iGMSModel.Bill">
+            <EntityTypeMapping TypeName="VietTienModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdStall" ColumnName="IdStall" />
@@ -3621,7 +3793,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CateGoods">
-            <EntityTypeMapping TypeName="iGMSModel.CateGood">
+            <EntityTypeMapping TypeName="VietTienModel.CateGood">
               <MappingFragment StoreEntitySet="CateGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3635,7 +3807,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CategoryGoods">
-            <EntityTypeMapping TypeName="iGMSModel.CategoryGood">
+            <EntityTypeMapping TypeName="VietTienModel.CategoryGood">
               <MappingFragment StoreEntitySet="CategoryGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3649,7 +3821,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Colors">
-            <EntityTypeMapping TypeName="iGMSModel.Color">
+            <EntityTypeMapping TypeName="VietTienModel.Color">
               <MappingFragment StoreEntitySet="Color">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3661,8 +3833,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Coos">
+            <EntityTypeMapping TypeName="VietTienModel.Coo">
+              <MappingFragment StoreEntitySet="Coo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="iGMSModel.Customer">
+            <EntityTypeMapping TypeName="VietTienModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGroupGoods" ColumnName="IdGroupGoods" />
@@ -3697,7 +3882,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deliveries">
-            <EntityTypeMapping TypeName="iGMSModel.Delivery">
+            <EntityTypeMapping TypeName="VietTienModel.Delivery">
               <MappingFragment StoreEntitySet="Delivery">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdMethod" ColumnName="IdMethod" />
@@ -3714,7 +3899,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailBills">
-            <EntityTypeMapping TypeName="iGMSModel.DetailBill">
+            <EntityTypeMapping TypeName="VietTienModel.DetailBill">
               <MappingFragment StoreEntitySet="DetailBill">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
@@ -3733,7 +3918,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailEPCs">
-            <EntityTypeMapping TypeName="iGMSModel.DetailEPC">
+            <EntityTypeMapping TypeName="VietTienModel.DetailEPC">
               <MappingFragment StoreEntitySet="DetailEPC">
                 <ScalarProperty Name="IdEPC" ColumnName="IdEPC" />
                 <ScalarProperty Name="IdStall" ColumnName="IdStall" />
@@ -3742,7 +3927,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailGoodOrders">
-            <EntityTypeMapping TypeName="iGMSModel.DetailGoodOrder">
+            <EntityTypeMapping TypeName="VietTienModel.DetailGoodOrder">
               <MappingFragment StoreEntitySet="DetailGoodOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
@@ -3766,7 +3951,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailReportEndShifts">
-            <EntityTypeMapping TypeName="iGMSModel.DetailReportEndShift">
+            <EntityTypeMapping TypeName="VietTienModel.DetailReportEndShift">
               <MappingFragment StoreEntitySet="DetailReportEndShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdBill" ColumnName="IdBill" />
@@ -3781,7 +3966,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailSaleOrders">
-            <EntityTypeMapping TypeName="iGMSModel.DetailSaleOrder">
+            <EntityTypeMapping TypeName="VietTienModel.DetailSaleOrder">
               <MappingFragment StoreEntitySet="DetailSaleOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
@@ -3804,7 +3989,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailSupplierGoods">
-            <EntityTypeMapping TypeName="iGMSModel.DetailSupplierGood">
+            <EntityTypeMapping TypeName="VietTienModel.DetailSupplierGood">
               <MappingFragment StoreEntitySet="DetailSupplierGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdSupplier" ColumnName="IdSupplier" />
@@ -3817,7 +4002,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailWareHouses">
-            <EntityTypeMapping TypeName="iGMSModel.DetailWareHouse">
+            <EntityTypeMapping TypeName="VietTienModel.DetailWareHouse">
               <MappingFragment StoreEntitySet="DetailWareHouse">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
@@ -3828,34 +4013,56 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EPCs">
-            <EntityTypeMapping TypeName="iGMSModel.EPC">
+            <EntityTypeMapping TypeName="VietTienModel.EPC">
               <MappingFragment StoreEntitySet="EPC">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
                 <ScalarProperty Name="IdEPC" ColumnName="IdEPC" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="VietTienModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GeneralAccountings">
-            <EntityTypeMapping TypeName="iGMSModel.GeneralAccounting">
+            <EntityTypeMapping TypeName="VietTienModel.GeneralAccounting">
               <MappingFragment StoreEntitySet="GeneralAccounting">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Goods">
-            <EntityTypeMapping TypeName="iGMSModel.Good">
+            <EntityTypeMapping TypeName="VietTienModel.Good">
               <MappingFragment StoreEntitySet="Goods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
                 <ScalarProperty Name="IdCate" ColumnName="IdCate" />
                 <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
-                <ScalarProperty Name="IdMaterial" ColumnName="IdMaterial" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
                 <ScalarProperty Name="IdSeason" ColumnName="IdSeason" />
                 <ScalarProperty Name="IdColor" ColumnName="IdColor" />
                 <ScalarProperty Name="IdSize" ColumnName="IdSize" />
+                <ScalarProperty Name="IdStyle" ColumnName="IdStyle" />
+                <ScalarProperty Name="IdGender" ColumnName="IdGender" />
+                <ScalarProperty Name="IdGroupGood" ColumnName="IdGroupGood" />
+                <ScalarProperty Name="StyleColorSize" ColumnName="StyleColorSize" />
+                <ScalarProperty Name="SKU" ColumnName="SKU" />
+                <ScalarProperty Name="Company" ColumnName="Company" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IdCoo" ColumnName="IdCoo" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="PriceNew" ColumnName="PriceNew" />
                 <ScalarProperty Name="PriceTax" ColumnName="PriceTax" />
                 <ScalarProperty Name="InternalPrice" ColumnName="InternalPrice" />
                 <ScalarProperty Name="GTGTInternalTax" ColumnName="GTGTInternalTax" />
@@ -3876,7 +4083,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupGoods">
-            <EntityTypeMapping TypeName="iGMSModel.GroupGood">
+            <EntityTypeMapping TypeName="VietTienModel.GroupGood">
               <MappingFragment StoreEntitySet="GroupGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdIndustry" ColumnName="IdIndustry" />
@@ -3891,7 +4098,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Industries">
-            <EntityTypeMapping TypeName="iGMSModel.Industry">
+            <EntityTypeMapping TypeName="VietTienModel.Industry">
               <MappingFragment StoreEntitySet="Industry">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3905,14 +4112,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="InternalAccountings">
-            <EntityTypeMapping TypeName="iGMSModel.InternalAccounting">
+            <EntityTypeMapping TypeName="VietTienModel.InternalAccounting">
               <MappingFragment StoreEntitySet="InternalAccounting">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Licenses">
-            <EntityTypeMapping TypeName="iGMSModel.License">
+            <EntityTypeMapping TypeName="VietTienModel.License">
               <MappingFragment StoreEntitySet="License">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Seri" ColumnName="Seri" />
@@ -3927,21 +4134,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Materials">
-            <EntityTypeMapping TypeName="iGMSModel.Material">
-              <MappingFragment StoreEntitySet="Material">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
-                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
-                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Methods">
-            <EntityTypeMapping TypeName="iGMSModel.Method">
+            <EntityTypeMapping TypeName="VietTienModel.Method">
               <MappingFragment StoreEntitySet="Method">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3955,7 +4149,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NumberShifts">
-            <EntityTypeMapping TypeName="iGMSModel.NumberShift">
+            <EntityTypeMapping TypeName="VietTienModel.NumberShift">
               <MappingFragment StoreEntitySet="NumberShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3963,7 +4157,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentMethods">
-            <EntityTypeMapping TypeName="iGMSModel.PaymentMethod">
+            <EntityTypeMapping TypeName="VietTienModel.PaymentMethod">
               <MappingFragment StoreEntitySet="PaymentMethods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3977,7 +4171,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Promotions">
-            <EntityTypeMapping TypeName="iGMSModel.Promotion">
+            <EntityTypeMapping TypeName="VietTienModel.Promotion">
               <MappingFragment StoreEntitySet="Promotion">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AccordingTo" ColumnName="AccordingTo" />
@@ -3994,7 +4188,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrders">
-            <EntityTypeMapping TypeName="iGMSModel.PurchaseOrder">
+            <EntityTypeMapping TypeName="VietTienModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdTypeStatus" ColumnName="IdTypeStatus" />
@@ -4020,14 +4214,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrderReports">
-            <EntityTypeMapping TypeName="iGMSModel.PurchaseOrderReport">
+            <EntityTypeMapping TypeName="VietTienModel.PurchaseOrderReport">
               <MappingFragment StoreEntitySet="PurchaseOrderReport">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Receipts">
-            <EntityTypeMapping TypeName="iGMSModel.Receipt">
+            <EntityTypeMapping TypeName="VietTienModel.Receipt">
               <MappingFragment StoreEntitySet="Receipt">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdPurchaseOrder" ColumnName="IdPurchaseOrder" />
@@ -4044,7 +4238,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportFirstShifts">
-            <EntityTypeMapping TypeName="iGMSModel.ReportFirstShift">
+            <EntityTypeMapping TypeName="VietTienModel.ReportFirstShift">
               <MappingFragment StoreEntitySet="ReportFirstShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdUser" ColumnName="IdUser" />
@@ -4061,7 +4255,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportlEndShifts">
-            <EntityTypeMapping TypeName="iGMSModel.ReportlEndShift">
+            <EntityTypeMapping TypeName="VietTienModel.ReportlEndShift">
               <MappingFragment StoreEntitySet="ReportlEndShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdFirst" ColumnName="IdFirst" />
@@ -4081,7 +4275,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="iGMSModel.Role">
+            <EntityTypeMapping TypeName="VietTienModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Admin" ColumnName="Admin" />
@@ -4102,7 +4296,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoleAdmins">
-            <EntityTypeMapping TypeName="iGMSModel.RoleAdmin">
+            <EntityTypeMapping TypeName="VietTienModel.RoleAdmin">
               <MappingFragment StoreEntitySet="RoleAdmin">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ManageMainCategories" ColumnName="ManageMainCategories" />
@@ -4116,7 +4310,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SalesOrders">
-            <EntityTypeMapping TypeName="iGMSModel.SalesOrder">
+            <EntityTypeMapping TypeName="VietTienModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdTypeStatus" ColumnName="IdTypeStatus" />
@@ -4143,7 +4337,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Seasons">
-            <EntityTypeMapping TypeName="iGMSModel.Season">
+            <EntityTypeMapping TypeName="VietTienModel.Season">
               <MappingFragment StoreEntitySet="Season">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4156,7 +4350,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sizes">
-            <EntityTypeMapping TypeName="iGMSModel.Size">
+            <EntityTypeMapping TypeName="VietTienModel.Size">
               <MappingFragment StoreEntitySet="Size">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4169,7 +4363,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stalls">
-            <EntityTypeMapping TypeName="iGMSModel.Stall">
+            <EntityTypeMapping TypeName="VietTienModel.Stall">
               <MappingFragment StoreEntitySet="Stalls">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
@@ -4184,7 +4378,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stores">
-            <EntityTypeMapping TypeName="iGMSModel.Store">
+            <EntityTypeMapping TypeName="VietTienModel.Store">
               <MappingFragment StoreEntitySet="Store">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4198,8 +4392,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Styles">
+            <EntityTypeMapping TypeName="VietTienModel.Style">
+              <MappingFragment StoreEntitySet="Style">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Suppliers">
-            <EntityTypeMapping TypeName="iGMSModel.Supplier">
+            <EntityTypeMapping TypeName="VietTienModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGroupGoods" ColumnName="IdGroupGoods" />
@@ -4227,7 +4434,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypeSales">
-            <EntityTypeMapping TypeName="iGMSModel.TypeSale">
+            <EntityTypeMapping TypeName="VietTienModel.TypeSale">
               <MappingFragment StoreEntitySet="TypeSale">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4241,7 +4448,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypeStatus">
-            <EntityTypeMapping TypeName="iGMSModel.TypeStatu">
+            <EntityTypeMapping TypeName="VietTienModel.TypeStatu">
               <MappingFragment StoreEntitySet="TypeStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4255,7 +4462,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Units">
-            <EntityTypeMapping TypeName="iGMSModel.Unit">
+            <EntityTypeMapping TypeName="VietTienModel.Unit">
               <MappingFragment StoreEntitySet="Unit">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4263,7 +4470,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="iGMSModel.User">
+            <EntityTypeMapping TypeName="VietTienModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="User1" ColumnName="User" />
@@ -4286,7 +4493,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WareHouses">
-            <EntityTypeMapping TypeName="iGMSModel.WareHouse">
+            <EntityTypeMapping TypeName="VietTienModel.WareHouse">
               <MappingFragment StoreEntitySet="WareHouse">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

@@ -17,6 +17,7 @@ namespace iGMS.Models
         public int Id { get; set; }
         public string IdGoods { get; set; }
         public string IdEPC { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual Good Good { get; set; }
     }

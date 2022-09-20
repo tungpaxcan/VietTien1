@@ -25,6 +25,7 @@ function GroupGoods(pagenum, page, seach) {
                 $.each(data.c, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + v.nameindustry + '</td>'
+                    table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.des + '</td>'
                     table += '<td class="action" nowrap="nowrap">';
@@ -105,9 +106,14 @@ $('#seach').on('keyup', function (e) {
 //----------------Add::Unit---------------------
 function Add() {
     var name = $('#name').val().trim();
+    var id = $('#id').val().trim();
     var des = $('#des').val().trim();
     var idindustry =$('#industry option:selected').val();
     $('.Loading').css("display", "block");
+    if (id.length <= 0) {
+        alert("Nhập Mã")
+        return;
+    }
     if (name.length <= 0) {
         alert("Nhập Tên")
         return;
@@ -120,7 +126,7 @@ function Add() {
         url: '/groupgoods/Add',
         type: 'post',
         data: {
-            idindustry, name, des
+            idindustry, name, des,id
         },
         success: function (data) {
             if (data.code == 200) {

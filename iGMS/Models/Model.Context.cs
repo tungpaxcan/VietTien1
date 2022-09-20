@@ -13,10 +13,10 @@ namespace iGMS.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class iGMSEntities : DbContext
+    public partial class VietTienEntities : DbContext
     {
-        public iGMSEntities()
-            : base("name=iGMSEntities")
+        public VietTienEntities()
+            : base("name=VietTienEntities")
         {
         }
     
@@ -29,6 +29,7 @@ namespace iGMS.Models
         public virtual DbSet<CateGood> CateGoods { get; set; }
         public virtual DbSet<CategoryGood> CategoryGoods { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
+        public virtual DbSet<Coo> Coos { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Delivery> Deliveries { get; set; }
         public virtual DbSet<DetailBill> DetailBills { get; set; }
@@ -39,13 +40,13 @@ namespace iGMS.Models
         public virtual DbSet<DetailSupplierGood> DetailSupplierGoods { get; set; }
         public virtual DbSet<DetailWareHouse> DetailWareHouses { get; set; }
         public virtual DbSet<EPC> EPCs { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<GeneralAccounting> GeneralAccountings { get; set; }
         public virtual DbSet<Good> Goods { get; set; }
         public virtual DbSet<GroupGood> GroupGoods { get; set; }
         public virtual DbSet<Industry> Industries { get; set; }
         public virtual DbSet<InternalAccounting> InternalAccountings { get; set; }
         public virtual DbSet<License> Licenses { get; set; }
-        public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Method> Methods { get; set; }
         public virtual DbSet<NumberShift> NumberShifts { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
@@ -62,6 +63,7 @@ namespace iGMS.Models
         public virtual DbSet<Size> Sizes { get; set; }
         public virtual DbSet<Stall> Stalls { get; set; }
         public virtual DbSet<Store> Stores { get; set; }
+        public virtual DbSet<Style> Styles { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<TypeSale> TypeSales { get; set; }
         public virtual DbSet<TypeStatu> TypeStatus { get; set; }

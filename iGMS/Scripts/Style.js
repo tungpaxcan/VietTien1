@@ -1,21 +1,19 @@
 ﻿var pagenum = $("#pagenum option:selected").val();
 var page = 1;
 var seach = "";
-Material(pagenum, page, seach);
+Style(pagenum, page, seach);
 
 //phan trang
 $('#page').on('click', 'li', function (e) {
     e.preventDefault();
     page = $(this).attr('id');
-    Material(pagenum, page, seach);
-
-
+    Style(pagenum, page, seach);
 });
 
 
-function Material(pagenum, page, seach) {
+function Style(pagenum, page, seach) {
     $.ajax({
-        url: '/material/List',
+        url: '/style/List',
         type: 'get',
         data: { pagenum, page, seach },
         success: function (data) {
@@ -33,7 +31,7 @@ function Material(pagenum, page, seach) {
                     table += '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">';
                     table += '<ul class="nav nav-hoverable flex-column">';
                     table += ' <li class="nav-item">';
-                    table += '<a class="nav-link" href="/Material/Edits/' + v.id + '">';
+                    table += '<a class="nav-link" href="/Style/Edits/' + v.id + '">';
                     table += '<i class="nav-icon la la-edit"></i>';
                     table += '<span class="nav-text">Edit </span></a></li>';
                     table += '<li class="nav-item"><a class="nav-link" onclick="printDiv(\'' + v.id + '\')">';
@@ -89,7 +87,7 @@ $('#pagenum').on('change', function () {
     var pagenum = $("#pagenum option:selected").val();
     var page = 1;
     var seach = "";
-    Material(pagenum, page, seach)
+    Style(pagenum, page, seach)
 })
 
 
@@ -98,14 +96,53 @@ $('#pagenum').on('change', function () {
 $('#seach').on('keyup', function (e) {
     page = 1;
     seach = $('#seach').val();
-    Material(pagenum, page, seach);
+    Style(pagenum, page, seach);
 });
 
-//----------------Add::Material---------------------
+//----------------Add::Unit---------------------
 function Add() {
     var name = $('#name').val().trim();
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
+    if (name.length <= 0) {
+        alert("Nhập Tên")
+        return;
+    }
+    if (id.length <= 0) {
+        alert("Nhập Mã")
+        return;
+    }
+    $.ajax({
+        url: '/style/Add',
+        type: 'post',
+        data: {
+            name, id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                Swal.fire({
+                    title: "Tạo Phong Cách Thành Công",
+                    icon: "success",
+                    buttonsStyling: false,
+                    confirmButtonText: "Confirm me!",
+                    customClass: {
+                        confirmButton: "btn btn-primary"
+                    }
+                });
+                window.location.href = "/Style/Index";
+            } else if (data.code == 300) {
+                alert(data.msg)
+            }
+            else {
+                alert("Tạo Phong Cách Thất Bại")
+            }
+        }
+    })
+}
+
+//----------------Edit::Unit---------------------
+function Edit() {
+    var name = $('#name').val().trim();
+    var id = $('#id').val().trim();
     if (name.length <= 0) {
         alert("Nhập Tên")
         return;
@@ -114,47 +151,7 @@ function Add() {
         return;
     }
     $.ajax({
-        url: '/material/Add',
-        type: 'post',
-        data: {
-            name,id
-        },
-        success: function (data) {
-            if (data.code == 200) {
-                Swal.fire({
-                    title: "Tạo Chất Liệu Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
-                window.location.href = "/Material/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
-            }
-            else {
-                alert("Tạo Chất Liệu Thất Bại")
-            }
-        },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
-    })
-}
-
-//----------------Edit::Material---------------------
-function Edit() {
-    var name = $('#name').val().trim();
-    var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
-    if (name.length <= 0) {
-        alert("Nhập Tên")
-        return;
-    }
-    $.ajax({
-        url: '/material/Edit',
+        url: '/style/Edit',
         type: 'post',
         data: {
             id, name
@@ -162,7 +159,7 @@ function Edit() {
         success: function (data) {
             if (data.code == 200) {
                 Swal.fire({
-                    title: "Sửa Chất Liệu Thành Công",
+                    title: "Sửa Phong Cách Thành Công",
                     icon: "success",
                     buttonsStyling: false,
                     confirmButtonText: "Confirm me!",
@@ -170,26 +167,23 @@ function Edit() {
                         confirmButton: "btn btn-primary"
                     }
                 });
-                window.location.href = "/Material/Index";
+                window.location.href = "/Style/Index";
             } else if (data.code == 300) {
                 alert(data.msg)
             }
             else {
-                alert("Sửa Chất Liệu Thất Bại")
+                alert("Sửa Phong Cách Thất Bại")
             }
-        },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
         }
     })
 }
 
-//----------------Delete::Material---------------------
+//----------------Delete::Unit---------------------
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
     if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
         $.ajax({
-            url: '/material/Delete',
+            url: '/style/Delete',
             type: 'post',
             data: {
                 id
@@ -197,7 +191,7 @@ $(document).on('click', "a[name='delete']", function () {
             success: function (data) {
                 if (data.code == 200) {
                     Swal.fire({
-                        title: "Xóa Chất Liệu Thành Công",
+                        title: "Xóa Phong Cách Thành Công",
                         icon: "success",
                         buttonsStyling: false,
                         confirmButtonText: "Confirm me!",
@@ -205,7 +199,7 @@ $(document).on('click', "a[name='delete']", function () {
                             confirmButton: "btn btn-primary"
                         }
                     });
-                    window.location.href = "/Material/Index";
+                    window.location.href = "/Style/Index";
                 }
                 else {
                     alert(data.msg)

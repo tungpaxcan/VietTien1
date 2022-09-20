@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class SupplierController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Supplier
         public ActionResult Index()
         {
@@ -72,7 +72,7 @@ namespace iGMS.Controllers
 
         [HttpPost]
         public JsonResult Add(string id,string name,string nametransaction,string address,string represent,string position,
-            int taxcode,string phone,string fax,string email,string website,int stk,string bank,int groupgoods,string des)
+            int taxcode,string phone,string fax,string email,string website,int stk,string bank,string groupgoods,string des)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace iGMS.Controllers
         }
         [HttpPost]
         public JsonResult Edit(string id, string name, string nametransaction, string address, string represent, string position,
-    int taxcode, string phone, string fax, string email, string website, int stk, string bank, int groupgoods, string des)
+    int taxcode, string phone, string fax, string email, string website, int stk, string bank, string groupgoods, string des)
         {
             try
             {

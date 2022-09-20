@@ -140,28 +140,23 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-2 col-form-label">Đơn Vị<span style="color:red"> (*) </span></label>
-            <div class="col-1">
+            <label class="col-1 col-form-label">Đơn Vị<span style="color:red"> (*) </span></label>
+            <div class="col-2">
                 <select class="form-control" id="unit1">
                 </select>
             </div>
-            <label class="col-1 col-form-label">Chất Liệu</label>
-            <div class="col-1">
-                <select class="form-control" id="material">
-                </select>
-            </div>
             <label class="col-1 col-form-label">Mùa vụ</label>
-            <div class="col-1">
+            <div class="col-2">
                 <select class="form-control" id="season">
                 </select>
             </div>
             <label class="col-1 col-form-label">Màu Sắc</label>
-            <div class="col-1">
+            <div class="col-2">
                 <select class="form-control" id="color">
                 </select>
             </div>
             <label class="col-1 col-form-label">Kích Thước</label>
-            <div class="col-1">
+            <div class="col-2">
                 <select class="form-control" id="size">
                 </select>
             </div>
@@ -182,13 +177,9 @@
     <script>
         CateGooods();
         Unit();
-        Material();
         Season();
         Color();
         Size();
-
-        ValidateMoney('price')
-        ValidateMoney('internalprice')
         //--------------------Select::CateGoods--------------
         function CateGooods() {
             $.ajax({
@@ -269,25 +260,6 @@
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
                         $('#unit1').append(table);
-                    } else (
-                        alert(data.msg)
-                    )
-                }
-            })
-        }
-        //--------------------Select::Material--------------
-        function Material() {
-            $.ajax({
-                url: '/goods/Material',
-                type: 'get',
-                success: function (data) {
-                    $('#material').empty();
-                    if (data.code == 200) {
-                        let table = '<option value="@Model.IdMaterial">@Model.Material.Name</option>'
-                        $.each(data.c, function (k, v) {
-                            table += '<option value="' + v.id + '">' + v.name + '</option>'
-                        });
-                        $('#material').append(table);
                     } else (
                         alert(data.msg)
                     )

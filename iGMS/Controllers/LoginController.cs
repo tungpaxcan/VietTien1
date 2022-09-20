@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class LoginController : Controller
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Login
         public ActionResult Index()
         {

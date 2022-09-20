@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class HomeController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         public ActionResult Index()
         {
             return View();

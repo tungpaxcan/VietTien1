@@ -16,7 +16,7 @@ namespace iGMS.Controllers
 {
     public class GoodsController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Goods
         public ActionResult Index()
         {
@@ -81,7 +81,7 @@ namespace iGMS.Controllers
         public JsonResult Add(string id,string categoods,string name,float price,float pricetax,
             float internalprice,float gtgtinternaltax,float discount,float internaldiscount,
             DateTime expiry,DateTime warrantyperiod,float minimuminventory,float maximuminventory,string des,string unit,
-            string material, string season, string color, string size)
+            string season, string color, string size)
         {
             try
             {
@@ -108,7 +108,6 @@ namespace iGMS.Controllers
                     d.MaximumInventory = maximuminventory;
                     d.Description = des;
                     d.IdUnit = unit;
-                    d.IdMaterial = material;
                     d.IdSeason = season;
                     d.IdColor = color;
                     d.IdSize = size;
@@ -135,7 +134,7 @@ namespace iGMS.Controllers
         public JsonResult Edit(string id, string categoods, string name, float price, float pricetax,
     float internalprice, float gtgtinternaltax, float discount, float internaldiscount,
     DateTime expiry, DateTime warrantyperiod, float minimuminventory, float maximuminventory, string des, string unit,
-    string material, string season, string color, string size)
+     string season, string color, string size)
         {
             try
             {
@@ -158,7 +157,6 @@ namespace iGMS.Controllers
                     d.MaximumInventory = maximuminventory;
                     d.Description = des;
                     d.IdUnit = unit;
-                    d.IdMaterial = material;
                     d.IdSeason = season;
                     d.IdColor = color;
                     d.IdSize = size;
@@ -268,24 +266,6 @@ namespace iGMS.Controllers
             }
         }
         [HttpGet]
-        public JsonResult Material()
-        {
-            try
-            {
-                var c = (from b in db.Materials.Where(x => x.Id.Length > 0)
-                         select new
-                         {
-                             id = b.Id,
-                             name = b.Name
-                         }).ToList();
-                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        [HttpGet]
         public JsonResult Season()
         {
             try
@@ -368,7 +348,6 @@ namespace iGMS.Controllers
                             goods.Id = workSheet.Cells[rowIterator, 1].Value.ToString();
                             goods.IdCate = workSheet.Cells[rowIterator, 3].Value.ToString();
                             goods.IdUnit = workSheet.Cells[rowIterator, 4].Value.ToString();
-                            goods.IdMaterial = workSheet.Cells[rowIterator, 5].Value.ToString();
                             goods.IdSeason = workSheet.Cells[rowIterator, 6].Value.ToString();
                             goods.IdColor = workSheet.Cells[rowIterator, 7].Value.ToString();
                             goods.IdSize = workSheet.Cells[rowIterator, 8].Value.ToString();
@@ -395,7 +374,7 @@ namespace iGMS.Controllers
                     }
                 }
             }
-            using (iGMSEntities db = new iGMSEntities())
+            using (VietTienEntities db = new VietTienEntities())
             {
                 foreach (var item in usersList)
                 {

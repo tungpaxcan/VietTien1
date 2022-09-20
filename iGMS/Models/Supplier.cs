@@ -22,7 +22,7 @@ namespace iGMS.Models
         }
     
         public string Id { get; set; }
-        public Nullable<int> IdGroupGoods { get; set; }
+        public string IdGroupGoods { get; set; }
         public string IdGeneral { get; set; }
         public string IdInternal { get; set; }
         public string Name { get; set; }

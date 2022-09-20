@@ -8,10 +8,10 @@ using iGMS.Models;
 
 namespace iGMS.Controllers
 {
-    public class MaterialController : BaseController
+    public class StyleController : Controller
     {
-        private iGMSEntities db = new iGMSEntities();
-        // GET: Material
+        private VietTienEntities db = new VietTienEntities();
+        // GET: Style
         public ActionResult Index()
         {
             return View();
@@ -26,12 +26,12 @@ namespace iGMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = db.Materials.Find(id);
-            if (material == null)
+            Style style = db.Styles.Find(id);
+            if (style == null)
             {
                 return HttpNotFound();
             }
-            return View(material);
+            return View(style);
         }
         [HttpGet]
         public JsonResult List(int pagenum, int page, string seach)
@@ -39,7 +39,7 @@ namespace iGMS.Controllers
             try
             {
                 var pageSize = pagenum;
-                var a = (from b in db.Materials.Where(x => x.Id.Length > 0 && x.Name != null)
+                var a = (from b in db.Styles.Where(x => x.Id.Length > 0)
                          select new
                          {
                              id = b.Id,
@@ -62,10 +62,10 @@ namespace iGMS.Controllers
             {
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-                var d = new Material();
+                var d = new Style();
                 d.Name = name;
                 d.Id = id;
-                db.Materials.Add(d);
+                db.Styles.Add(d);
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
@@ -80,9 +80,10 @@ namespace iGMS.Controllers
         {
             try
             {
+                db.Configuration.ProxyCreationEnabled = false;
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-                var d = db.Materials.Find(id);
+                var d = db.Styles.Find(id);
                 d.Name = name;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
@@ -98,8 +99,8 @@ namespace iGMS.Controllers
         {
             try
             {
-                var d = db.Materials.Find(id);
-                db.Materials.Remove(d);
+                var d = db.Styles.Find(id);
+                db.Styles.Remove(d);
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 

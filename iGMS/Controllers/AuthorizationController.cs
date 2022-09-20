@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class AuthorizationController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities(); 
+        private VietTienEntities db = new VietTienEntities(); 
         // GET: Authorization
         [HttpGet]
         public JsonResult UserNV()

@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class PurchaseOrderController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: PurchaseOrder
         public ActionResult Index()
         {

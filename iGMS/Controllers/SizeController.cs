@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class SizeController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Size
         public ActionResult Index()
         {

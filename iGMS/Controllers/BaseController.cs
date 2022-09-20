@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class BaseController : Controller
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Base
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {

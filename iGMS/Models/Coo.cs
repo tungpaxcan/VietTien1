@@ -12,10 +12,10 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Material
+    public partial class Coo
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Material()
+        public Coo()
         {
             this.Goods = new HashSet<Good>();
         }

@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class ColorController : BaseController
     {
-        private iGMSEntities db = new iGMSEntities();
+        private VietTienEntities db = new VietTienEntities();
         // GET: Color
         public ActionResult Index()
         {
