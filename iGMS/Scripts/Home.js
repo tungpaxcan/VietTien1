@@ -1,4 +1,23 @@
-﻿$('#idgoods').keyup(function () {
+﻿$.ajax({
+    url: '/home/WareHouse',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            if (data.id == -1) {
+
+                WareHouse();
+                Store();
+                $('#changesetting').css("display", "block");
+
+            } else {
+                $('#changesetting').css("display", "none");
+            }
+        } else (
+            alert(data.msg)
+        )
+    }
+})
+$('#idgoods').keyup(function () {
     var id = $('#idgoods').val().trim();
     if (id.length == 3) {
         Goods(id);
@@ -55,23 +74,7 @@ $('input[name="idcustomer"]').keyup(function () {
     }
 })
 
-$.ajax({
-    url: '/home/WareHouse',
-    type: 'get',
-    success: function (data) {
-        if (data.code == 200) {
-            if (data.id == -1) {
-                $('#changesetting').css("display", "block");
-            } else {
-                $('#changesetting').css("display", "none");
-            }
-        } else (
-            alert(data.msg)
-        )
-    }
-})
-WareHouse();
-Store();
+
 $.ajax({
     url: '/home/Stalls',
     type: 'get',
@@ -378,7 +381,6 @@ function UpLoadft() {
 
 
 $('input[name="TienKhachTra"]').keyup(function () {
-/*    ValidateMoney('TienKhachTra')*/
     $('h1[name="TraLai"]').empty();
     var a = $('input[name="TienKhachTra"]').val().trim()/*.substring(1).replace(/,/g,'')*/;
     var b = $('h1[name="sumprice2"]').text().substring(1).replace(/,/g,'')

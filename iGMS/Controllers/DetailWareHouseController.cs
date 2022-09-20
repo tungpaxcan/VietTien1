@@ -19,6 +19,30 @@ namespace iGMS.Controllers
         {
             return View();
         }
+        public ActionResult List()
+        {
+            return View();
+        }
+        [HttpGet]
+        public JsonResult TonKho(string seach)
+        {
+            try
+            {
+                var c = (from b in db.DetailWareHouses.Where(x => x.Id > 0)
+                         select new
+                         {
+                             id = b.Good.Id,
+                             K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
+                             name = b.Good.Name,
+                             inventory = b.Inventory
+                         }).ToList().Where(x => x.id.ToLower().Contains(seach) || x.name.Contains(seach));
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpGet]
         public JsonResult Receipt()
         {

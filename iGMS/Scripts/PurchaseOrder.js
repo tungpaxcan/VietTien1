@@ -59,7 +59,6 @@ function ListGoods(supplier, seach, checkboxesChecked) {
                   
                     table += '</tr>';
                     $('#tbd').append(table);
-                    ValidateMoney('price' + v.id + '')
                     PriceDiscount(v.id)
                     $('#amount' + v.id + '').keyup(function () {
                         PriceDiscount(v.id)

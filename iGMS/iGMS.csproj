@@ -2450,6 +2450,7 @@
     <Content Include="Views\AppWareHouse\Index.cshtml" />
     <Content Include="Views\SaleOrder\Index.cshtml" />
     <Content Include="Views\DetailWareHouse\Index2.cshtml" />
+    <Content Include="Views\DetailWareHouse\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
