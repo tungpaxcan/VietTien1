@@ -26,6 +26,8 @@ function Goods(pagenum, page, seach) {
                 $.each(data.c, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + (Stt++) + '</td>'
+                    table += '<td>' + v.id + '</td>'
+                    table += '<td>' + v.idgood + '</td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.unit + '</td>'
                     table += '<td>' + v.price + '</td>'
@@ -115,23 +117,20 @@ $('#seach').on('keyup', function (e) {
 //----------------Add::Goods---------------------
 function Add() {
     var id = $('#id').val().trim();
-    var categoods = $("#categoods option:selected").val();
-    var name = $("#name").val().trim();
-    var price = $("#price").val().trim()
-    var pricetax = $("#pricetax").val().trim();
-    var internalprice = $("#internalprice").val().trim()
-    var gtgtinternaltax = $("#gtgtinternaltax").val().trim();
-    var discount = $("#discount").val().trim();
-    var internaldiscount = $("#internaldiscount").val().trim();
-    var expiry = $("#expiry").val().trim().length == 0 ? "01/01/9991" : $("#expiry").val().trim()
-    var warrantyperiod = $("#warrantyperiod").val().trim().length == 0 ? "01/01/9991" : $("#warrantyperiod").val().trim()
-    var minimuminventory = $("#minimuminventory").val().trim().length == 0 ? 0 : $("#minimuminventory").val().trim()
-    var maximuminventory = $("#maximuminventory").val().trim().length == 0 ? 1e10 : $("#maximuminventory").val().trim()
-    var des = $("#des").val().trim().length == 0 ? "Không Có" : $("#des").val().trim();;
-    var unit = $("#unit1 option:selected").val();
-    var season = $("#season option:selected").val();
+    var idgood = $('#idgood').val().trim();
+    var style = $("#style option:selected").val();
     var color = $("#color option:selected").val();
     var size = $("#size option:selected").val();
+    var name = $("#name").val().trim();
+    var gender = $("#gender option:selected").val();
+    var categoods = $("#categoods option:selected").val();
+    var groupgoods = $("#groupgoods option:selected").val();
+    var price = $("#price").val().trim();
+    var season = $("#season option:selected").val();
+    var coo = $("#coo option:selected").val();
+    var material = $("#material").val().trim();
+    var company = $("#company").val().trim()
+    var pricenew = $("#pricenew").val().trim();
     if ($('#supplier').val().trim().length <= 0) {
         alert("Chọn Nhà Cung Cấp !!!")
         return;
@@ -142,26 +141,55 @@ function Add() {
     for (let i = 0; i < tags.length; i++) {
         TagArray.push(tags[i].value.substring(0, tags[i].value.indexOf(' :')))
     }
-   
-    if (name.length <= 0) {
+    if (id.length <= 0) {
+        alert("Nhập barcode !!!")
+        return;
+    } if (style == -1) {
+        alert("Chọn Phong Cách !!!")
+        return;
+    } if (color == -1) {
+        alert("Chọn Màu Sắc !!!")
+        return;
+    } if (size == -1) {
+        alert("Chọn Kích Thước !!!")
+        return;
+    }if (name.length <= 0) {
         alert("Nhập Tên Hàng Hóa")
         return;
-    } if (categoods == -1) {
+    } if (gender == -1) {
+        alert("Chọn Giới Tính !!!")
+        return;
+    }if (categoods == -1) {
         alert("Chọn Loại hàng !!!")
         return;
-    }
-    if (unit == -1) {
-        alert("Chọn Đơn Vị !!!")
+    } if (groupgoods == -1) {
+        alert("Chọn Nhóm hàng!!!")
+        return;
+    } if (price.length <= 0) {
+        alert("Chọn Giá!!!")
+        return;
+    } if (season == -1) {
+        alert("Chọn Mùa!!!")
+        return;
+    } if (coo == -1) {
+        alert("Chọn Nơi Sản Xuất!!!")
+        return;
+    } if (material <= 0) {
+        alert("Nhập Thành Phần !!!")
+        return;
+    } if (company <= 0) {
+        alert("Nhập Công Ty !!!")
+        return;
+    } if (pricenew <= 0) {
+        alert("Nhập Giá Mới !!!")
         return;
     }
     $.ajax({
         url: '/goods/Add',
         type: 'post',
         data: {
-            id, categoods, name, price, pricetax,
-            internalprice, gtgtinternaltax, discount, internaldiscount,
-            expiry, warrantyperiod, minimuminventory, maximuminventory, des, unit
-            , season, color, size
+            id, idgood, style, color, size, name, gender, categoods
+            , groupgoods, price, season, coo, material, company, pricenew
 
         },
         success: function (data) {
@@ -409,3 +437,21 @@ $('#id').keyup(function () {
 
 })
 
+
+//---------------idgood----------------
+$('#style').change(function () {
+    IdGood()
+})
+$('#color').change(function () {
+    IdGood()
+})
+$('#size').change(function () {
+    IdGood()
+})
+
+function IdGood() {
+    var style = $("#style option:selected").val();
+    var color = $("#color option:selected").val();
+    var size = $("#size option:selected").val();
+    $('#idgood').val(style + "-" + color + "-" + size)
+}

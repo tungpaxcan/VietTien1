@@ -1,27 +1,20 @@
 ﻿
 @{
-    ViewBag.Title = "Danh Sách Hàng Hóa";
+    ViewBag.Title = "Danh Sách Giới Tính";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <!--begin::Card-->
 <div class="card card-custom" id="a">
     <div class="card-header flex-wrap py-5">
         <div class="card-title">
             <h3 class="card-label">
-                Danh Sách Hàng Hóa
+                Danh Sách Giới Tính
             </h3>
         </div>
         <div class="card-toolbar">
             <!--begin::Dropdown-->
             <div class="dropdown dropdown-inline mr-2">
-                <div>
-                    @using (Html.BeginForm("Upload", "Goods", FormMethod.Post, new
-                    {
-                        enctype = "multipart/form-data"
-                    }))
-                    {<table> <tr> <td> Import (<a download href="~/Images/a.xlsx">Mẫu</a> </td> <td><input type = "file" name = "UploadedFile" /> </td> </tr><tr ><td colspan = "2" > <input type = "submit"name = "Submit"value = "Submit" /> </td> </tr> </table>
-                        }
-                    </div>
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="svg-icon svg-icon-md">
                         <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
@@ -57,7 +50,7 @@
                             </a>
                         </li>
                         <li class="navi-item">
-                            <a onclick="ExportSCV('kt_datatable','DonVi')" class="navi-link">
+                            <a onclick="ExportSCV('kt_datatable','GioiTinh')" class="navi-link">
                                 <span class="navi-icon">
                                     <i class="la la-file-text-o"></i>
                                 </span>
@@ -79,13 +72,13 @@
             </div>
             <!--end::Dropdown-->
             <!--begin::Button-->
-            <a href="/Goods/Adds" class="btn btn-primary font-weight-bolder">
+            <a href="/Gender/Adds" class="btn btn-primary font-weight-bolder">
                 <span class="svg-icon svg-icon-md">
                     <span class="svg-icon svg-icon-primary svg-icon-2x">
                         <i class="icon-xl fas fa-user-plus"></i>
                     </span>
                     <!--end::Svg Icon-->
-                </span>Thêm Hàng Hóa
+                </span>Thêm Giới Tính
             </a>
             <!--end::Button-->
         </div>
@@ -111,19 +104,13 @@
                         <label>Search:<input id="seach" type="search" class="form-control form-control-sm" placeholder="" aria-controls="kt_datatable"></label>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="table">
+            </div><div class="row" id="table">
                 <div class="col-sm-12">
                     <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
                         <thead>
                             <tr role="row">
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Barcode</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Vị</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Giá Bán</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thuế Bán</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên</th>
                                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 105px;" aria-label="Actions">Actions</th>
                             </tr>
                         </thead>
@@ -149,7 +136,6 @@
 
 <!-- Button trigger modal-->
 @section scripts{
-    <script src="~/Scripts/Goods.js"></script>
-
+    <script src="~/Scripts/Gender.js"></script>
 }
 

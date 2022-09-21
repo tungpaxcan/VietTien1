@@ -8,10 +8,10 @@ using iGMS.Models;
 
 namespace iGMS.Controllers
 {
-    public class StyleController : BaseController
+    public class GenderController : BaseController
     {
         private VietTienEntities db = new VietTienEntities();
-        // GET: Style
+        // GET: Gender
         public ActionResult Index()
         {
             return View();
@@ -26,12 +26,12 @@ namespace iGMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Style style = db.Styles.Find(id);
-            if (style == null)
+            Gender gender = db.Genders.Find(id);
+            if (gender == null)
             {
                 return HttpNotFound();
             }
-            return View(style);
+            return View(gender);
         }
         [HttpGet]
         public JsonResult List(int pagenum, int page, string seach)
@@ -39,7 +39,7 @@ namespace iGMS.Controllers
             try
             {
                 var pageSize = pagenum;
-                var a = (from b in db.Styles.Where(x => x.Id.Length > 0)
+                var a = (from b in db.Genders.Where(x => x.Id.Length > 0)
                          select new
                          {
                              id = b.Id,
@@ -62,10 +62,10 @@ namespace iGMS.Controllers
             {
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-                var d = new Style();
+                var d = new Gender();
                 d.Name = name;
                 d.Id = id;
-                db.Styles.Add(d);
+                db.Genders.Add(d);
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
@@ -83,7 +83,7 @@ namespace iGMS.Controllers
                 db.Configuration.ProxyCreationEnabled = false;
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-                var d = db.Styles.Find(id);
+                var d = db.Genders.Find(id);
                 d.Name = name;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
@@ -99,8 +99,8 @@ namespace iGMS.Controllers
         {
             try
             {
-                var d = db.Styles.Find(id);
-                db.Styles.Remove(d);
+                var d = db.Genders.Find(id);
+                db.Genders.Remove(d);
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 

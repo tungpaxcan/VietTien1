@@ -27,6 +27,7 @@ namespace iGMS.Models
         }
     
         public string Id { get; set; }
+        public string IdGood { get; set; }
         public string IdWareHouse { get; set; }
         public string IdCate { get; set; }
         public string IdUnit { get; set; }

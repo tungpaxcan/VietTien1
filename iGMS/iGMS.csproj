@@ -145,8 +145,10 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CateGoodsController.cs" />
     <Compile Include="Controllers\ColorController.cs" />
+    <Compile Include="Controllers\CooController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\DetailWareHouseController.cs" />
+    <Compile Include="Controllers\GenderController.cs" />
     <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\GroupGoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -2263,11 +2265,14 @@
     <Content Include="Images\icons-unit.png" />
     <Content Include="Images\icons-warehouse.png" />
     <Content Include="Images\icons8-customer-40.png" />
+    <Content Include="Images\icons8-deployment-40.png" />
+    <Content Include="Images\icons8-gender-40.png" />
     <Content Include="Images\icons8-hanger-16.png" />
     <Content Include="Images\icons8-play-graph-report-16.91.png" />
     <Content Include="Images\icons8-purchase-order-19.5.png" />
     <Content Include="Images\icons8-remove-38.png" />
     <Content Include="Images\icons8-stop-graph-report-16.91.png" />
+    <Content Include="Images\icons8-style-40.png" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>
@@ -2325,6 +2330,7 @@
     <Content Include="assets\plugins\global\fonts\summernote\summernote.woff2" />
     <Content Include="Scripts\CateGoods.js" />
     <Content Include="Scripts\Color.js" />
+    <Content Include="Scripts\Coo.js" />
     <Content Include="Scripts\Customer.js" />
     <Content Include="Scripts\Customers.js" />
     <Content Include="Scripts\data.json.js" />
@@ -2342,6 +2348,7 @@
     <Content Include="Scripts\ebapi-modules.js" />
     <Content Include="Scripts\EditUser.js" />
     <Content Include="Scripts\elements.js" />
+    <Content Include="Scripts\Gender.js" />
     <Content Include="Scripts\Goods.js" />
     <Content Include="Scripts\GroupGoods.js" />
     <Content Include="Scripts\Home.js" />
@@ -2457,6 +2464,12 @@
     <Content Include="Views\Style\Index.cshtml" />
     <Content Include="Views\Style\Adds.cshtml" />
     <Content Include="Views\Style\Edits.cshtml" />
+    <Content Include="Views\Gender\Index.cshtml" />
+    <Content Include="Views\Gender\Adds.cshtml" />
+    <Content Include="Views\Gender\Edits.cshtml" />
+    <Content Include="Views\Coo\Index.cshtml" />
+    <Content Include="Views\Coo\Adds.cshtml" />
+    <Content Include="Views\Coo\Edits.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

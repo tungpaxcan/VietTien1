@@ -62,6 +62,7 @@ namespace iGMS.Controllers
                          select new
                          {
                              id = b.Id,
+                             idgood = b.IdGood,
                              name = b.Name,
                              unit = b.Unit.Name,
                              price = b.Price,
@@ -78,10 +79,8 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult Add(string id,string categoods,string name,float price,float pricetax,
-            float internalprice,float gtgtinternaltax,float discount,float internaldiscount,
-            DateTime expiry,DateTime warrantyperiod,float minimuminventory,float maximuminventory,string des,string unit,
-            string season, string color, string size)
+        public JsonResult Add(string id, string idgood, string style, string color, string size, string name, string gender, string categoods
+            , string groupgoods,float price, string season, string coo, string material, string company,float pricenew)
         {
             try
             {
@@ -94,27 +93,20 @@ namespace iGMS.Controllers
                     var nameAdmin = session.Name;
                     var d = new Good();
                     d.Id = id;
-                    d.IdCate = categoods;
-                    d.Name = name;
-                    d.Price = price;
-                    d.PriceTax = pricetax;
-                    d.InternalPrice = internalprice;
-                    d.GTGTInternalTax = gtgtinternaltax;
-                    d.Discount = discount;
-                    d.InternalDiscount = internaldiscount;
-                    d.Expiry = expiry;
-                    d.WarrantyPeriod = warrantyperiod;
-                    d.MinimumInventory = minimuminventory;
-                    d.MaximumInventory = maximuminventory;
-                    d.Description = des;
-                    d.IdUnit = unit;
-                    d.IdSeason = season;
+                    d.IdGood = idgood;
+                    d.IdStyle = style;
                     d.IdColor = color;
                     d.IdSize = size;
-                    d.CreateBy = nameAdmin;
-                    d.CreateDate = DateTime.Now;
-                    d.ModifyBy = nameAdmin;
-                    d.ModifyDate = DateTime.Now;
+                    d.Name = name;
+                    d.IdGender = gender;
+                    d.IdCate = categoods;
+                    d.IdGroupGood = groupgoods;
+                    d.Price = price;
+                    d.IdSeason = season;
+                    d.IdCoo = coo;
+                    d.Material = material;
+                    d.Company = company;
+                    d.PriceNew = pricenew;
                     db.Goods.Add(d);
                     db.SaveChanges();
                     return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
@@ -212,6 +204,24 @@ namespace iGMS.Controllers
         }
 
         [HttpGet]
+        public JsonResult GroupGoods()
+        {
+            try
+            {
+                var c = (from b in db.GroupGoods.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
         public JsonResult Supplier()
         {
             try
@@ -248,11 +258,11 @@ namespace iGMS.Controllers
             }
         }
         [HttpGet]
-        public JsonResult Unit()
+        public JsonResult Style()
         {
             try
             {
-                var c = (from b in db.Units.Where(x => x.Id.Length > 0)
+                var c = (from b in db.Styles.Where(x => x.Id.Length > 0)
                          select new
                          {
                              id = b.Id,
@@ -307,6 +317,42 @@ namespace iGMS.Controllers
             try
             {
                 var c = (from b in db.Sizes.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Gender()
+        {
+            try
+            {
+                var c = (from b in db.Genders.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Coo()
+        {
+            try
+            {
+                var c = (from b in db.Coos.Where(x => x.Id.Length > 0)
                          select new
                          {
                              id = b.Id,
