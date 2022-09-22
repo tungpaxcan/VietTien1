@@ -48,6 +48,14 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-2 col-form-label">SKU <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input disabled class="form-control" type="text" id="sku" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-2 col-form-label">Phong Cách<span style="color:red"> (*) </span></label>
             <div class="col-2">
                 <select class="form-control" id="style">
@@ -65,10 +73,31 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-2 col-form-label">Kho Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <select class="form-control" id="warehouse">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-2 col-form-label">Nhà Cung Cấp <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group">
                     <input name="tags-outside" class="tagify--outside form-control" id="supplier">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Số Lượng Tồn <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input class="form-control" id="qty" type="number" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Mã EPC <span id="slepc"> </span><span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group">
+                    <textarea  name="tags-outside" class="tagify--outside form-control" id="epc"></textarea>
                 </div>
             </div>
         </div>
@@ -165,6 +194,7 @@
     </div>
 @section scripts{
     <script>
+        WareHouse()
         CateGooods();
         GroupGoods()
         Style();
@@ -212,6 +242,7 @@
             })
         }
         var input = document.querySelector('input[name=tags-outside]')
+        var input1 = document.getElementById('epc');
         // init Tagify script on the above inputs
         $.ajax({
             url: '/goods/Supplier',
@@ -313,7 +344,7 @@
                 }
             })
         }
-        //--------------------Select::gender--------------
+        //--------------------Select::coo--------------
         function Coo() {
             $.ajax({
                 url: '/goods/Coo',
@@ -345,6 +376,25 @@
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
                         $('#gender').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::WareHouse--------------
+        function WareHouse() {
+            $.ajax({
+                url: '/goods/WareHouse',
+                type: 'get',
+                success: function (data) {
+                    $('#warehouse').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Kho</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#warehouse').append(table);
                     } else (
                         alert(data.msg)
                     )

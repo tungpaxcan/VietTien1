@@ -137,10 +137,29 @@ namespace iGMS.Controllers
                          {
                              id = b.Id,
                              name = b.Name,
-                             unit = b.Unit.Name,
+                             size = b.Size.Name,
                              price = b.Price,
                              discount = b.Discount,
                              categoods = b.CateGood.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult TonKho(string id)
+        {
+            try
+            {
+                var store = (Store)Session["Store"];
+                var wareHouse = (WareHouse)Session["WareHouse"];
+                var c = (from b in db.DetailWareHouses.Where(x => (x.IdStore == store.Id||x.IdWareHouse==wareHouse.Id)&&x.IdGoods==id)
+                         select new
+                         {
+                            qty = b.Inventory,
                          }).ToList();
                 return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
             }

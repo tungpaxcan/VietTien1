@@ -3,11 +3,12 @@
     ViewBag.Title = "Chi Tiết Hàng Hóa";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <input hidden value="@Model.Id" id="id" />
 <div class="card card-custom">
     <div class="card-header">
         <h3 class="card-title">
-            Chi Tiết Hàng Hóa
+            Sửa Hàng Hóa
         </h3>
     </div>
     <!--begin::Form-->
@@ -21,11 +22,90 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-2 col-form-label">Barcode <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input disabled class="form-control" value="@Model.Id" type="text" id="id" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mã Barcode <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <svg id="barcode">
+
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Mã Hàng Hóa <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input disabled class="form-control" value="@Model.IdGood" type="text" id="idgood" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">SKU <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input disabled class="form-control" value="@Model.SKU" type="text" id="sku" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Phong Cách<span style="color:red"> (*) </span></label>
+            <div class="col-2">
+                <select disabled class="form-control" id="style">
+                </select>
+            </div>
+            <label class="col-2 col-form-label">Màu Sắc</label>
+            <div class="col-2">
+                <select disabled class="form-control" id="color">
+                </select>
+            </div>
+            <label class="col-2 col-form-label">Kích Thước</label>
+            <div class="col-2">
+                <select disabled class="form-control" id="size">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Kho Hàng <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <select class="form-control" id="warehouse">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-2 col-form-label">Nhà Cung Cấp <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group">
-                    <input readOnly name="tags-outside" class="tagify--outside form-control" id="supplier" value="">
+                    <input readonly name="tags-outside" class="tagify--outside form-control" id="supplier">
                 </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Số Lượng Tồn <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <input disabled class="form-control" id="qty" type="number" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Hàng Hóa <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" value="@Model.Name" type="text" placeholder="Tên Hàng Hóa" id="name" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Giới Tính</label>
+            <div class="col-10">
+                <select disabled class="form-control" id="gender">
+                </select>
             </div>
         </div>
         <div class="form-group row">
@@ -38,10 +118,11 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Hàng Hóa <span style="color:red"> (*) </span></label>
+            <label for="example-password-input" class="col-2 col-form-label">Thuộc Nhóm Hàng <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
-                    <input disabled class="form-control" type="text" placeholder="Tên Hàng Hóa" id="name" value="@Model.Name" />
+                    <select disabled class="form-control" id="groupgoods">
+                    </select>
                 </div>
             </div>
         </div>
@@ -54,109 +135,41 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Thuế Bán </label>
+            <label class="col-2 col-form-label">Mùa vụ</label>
             <div class="col-10">
-                <div class="input-group ">
-                    <span class="input-group-text">%</span>
-                    <input disabled class="form-control" type="number" value="@Model.PriceTax" id="pricetax" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Giá Nội Bộ </label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input disabled class="form-control " type="text" value="@Model.InternalPrice" id="internalprice" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Thuế GTGT Nội Bộ</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <span class="input-group-text">%</span>
-                    <input disabled class="form-control" type="number" value="@Model.GTGTInternalTax" id="gtgtinternaltax" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Chiết Khấu Bán</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <span class="input-group-text">%</span>
-                    <input disabled class="form-control" type="number" value="@Model.Discount" id="discount" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Chiết Khấu Nội Bộ</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <span class="input-group-text">%</span>
-                    <input disabled class="form-control" type="number" value="@Model.InternalDiscount" id="internaldiscount" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Hạn Sử Dụng</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input disabled class="form-control" type="datetime" id="expiry" value="@Model.Expiry.Value.Month/@Model.Expiry.Value.Day/@Model.Expiry.Value.Year" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Hạn Bảo Hành</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input disabled class="form-control" type="datetime" id="warrantyperiod" value="@Model.WarrantyPeriod.Value.Month/@Model.WarrantyPeriod.Value.Day/@Model.WarrantyPeriod.Value.Year" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tồn Kho Tối Thiểu</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input disabled class="form-control" type="number" id="minimuminventory" value="@Model.MinimumInventory" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tồn Kho Tối Đa</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input disabled class="form-control" type="number" id="maximuminventory" value="@Model.MaximumInventory" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Mô Tả</label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <textarea disabled class="form-control" type="number" id="des">@Model.Description</textarea>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-1 col-form-label">Đơn Vị<span style="color:red"> (*) </span></label>
-            <div class="col-2">
-                <select disabled class="form-control" id="unit1">
-                </select>
-            </div>
-            <label class="col-1 col-form-label">Mùa vụ</label>
-            <div class="col-2">
                 <select disabled class="form-control" id="season">
                 </select>
             </div>
-            <label class="col-1 col-form-label">Màu Sắc</label>
-            <div class="col-2">
-                <select disabled class="form-control" id="color">
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Nhà Sản Xuất</label>
+            <div class="col-10">
+                <select disabled class="form-control" id="coo">
                 </select>
             </div>
-            <label class="col-1 col-form-label">Kích Thước</label>
-            <div class="col-2">
-                <select disabled class="form-control" id="size">
-                </select>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Thành Phần <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" value="@Model.Material" placeholder="Thành Phần" id="material" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Tên Công Ty <span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control" type="text" value="@Model.Company" placeholder="Tên Công Ty " id="company" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Giá Mới<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input disabled class="form-control " type="text" value="@Model.PriceNew" id="pricenew" />
+                </div>
             </div>
         </div>
     </div>
@@ -165,20 +178,25 @@
             <div class="col-2">
             </div>
             <div class="col-10">
-                <a href="/Goods/Index" type="reset" class="btn btn-danger">Cancel</a>
+                <button type="submit" class="btn btn-success mr-2" onclick="Edit()">Submit</button>
+                <a href="/Goods/Index" type="reset" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
 </div>
 @section scripts{
     <script>
+        WareHouse()
         CateGooods();
-        Unit();
-        Season();
+        GroupGoods()
+        Style();
         Color();
         Size();
-
-        //--------------------Select::CateGoods--------------
+        QTY()
+        Gender()
+        Season();
+        Coo()
+         //--------------------Select::CateGoods--------------
         function CateGooods() {
             $.ajax({
                 url: '/goods/CateGoods',
@@ -186,11 +204,29 @@
                 success: function (data) {
                     $('#categoods').empty();
                     if (data.code == 200) {
-                        let table = '<option value="@Model.IdCate">@Model.CateGood.Name</option>'
+                        let table = '<option value="@Model.CateGood.Id">@Model.CateGood.Name</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
                         $('#categoods').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        function GroupGoods() {
+            $.ajax({
+                url: '/goods/GroupGoods',
+                type: 'get',
+                success: function (data) {
+                    $('#groupgoods').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.GroupGood.Id">@Model.GroupGood.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#groupgoods').append(table);
                     } else (
                         alert(data.msg)
                     )
@@ -243,19 +279,20 @@
                 }
             }
         })
-        //--------------------Select::Unit--------------
-        function Unit() {
+        // init Tagify script on the above inputs
+       //--------------------Select::Unit--------------
+        function Style() {
             $.ajax({
-                url: '/goods/Unit',
+                url: '/goods/Style',
                 type: 'get',
                 success: function (data) {
-                    $('#unit1').empty();
+                    $('#style').empty();
                     if (data.code == 200) {
-                        let table = '<option value="@Model.IdUnit">@Model.Unit.Name</option>'
+                        let table = '<option value="@Model.Style.Id">@Model.Style.Name</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
-                        $('#unit1').append(table);
+                        $('#style').append(table);
                     } else (
                         alert(data.msg)
                     )
@@ -270,7 +307,7 @@
                 success: function (data) {
                     $('#season').empty();
                     if (data.code == 200) {
-                        let table = '<option value="@Model.IdSeason">@Model.Season.Name</option>'
+                        let table = '<option value="@Model.Season.Id">@Model.Season.Name</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
@@ -289,7 +326,7 @@
                 success: function (data) {
                     $('#color').empty();
                     if (data.code == 200) {
-                        let table = '<option value="@Model.IdColor">@Model.Color.Name</option>'
+                        let table = '<option value="@Model.Color.Id">@Model.Color.Name</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
@@ -308,7 +345,7 @@
                 success: function (data) {
                     $('#size').empty();
                     if (data.code == 200) {
-                        let table = '<option value="@Model.IdSize">@Model.Size.Name</option>'
+                        let table = '<option value="@Model.Size.Id">@Model.Size.Name</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });
@@ -319,9 +356,80 @@
                 }
             })
         }
+        //--------------------Select::gender--------------
+        function Coo() {
+            $.ajax({
+                url: '/goods/Coo',
+                type: 'get',
+                success: function (data) {
+                    $('#coo').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.Coo.Id">@Model.Coo.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#coo').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::gender--------------
+        function Gender() {
+            $.ajax({
+                url: '/goods/Gender',
+                type: 'get',
+                success: function (data) {
+                    $('#gender').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.Gender.Id">@Model.Gender.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#gender').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::WareHouse--------------
+        function WareHouse() {
+            $.ajax({
+                url: '/goods/WareHouse',
+                type: 'get',
+                success: function (data) {
+                    $('#warehouse').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.Id">@Model.Name</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#warehouse').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        function QTY() {
+            $.ajax({
+                url: '/goods/QTY',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.c, function (k, v) {
+                            $('#qty').val(v.qty)
+                        })
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
     </script>
     <script src="~/Scripts/Goods.js"></script>
 }
-
 
 

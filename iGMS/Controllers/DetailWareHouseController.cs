@@ -70,11 +70,6 @@ namespace iGMS.Controllers
                 var nameAdmin = session.Name;
                 var e = db.DetailWareHouses.SingleOrDefault(x => (x.IdWareHouse == idwarehouse || x.IdStore == idwarehouse) && x.IdGoods == idgood);
                 var f = db.Receipts.Find(idReceipt);
-                var c = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == idgood && x.IdPurchaseOrder == f.IdPurchaseOrder);
-                if (c.Amount == 0)
-                {
-                    db.DetailGoodOrders.Remove(c);
-                }
                 f.Status = true;
                 db.SaveChanges();
                 if (e != null)
@@ -165,7 +160,6 @@ namespace iGMS.Controllers
                              id = b.Good.Id,
                              name = b.Good.Name,
                              unit = b.Good.Unit.Name,
-                             amount = b.Amount,
                              price = b.Price,
                              discount = b.Discount,
                              pricediscount = b.PriceDiscount,

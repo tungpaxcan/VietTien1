@@ -40,6 +40,10 @@ namespace iGMS.Models
         public string IdGroupGood { get; set; }
         public string StyleColorSize { get; set; }
         public string SKU { get; set; }
+        public string LI_PE { get; set; }
+        public string Div { get; set; }
+        public string OutSize { get; set; }
+        public string ProductLine { get; set; }
         public string Company { get; set; }
         public string Name { get; set; }
         public string IdCoo { get; set; }
@@ -83,6 +87,7 @@ namespace iGMS.Models
         public virtual Size Size { get; set; }
         public virtual Style Style { get; set; }
         public virtual Unit Unit { get; set; }
+        public virtual WareHouse WareHouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Promotion> Promotions { get; set; }
     }

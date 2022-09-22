@@ -17,12 +17,9 @@
         )
     }
 })
-$('#idgoods').keyup(function () {
-    var id = $('#idgoods').val().trim();
-    if (id.length == 3) {
+$('input[name="idgoods"]').keyup(function () {
+    var id = $('input[name="idgoods"]').val().trim();
         Goods(id);
-    }
-
 })
 $('input[name="iduser"]').keyup(function () {
     var id = $('input[name="iduser"]').val().trim();
@@ -211,6 +208,7 @@ function Goods(id) {
                         var discount = $('#HH' + id + ' #discount' + id + '').text();
                         $('#HH' + id + ' #amount' + v.id + '').empty();
                         $('#HH' + id + ' #amount' + v.id + '').append(Number(amounts) + 1);
+                        ValidateAmount(id)
                         $('#HH' + id + ' #totalmoney' + id + '').empty()
                         var sum = Number(price) * (Number(amounts) + 1);
                         $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
@@ -218,7 +216,7 @@ function Goods(id) {
                         let table = '<tr name="detailgoods" id="HH' + v.id + '">';
                         table += '<td class="id" id="' + v.id + '">' + v.id + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td>' + v.unit + '</td>'
+                        table += '<td>' + v.size + '</td>'
                         table += '<td class="amount" id="amount' + v.id + '">1</td>'
                         table += '<td class="price" id="price' + v.id + '">' + (v.price) + '</td>'
                         table += '<td class="discount" id="discount' + v.id + '">' + v.discount + '</td>'
@@ -228,7 +226,7 @@ function Goods(id) {
                         $('#tbd').append(table);
                         var amount = document.getElementById('amount' + v.id + '').innerText
                         $('#totalmoney' + v.id + '').append(v.price * amount + (v.price * v.discount / 100))
-                        $('#idgoods').val('')
+                        $('input[name="idgoods"]').val('')
                     }
 
                 })
@@ -241,6 +239,38 @@ function Goods(id) {
     })
 }
 
+
+//------------kiem tra hang ton--------------
+function ValidateAmount(id) {
+    $.ajax({
+        url: '/home/TonKho',
+        type: 'get',
+        data: {
+            id
+        },
+        success: function (data) {
+            var amounts = amounts = $('#HH' + id + ' #amount' + id + '').text();
+            var price = $('#HH' + id + ' #price' + id + '').text();
+            var discount = $('#HH' + id + ' #discount' + id + '').text();
+            if (data.code == 200) {                
+                $.each(data.c, function (k, v) {
+                    if (v.qty < Number(amounts)) {
+                        $('#HH' + id + ' #amount' + id + '').text(v.qty);
+                        $('input[name="amountgoods"]').val(v.qty)
+                        $('#HH' + id + ' #totalmoney' + id + '').empty()
+                        var sum = Number(price) * (v.qty);
+                        $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
+                        alert("Số Lượng Vượt Hàng Tồn !!!")
+                        TongGiaTri()
+                    }          
+                })              
+            } else {
+                alert(data.msg)
+            }
+
+        }
+    })
+}
 // Create our number formatter.
 function Money(money) {
     var formatter = new Intl.NumberFormat('en-vi', {
@@ -276,32 +306,36 @@ $(document).on('click', 'tr[name="detailgoods"]', function (e) {
     var id = $(this).children('.id').attr('id')
     var amount = $(this).children('.amount').text()
     var discount = $(this).children('.discount').text();
-    $('#idgoods').val(id)
-    $('#amountgoods').val(amount)
-    $('#discountgoods').val(discount)
+    $('input[name="idgoods"]').val(id)
+    $('input[name="amountgoods"]').val(amount)
+    $('input[name="discountgoods"]').val(discount)
 })
-$('#amountgoods').on('keypress', function (e) {
-    var id = $('#idgoods').val().trim();
+$('input[name="amountgoods"]').on('keypress', function (e) {
+    var id = $('input[name="idgoods"]').val().trim();
     $('#HH' + id + ' #amount' + id + '').empty();
     if (e.which == 13) {
-        $('#HH' + id + ' #amount' + id + '').append($('#amountgoods').val().trim())
+        $('#HH' + id + ' #amount' + id + '').append($('input[name="amountgoods"]').val().trim())
         var price = $('#HH' + id + ' #price' + id + '').text();
         var discount = $('#HH' + id + ' #discount' + id + '').text();
+        var amounts = $('#HH' + id + ' #amount' + id + '').text();
+        ValidateAmount(id)
         $('#HH' + id + ' #totalmoney' + id + '').empty()
-        var sum = Number(price) * (Number($('#amountgoods').val().trim()));
+        var sum = Number(price) * (Number(amounts));
         $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
         TongGiaTri()
     }
 })
-$('#discountgoods').on('keypress', function (e) {
-    var id = $('#idgoods').val().trim();
+
+$('input[name="discountgoods"]').on('keypress', function (e) {
+    var id = $('input[name="idgoods"]').val().trim();
     $('#HH' + id + ' #discount' + id + '').empty();
     if (e.which == 13) {
-        $('#HH' + id + ' #discount' + id + '').append($('#discountgoods').val().trim())
+        $('#HH' + id + ' #discount' + id + '').append($('input[name="discountgoods"]').val().trim())
         var price = $('#HH' + id + ' #price' + id + '').text();
         var discount = $('#HH' + id + ' #discount' + id + '').text();
+        ValidateAmount(id)
         $('#HH' + id + ' #totalmoney' + id + '').empty()
-        var sum = Number(price) * (Number($('#amountgoods').val().trim()));
+        var sum = Number(price) * (Number($('input[name="amountgoods"]').val().trim()));
         $('#HH' + id + ' #totalmoney' + id + '').append(sum - (sum * (Number(discount) / 100)))
         TongGiaTri()
     }
@@ -387,7 +421,7 @@ $('input[name="TienKhachTra"]').keyup(function () {
     $('h1[name="TraLai"]').append(Money(parseInt(a) - parseInt(b)))
 })
 
-$('#SaveBill').click(function () {
+$('button[name="SaveBill"]').click(function () {
     $('h1[name="sumprice2"]').empty();
   
     $('h1[name="sumprice2"]').append($('h1[name="sumprice"]').text())
@@ -975,7 +1009,7 @@ function Dong() {
 
 //-------------xóa HH ban------------
 $(document).on('click', 'div[name="deleteHH"]', function (e) {
-    var id = $('#idgoods').val().trim();
+    var id = $('input[name="idgoods"]').val().trim();
     DeleteHH("HH" + id);
     TongGiaTri()
 })
@@ -1030,3 +1064,15 @@ function DeleteEPC(epc) {
         }
     })
 }
+
+$('.ThuGon').attr("hidden", true)
+$('#btnDayDu').click(function () {
+    $('.ThuGon').attr("hidden", false)
+    $('#btnDayDu').css("display", "none")
+    $('#btnRutGon').css("display", "block")
+})
+$('#btnRutGon').click(function () {
+    $('.ThuGon').attr("hidden", true)
+    $('#btnDayDu').css("display", "block")
+    $('#btnRutGon').css("display", "none")
+})

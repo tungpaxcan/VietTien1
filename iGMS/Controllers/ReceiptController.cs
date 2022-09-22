@@ -92,8 +92,7 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder);
-                c.Amount -= (int.Parse(amounttext));
+                var c = db.DetailGoodOrders.Where(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder);
                 db.SaveChanges();
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }
@@ -166,15 +165,9 @@ namespace iGMS.Controllers
                          {
                              id = b.Good.Id,
                              name = b.Good.Name,
-                             unit = b.Good.Unit.Name,
-                             amount = b.Amount,
+                             size = b.Good.Size.Name,
                              price = b.Price,
-                             discount = b.Discount,
-                             pricediscount = b.PriceDiscount,
-                             tax = b.TaxGTGT,
-                             pricetax = b.PriceTax,
                              sumprice = b.Sumprice,
-                     
                          }).ToList();
                 var d = (from b in db.PurchaseOrders.Where(x => x.Id == purchaseorder)
                          select new

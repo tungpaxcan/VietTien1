@@ -309,6 +309,9 @@
     <Compile Include="Models\Supplier.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TypeSale.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -2266,6 +2269,7 @@
     <Content Include="Images\icons-warehouse.png" />
     <Content Include="Images\icons8-customer-40.png" />
     <Content Include="Images\icons8-deployment-40.png" />
+    <Content Include="Images\icons8-down-30.png" />
     <Content Include="Images\icons8-gender-40.png" />
     <Content Include="Images\icons8-hanger-16.png" />
     <Content Include="Images\icons8-play-graph-report-16.91.png" />
@@ -2273,6 +2277,7 @@
     <Content Include="Images\icons8-remove-38.png" />
     <Content Include="Images\icons8-stop-graph-report-16.91.png" />
     <Content Include="Images\icons8-style-40.png" />
+    <Content Include="Images\icons8-up-30.png" />
     <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model.edmx</DependentUpon>

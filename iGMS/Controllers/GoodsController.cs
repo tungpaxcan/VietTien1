@@ -9,6 +9,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Windows;
 using iGMS.Models;
 using OfficeOpenXml;
 
@@ -79,7 +81,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult Add(string id, string idgood, string style, string color, string size, string name, string gender, string categoods
+        public JsonResult Add(string id, string idgood,string sku, string style,string warehouse,float qty, string color, string size, string name, string gender, string categoods
             , string groupgoods,float price, string season, string coo, string material, string company,float pricenew)
         {
             try
@@ -88,10 +90,13 @@ namespace iGMS.Controllers
                 var ids = db.Goods.Where(x => x.Id == id).ToList();
                 if (ids.Count == 0 )
                 {
-
+                    var e = new DetailWareHouse();
                     var session = (User)Session["user"];
                     var nameAdmin = session.Name;
                     var d = new Good();
+                    d.Discount = 0;
+                    d.SKU = sku;
+                    d.IdWareHouse = warehouse;
                     d.Id = id;
                     d.IdGood = idgood;
                     d.IdStyle = style;
@@ -107,7 +112,15 @@ namespace iGMS.Controllers
                     d.Material = material;
                     d.Company = company;
                     d.PriceNew = pricenew;
+                    d.CreateBy = nameAdmin;
+                    d.CreateDate = DateTime.Now;
+                    d.ModifyBy = nameAdmin;
+                    d.ModifyDate = DateTime.Now;
+                    e.IdWareHouse = warehouse;
+                    e.IdGoods = id;
+                    e.Inventory = qty;
                     db.Goods.Add(d);
+                    db.DetailWareHouses.Add(e);
                     db.SaveChanges();
                     return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -123,39 +136,38 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult Edit(string id, string categoods, string name, float price, float pricetax,
-    float internalprice, float gtgtinternaltax, float discount, float internaldiscount,
-    DateTime expiry, DateTime warrantyperiod, float minimuminventory, float maximuminventory, string des, string unit,
-     string season, string color, string size)
+        public JsonResult Edit(string id, string idgood,string sku, string style,string warehouse,float qty, string color, string size, string name, string gender, string categoods
+            , string groupgoods, float price, string season, string coo, string material, string company, float pricenew)
         {
             try
             {
                 db.Configuration.ProxyCreationEnabled = false;
 
-                    var session = (User)Session["user"];
-                    var nameAdmin = session.Name;
-                    var d = db.Goods.Find(id);
-                    d.IdCate = categoods;
-                    d.Name = name;
-                    d.Price = price;
-                    d.PriceTax = pricetax;
-                    d.InternalPrice = internalprice;
-                    d.GTGTInternalTax = gtgtinternaltax;
-                    d.Discount = discount;
-                    d.InternalDiscount = internaldiscount;
-                    d.Expiry = expiry;
-                    d.WarrantyPeriod = warrantyperiod;
-                    d.MinimumInventory = minimuminventory;
-                    d.MaximumInventory = maximuminventory;
-                    d.Description = des;
-                    d.IdUnit = unit;
-                    d.IdSeason = season;
-                    d.IdColor = color;
-                    d.IdSize = size;
-                    d.ModifyBy = nameAdmin;
-                    d.ModifyDate = DateTime.Now;
-                    db.SaveChanges();
-                    return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
+                var session = (User)Session["user"];
+                var nameAdmin = session.Name;
+                var d = db.Goods.Find(id);
+                var e = db.DetailWareHouses.SingleOrDefault(x => x.IdGoods == id && x.Inventory == qty);
+                e.IdWareHouse =warehouse;
+                d.IdGood = idgood;
+                d.SKU = sku;
+                d.IdStyle = style;
+                d.IdWareHouse = warehouse;
+                d.IdColor = color;
+                d.IdSize = size;
+                d.Name = name;
+                d.IdGender = gender;
+                d.IdCate = categoods;
+                d.IdGroupGood = groupgoods;
+                d.Price = price;
+                d.IdSeason = season;
+                d.IdCoo = coo;
+                d.Material = material;
+                d.Company = company;
+                d.PriceNew = pricenew;
+                d.ModifyBy = nameAdmin;
+                d.ModifyDate = DateTime.Now;
+                db.SaveChanges();
+                return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -365,11 +377,65 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public JsonResult WareHouse()
+        {
+            try
+            {
+                var c = (from b in db.WareHouses.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult QTY(string id,string warehouse)
+        {
+            try
+            {
+                var c = (from b in db.DetailWareHouses.Where(x => x.IdGoods == id && x.IdWareHouse == warehouse)
+                         select new
+                         {
+                             qty = b.Inventory,
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult EPC(string id, string epc)
+        {
+            try
+            {
+                var a = new EPC();
+                a.IdGoods = id;
+                a.IdEPC = epc;
+                a.Status = true;
+                db.EPCs.Add(a);
+                db.SaveChanges();
+                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         public ActionResult Upload(FormCollection formCollection)
         {
 
                     var usersList = new List<Good>();
             var suList = new List<DetailSupplierGood>();
+            var EPCList = new List<EPC>();
             if (Request != null)
             {
                 HttpPostedFileBase file = Request.Files["UploadedFile"];
@@ -385,55 +451,168 @@ namespace iGMS.Controllers
                         var workSheet = currentSheet;
                         var noOfCol = workSheet.Dimension.End.Column;
                         var noOfRow = workSheet.Dimension.End.Row;
-                        for (int rowIterator = 3; rowIterator <= noOfRow; rowIterator++)
+                        for (int rowIterator = 2; rowIterator <= noOfRow; rowIterator++)
                         {
                             var goods = new Good();
                             var dego = new DetailSupplierGood();
-                            dego.IdSupplier = workSheet.Cells[rowIterator, 2].Value.ToString();
-                            dego.IdGoods = workSheet.Cells[rowIterator, 1].Value.ToString();
-                            goods.Id = workSheet.Cells[rowIterator, 1].Value.ToString();
-                            goods.IdCate = workSheet.Cells[rowIterator, 3].Value.ToString();
-                            goods.IdUnit = workSheet.Cells[rowIterator, 4].Value.ToString();
-                            goods.IdSeason = workSheet.Cells[rowIterator, 6].Value.ToString();
-                            goods.IdColor = workSheet.Cells[rowIterator, 7].Value.ToString();
-                            goods.IdSize = workSheet.Cells[rowIterator, 8].Value.ToString();
-                            goods.Name = workSheet.Cells[rowIterator, 9].Value.ToString();
-                            goods.Price = Convert.ToDouble(workSheet.Cells[rowIterator, 10].Value);
-                            goods.PriceTax = Convert.ToDouble(workSheet.Cells[rowIterator, 11].Value);       
-                            goods.Discount = Convert.ToDouble(workSheet.Cells[rowIterator, 12].Value);
-                            goods.Expiry = Convert.ToDateTime(workSheet.Cells[rowIterator, 13].Value);
-                            goods.WarrantyPeriod = Convert.ToDateTime(workSheet.Cells[rowIterator, 14].Value);
-                            goods.InternalPrice = 0;
-                            goods.GTGTInternalTax = 0;
-                            goods.InternalDiscount = 0;
-                            goods.Inventory = 0;
-                            goods.MinimumInventory = 0;
-                            goods.MaximumInventory = 0;
-                            goods.Description = "";
-                            goods.CreateDate = DateTime.Now;
-                            goods.CreateBy = "";
-                            goods.Status = true;
-                           
-                            usersList.Add(goods);
-                            suList.Add(dego);
+                            var epc = new EPC();
+                          
+                            var id = workSheet.Cells[rowIterator, 1].Value.ToString();
+                            var idepc = workSheet.Cells[rowIterator, 2].Value.ToString();
+                            var supplier = workSheet.Cells[rowIterator, 5].Value.ToString();
+                            var warehouse = workSheet.Cells[rowIterator, 4].Value.ToString();
+                            var style = workSheet.Cells[rowIterator, 6].Value.ToString();
+                            var color = workSheet.Cells[rowIterator, 7].Value.ToString();
+                            var size = workSheet.Cells[rowIterator, 9].Value.ToString();
+                            var gender = workSheet.Cells[rowIterator, 10].Value.ToString();
+                            var groupgood = workSheet.Cells[rowIterator, 11].Value.ToString();
+                            var categood = workSheet.Cells[rowIterator, 16].Value.ToString();
+                            var season = workSheet.Cells[rowIterator, 23].Value.ToString();
+                            var coo = workSheet.Cells[rowIterator, 24].Value.ToString();
+                            var idss = db.Goods.Where(x => x.Id == id ).ToList();
+                            var idssepc = db.EPCs.Where(x => x.IdGoods == id && x.IdEPC == idepc).ToList();
+                            var su = suList.Where(x => x.IdSupplier == supplier &&x.IdGoods == id).ToList();
+                            var Kho = db.WareHouses.Find(warehouse);
+                            var NCC = db.Suppliers.Find(supplier);
+                            var Styles = db.Styles.Find(style);
+                            var Color = db.Colors.Find(color);
+                            var Size = db.Sizes.Find(size);
+                            var Gender = db.Genders.Find(gender);
+                            var Groupgood = db.GroupGoods.Find(groupgood);
+                            var Categood = db.CateGoods.Find(categood);
+                            var Season = db.Seasons.Find(season);
+                            var Coo = db.Coos.Find(coo);
+                            var qty = db.DetailWareHouses.SingleOrDefault(x => x.IdWareHouse == warehouse && x.IdGoods == id);
+                      
+                            if (Kho == null)
+                            {
+                                var wa = new WareHouse();
+                                wa.Id = warehouse;
+                                wa.Name = warehouse;
+                                db.WareHouses.Add(wa);
+                                db.SaveChanges();
+                            }
+                            if(NCC == null)
+                            {
+                                var sup = new Supplier();
+                                sup.Id = supplier;
+                                sup.Name = supplier;
+                                db.Suppliers.Add(sup);
+                                db.SaveChanges();
+                            } 
+                            if(Styles == null)
+                            {
+                                MessageBox.Show("Chưa Có Phong Cách " + style+ " Trong Dữu Liệu Tại Dòng " + rowIterator);
+                                return View("../Goods/Index");
+                            }
+                            if(Color == null)
+                            {
+                                var col = new Color();
+                                col.Id = color;
+                                col.Name = color;
+                                db.Colors.Add(col);
+                                db.SaveChanges();
+                            }
+                            if(Gender == null)
+                            {
+                                var gen = new Gender();
+                                gen.Id = gender;
+                                gen.Name = gender;
+                                db.Genders.Add(gen);
+                                db.SaveChanges();
+                            }
+                            if(Groupgood == null)
+                            {
+                                var gro = new GroupGood();
+                                gro.Id = groupgood;
+                                gro.Name = groupgood;
+                                db.GroupGoods.Add(gro);
+                                db.SaveChanges();
+                            }if(Categood == null)
+                            {
+                                var cat = new CateGood();
+                                cat.Id = categood;
+                                cat.Name = categood;
+                                db.CateGoods.Add(cat);
+                                db.SaveChanges();
+                            }if(Season == null)
+                            {
+                                var sea = new Season();
+                                sea.Id = season;
+                                sea.Name = season;
+                                db.Seasons.Add(sea);
+                                db.SaveChanges();
+                            }if(Coo == null)
+                            {
+                                var co = new Coo();
+                                co.Id = coo;
+                                co.Name = coo;
+                                db.Coos.Add(co);
+                                db.SaveChanges();
+                            }
+                            if (Size == null)
+                            {
+                                MessageBox.Show("Chưa Có Kích Thước " + size + "Trong Dữ Liệu Tại Dòng " + rowIterator);
+                                return View("../Goods/Index");
+                            }
+                            if (idss.Count==0)
+                            {
+                                goods.Discount = 0;
+                                goods.Id = workSheet.Cells[rowIterator, 1].Value.ToString();
+                                goods.IdGood = workSheet.Cells[rowIterator, 3].Value.ToString();
+                                goods.IdWareHouse = workSheet.Cells[rowIterator, 4].Value.ToString();
+                                goods.IdStyle = workSheet.Cells[rowIterator, 6].Value.ToString();
+                                goods.IdColor = workSheet.Cells[rowIterator, 7].Value.ToString();
+                                goods.SKU = workSheet.Cells[rowIterator, 8].Value.ToString();
+                                goods.IdSize = workSheet.Cells[rowIterator, 9].Value.ToString();
+                                goods.IdGender = workSheet.Cells[rowIterator, 10].Value.ToString();
+                                goods.IdGroupGood = workSheet.Cells[rowIterator, 11].Value.ToString();
+                                goods.Name = workSheet.Cells[rowIterator, 12].Value.ToString();
+                                goods.IdCate = workSheet.Cells[rowIterator, 16].Value.ToString();
+                                goods.Price = Convert.ToDouble(workSheet.Cells[rowIterator, 22].Value.ToString().Replace("/,/g", ""));
+                                dego.PurchasePrice = Convert.ToDouble(workSheet.Cells[rowIterator, 22].Value.ToString().Replace("/,/g", ""));
+                                goods.IdSeason = workSheet.Cells[rowIterator, 23].Value.ToString();
+                                goods.IdCoo = workSheet.Cells[rowIterator, 24].Value.ToString();
+                                goods.Material = workSheet.Cells[rowIterator, 25].Value.ToString();
+                                goods.Company = workSheet.Cells[rowIterator, 32].Value.ToString();
+                                goods.PriceNew = Convert.ToDouble(workSheet.Cells[rowIterator, 34].Value.ToString().Replace("/,/g", ""));
+                                dego.IdSupplier = workSheet.Cells[rowIterator, 5].Value.ToString();
+                                dego.IdGoods = workSheet.Cells[rowIterator, 1].Value.ToString();
+                                db.DetailSupplierGoods.Add(dego);
+                                db.Goods.Add(goods);
+                                db.SaveChanges();
+                            }
+                            if ( idssepc.Count == 0)
+                            {
+                                epc.IdGoods = workSheet.Cells[rowIterator, 1].Value.ToString();
+                                epc.IdEPC = workSheet.Cells[rowIterator, 2].Value.ToString();
+                                epc.Status = true;
+                                db.EPCs.Add(epc);
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Trùng Epc " + idepc + " Tại Dòng " + rowIterator);
+                            }
+                            if (qty != null)
+                            {
+                                qty.Inventory += 1;
+                                db.SaveChanges();
+                            }
+                            else
+                            {
+                                var dewa = new DetailWareHouse();
+                                dewa.Inventory = 1;
+                                dewa.IdGoods = id;
+                                dewa.IdWareHouse = warehouse;
+                                db.DetailWareHouses.Add(dewa);
+                                db.SaveChanges();
+                            }
                         }
                     }
                 }
             }
-            using (VietTienEntities db = new VietTienEntities())
-            {
-                foreach (var item in usersList)
-                {
-                    db.Goods.Add(item);
-                
-                }
-                foreach (var item in suList)
-                {
-                    db.DetailSupplierGoods.Add(item);
 
-                }
-                db.SaveChanges();
-            }
             return View("Index");
         }
     }

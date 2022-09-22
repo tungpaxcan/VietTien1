@@ -48,31 +48,26 @@ function ListGoods(supplier, seach, checkboxesChecked) {
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.unit + '</td>'
-                    table += '<td><input type="number" value="1" id="amount' + v.id + '" /></td>'
+                    table += '<td>' + v.size + '</td>'
+                    table += '<td><input type="number" value="0" id="amount' + v.id + '" /></td>'
+                    table += '<td>'
+                    table += '<textarea name="tags-outside" placeholder="Nhập Đủ Mã EPC" class="tagify--outside form-control" id="epc' + v.id + '"></textarea>'
+                    table += '</td>'
                     table += '<td><input type="text" value="' + v.purchaseprice+'" id="price' + v.id + '" /></td>'
-                    table += '<td><input type="number" value="' + v.purchasediscount+'" id="discount' + v.id + '" placeholder="%" /></td>'
-                    table += '<td id="pricediscount' + v.id + '"></td>'
-                    table += '<td><input type="number" value="' + v.purchasetax+'" id="tax' + v.id + '" /></td>'
-                    table += '<td id="pricetax' + v.id + '"></td>'
-                    table += '<td id="sumpricegoods' + v.id + '"></td>'
-                  
+                    table += '<td id="sumpricegoods' + v.id + '"></td>'                 
                     table += '</tr>';
                     $('#tbd').append(table);
                     PriceDiscount(v.id)
                     $('#amount' + v.id + '').keyup(function () {
+                        var input = document.getElementById('epc' + v.id + '');
                         PriceDiscount(v.id)
+                        var amount = $('#amount' + v.id + '').val().trim();
+                        new Tagify(input, { maxTags: Number(amount) })
                     })
                     $('#price' + v.id + '').keyup(function () {
                         PriceDiscount(v.id)
-                        })
-                    $('#discount' + v.id + '').keyup(function () {
-                        PriceDiscount(v.id)
                     })
-                    $('#tax' + v.id + '').keyup(function () {
-                        PriceTax(v.id)
-                    })
-               
+                  
                 });
                 Active(checkboxesChecked);
                 $('input[name="change"]').click(function () {
@@ -82,6 +77,7 @@ function ListGoods(supplier, seach, checkboxesChecked) {
                         checkboxesChecked.splice(checkboxesChecked.indexOf('' + id + ''), 1)
                     }
                 })
+               
             } else (
                 alert(data.msg)
             )
@@ -115,40 +111,12 @@ $('#allchange').click(function () {
 })
 
 function PriceDiscount(id) {
-    $('#pricediscount' + id + '').empty();
-    $('#pricetax' + id + '').empty();
     $('#sumpricegoods' + id + '').empty();
     var amount = $('#amount' + id + '').val().trim();
-    var price = $('#price' + id + '').val().trim().includes(",") == true ? $('#price' + id + '').val().trim().substring(1).replace(/,/g, "") : $('#price' + id + '').val().trim();
-    var discount = $('#discount' + id + '').val().trim();
-    var tax = $('#tax' + id + '').val().trim();
+    var price = $('#price' + id + '').val().trim();
     var prices = (Number(amount) * Number(price))
-    var pricediscount = prices * (Number(discount) / 100)
-    var pricetax = prices * (Number(tax) / 100)
-    $('#pricediscount' + id + '').append(pricediscount)
-    $('#pricetax' + id + '').append(pricetax)
-    $('#sumpricegoods' + id + '').append(prices - pricediscount + pricetax)
+    $('#sumpricegoods' + id + '').append(prices)
     Sumprice();
-
-
-}
-function PriceTax(id) {
-    $('#pricetax' + id + '').empty();
-    $('#sumpricegoods' + id + '').empty();
-    var amount = $('#amount' + id + '').val().trim();
-    var price = $('#price' + id + '').val().trim().includes(",") == true ? $('#price' + id + '').val().trim().substring(1).replace(/,/g, "") : $('#price' + id + '').val().trim();
-    var discount = $('#discount' + id + '').val().trim();
-    var tax = $('#tax' + id + '').val().trim();
-    var prices = (Number(amount) * Number(price))
-    var pricediscount = prices * (Number(discount) / 100)
-    var pricetax = prices * (Number(tax) / 100)
-
-    var pricetax = prices * (Number(tax) / 100)
-    $('#pricetax' + id + '').append(pricetax)
-    $('#sumpricegoods' + id + '').append(prices - pricediscount + pricetax)
-    $('#sumprice').append(prices - pricediscount + pricetax)
-    Sumprice()
-
 }
 
 
@@ -167,7 +135,7 @@ function Sumprice() {
             sumpricegoods += Number(a);
         }
     }
-    $('#sumprice').append(Money(sumpricegoods))
+    $('#sumprice').append(sumpricegoods)
     Liabilities()
 }
 
@@ -177,9 +145,9 @@ $('#partialpay').keyup(function () {
 
 function Liabilities() {
     $('#liabilities').empty();
-    var partialpay = $('#partialpay').val().trim().includes(",") == true ? $('#partialpay').val().trim().substring(1).replace(/,/g, "") : $('#partialpay').val().trim()
-    var sumprice = document.getElementById('sumprice').innerText.substring(1).replace(/,/g, "");
-    $('#liabilities').append(Money(Number(sumprice) - Number(partialpay)))
+    var partialpay = $('#partialpay').val().trim()
+    var sumprice = document.getElementById('sumprice').innerText;
+    $('#liabilities').append(Number(sumprice) - Number(partialpay))
 }
 
 //----------------Add::PurchaseOrder---------------------
@@ -189,9 +157,9 @@ function Add() {
     var supplier = $("#supplier option:selected").val();
     var datepay = $("#datepay").val().trim();
     var deliverydate = $("#deliverydate").val().trim();
-    var sumprice = document.getElementById("sumprice").innerText.substring(1).replace(/,/g, "");
-    var partialpay = $("#partialpay").val().trim().substring(1).replace(/,/g, "");
-    var liabilities = document.getElementById("liabilities").innerText.substring(1).replace(/,/g, "");
+    var sumprice = document.getElementById("sumprice").innerText;
+    var partialpay = $("#partialpay").val().trim();
+    var liabilities = document.getElementById("liabilities").innerText;
     var des = $("#des").val().trim()
     var H = ""
     if ($("#warehouse option:selected").val() == -1) {
@@ -240,34 +208,50 @@ function Add() {
                     // And stick the checked ones onto an array...
                     if (checkboxes[i].checked) {
                         checkboxesChecked.push(checkboxes[i].value);
-                        var amount = $('#amount' + checkboxes[i].value + '').val().trim()
+                        var amount = $('#amount' + checkboxes[i].value + '').val().trim() 
                         var goods = checkboxes[i].value;
-                        var price = $('#price' + checkboxes[i].value + '').val().trim().substring(1).replace(/,/g, "")
-                        var discount = $('#discount' + checkboxes[i].value + '').val().trim()
-                        var pricediscount = document.getElementById('pricediscount' + checkboxes[i].value + '').innerText;
-                        var tax = $('#tax' + checkboxes[i].value + '').val().trim()
-                        var pricetax = document.getElementById('pricetax' + checkboxes[i].value + '').innerText;
+                        var price = $('#price' + checkboxes[i].value + '').val().trim()
                         var sumpricegoods = document.getElementById('sumpricegoods' + checkboxes[i].value + '').innerText;
+                        if (amount == 0) {
+                            alert("Chưa Nhập Số lượng  Cho " + goods + "!!!")
+                            return;
+                        }
+                        var tags =JSON.parse($('#epc' + goods + '').val())
+                        var TagArray = [];
+                        //Convert to array
+                        for (let j = 0; j < tags.length; j++) {
+                            TagArray.push(tags[j].value)
+                        }
+                     
+                      
+                        for (let k = 0; k < TagArray.length; k++) {
+                            var epc = TagArray[k]
+
+                            if (TagArray.length < amount) {
+                                alert("Chưa Nhập Đủ Mã EPC Cho " + goods + " !!!")
+                                return;
+                            }
                             $.ajax({
                                 url: '/purchaseorder/AddDetail',
                                 type: 'post',
                                 data: {
-                                    amount, goods, price, discount, pricediscount, tax, pricetax, sumpricegoods
+                                    goods, price, sumpricegoods, epc
                                 },
                                 success: function (data) {
                                     if (data.code == 200) {
-                                        
+
                                     }
                                     else {
-                                        alert("Tạo Đơn Vị Thất Bại")
                                     }
                                 },
                             })
+                        }
+                           
                         $.ajax({
                             url: '/purchaseorder/EditDetailSupplierGoods',
                             type: 'post',
                             data: {
-                                supplier, goods, price, tax, discount
+                                supplier, goods, price,
                             },
                             success: function (data) {
                                 if (data.code == 200) {
@@ -340,6 +324,7 @@ function BILL() {
 
                                 })
                             })
+                         
                             $.ajax({
                                 url: '/purchaseorder/Bill2',
                                 type: 'get',
@@ -351,33 +336,24 @@ function BILL() {
                                         $('span[name="sumpricetax"]').empty()
                                      
                                         $.each(data.c, function (k, v) {
+                                            var tags = JSON.parse($('#epc' + v.idgoods + '').val());
+                                            var TagArray = [];
+                                            //Convert to array
+                                            for (let i = 0; i < tags.length; i++) {
+                                                TagArray.push(tags[i].value)
+                                            }
                                             let a = '<tr>';
                                             a += '<td>' + (Stt++) + '</td>';
                                             a += '<td>' + v.idgoods + '</td>';
+                                            a += '<td>' + v.epc + '</td>';
                                             a += '<td>' + v.name + '</td>';
-                                            a += '<td>' + v.unit + '</td>';
-                                            a += '<td>' + v.amount + '</td>';
+                                            a += '<td>' + v.size + '</td>';
                                             a += '<td>' + v.price + '</td>';
-                                            a += '<td>' + v.discount + '</td>';
-                                            a += '<td name="pricediscount1" id="' + v.pricediscount + '">' + v.pricediscount + '</td>';
-                                            a += '<td>' + v.tax + '</td>';
-                                            a += '<td name="pricetax1" id="' + v.pricetax + '">' + v.pricetax + '</td>';
                                             a += '<td>' + v.sumprice + '</td></tr>';
                                             $('#tbdmodal').append(a)
                                         })
-                                        var sum = $('td[name="pricediscount1"]').map(function (_, x) { return x.id; }).get();
-                                        var sum1 = $('td[name="pricetax1"]').map(function (_, x) { return x.id; }).get();
-                                        var sums = 0
-                                        var sums1 = 0
-                                        for (var i = 0; i < sum.length; i++) {
-                                            sums += (Number(sum[i]))
-                                        }
-                                        for (var i = 0; i < sum1.length; i++) {
-                                            sums1 += (Number(sum1[i]))
-                                        }
-                                        $('span[name="sumpricediscount"]').append(sums)
-                                        $('span[name="sumpricetax"]').append(sums1)                                    
-                                        $('#BILL').modal('show')
+                                        const myTimeout = setTimeout(function () { $('#BILL').modal('show')}, 500)
+                                       
                                     }
                                     else {
                                         alert("Tạo Đơn Vị Thất Bại")
@@ -418,3 +394,4 @@ $('input[type="radio"]').click(function () {
         }
     }
 })
+

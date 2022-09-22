@@ -65,6 +65,7 @@ namespace iGMS.Models
         public virtual DbSet<Store> Stores { get; set; }
         public virtual DbSet<Style> Styles { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TypeSale> TypeSales { get; set; }
         public virtual DbSet<TypeStatu> TypeStatus { get; set; }
         public virtual DbSet<Unit> Units { get; set; }

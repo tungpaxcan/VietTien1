@@ -29,9 +29,7 @@ function Goods(pagenum, page, seach) {
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.idgood + '</td>'
                     table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.unit + '</td>'
                     table += '<td>' + v.price + '</td>'
-                    table += '<td>' + v.pricetax + '</td>'
                     table += '<td class="action" nowrap="nowrap">';
                     table += '<div class="dropdown dropdown-inline">';
                     table += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">';
@@ -77,11 +75,7 @@ function Goods(pagenum, page, seach) {
                     let li = '<li id="' + i + '" class="paginate_button page-item ">';
                     li += '<a aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">' + i + '</a></li>';
                     $('#page').append(li);
-
-
                 }
-
-
                 let next = '<li  id="' + (parseInt(page) + 1) + '" class="paginate_button page-item next" id="kt_datatable_next">';
                 next += '<a href="#" aria-controls="kt_datatable" data-dt-idx="6" tabindex="0" class="page-link"><i class="ki ki-arrow-next"></i></a></li>';
                 $('#page').append(next);
@@ -118,7 +112,10 @@ $('#seach').on('keyup', function (e) {
 function Add() {
     var id = $('#id').val().trim();
     var idgood = $('#idgood').val().trim();
+    var sku = $('#sku').val().trim();
     var style = $("#style option:selected").val();
+    var warehouse = $("#warehouse option:selected").val();
+    var qty = $('#qty').val().trim();
     var color = $("#color option:selected").val();
     var size = $("#size option:selected").val();
     var name = $("#name").val().trim();
@@ -140,6 +137,16 @@ function Add() {
     //Convert to array
     for (let i = 0; i < tags.length; i++) {
         TagArray.push(tags[i].value.substring(0, tags[i].value.indexOf(' :')))
+    }
+    var tags1 = JSON.parse($('#epc').val());
+    var TagArray1 = [];
+    //Convert to array
+    for (let i = 0; i < tags1.length; i++) {
+        TagArray1.push(tags1[i].value)
+    }
+    if (TagArray1.length < qty) {
+        alert("Nhập Đủ Mã EPC !!!!")
+        return;
     }
     if (id.length <= 0) {
         alert("Nhập barcode !!!")
@@ -183,12 +190,18 @@ function Add() {
     } if (pricenew <= 0) {
         alert("Nhập Giá Mới !!!")
         return;
+    } if (warehouse == -1) {
+        alert("Chọn Kho !!!")
+        return;
+    } if (qty <= 0) {
+        alert("Nhập Số lượng Tồn !!!")
+        return;
     }
     $.ajax({
         url: '/goods/Add',
         type: 'post',
         data: {
-            id, idgood, style, color, size, name, gender, categoods
+            id, idgood, sku, style, warehouse, qty, color, size, name, gender, categoods
             , groupgoods, price, season, coo, material, company, pricenew
 
         },
@@ -205,18 +218,40 @@ function Add() {
                         success: function (data) {
                             if (data.code == 200) {
                                 if (i == TagArray.length - 1) {
-                                    Swal.fire({
-                                        title: "Tạo Hàng Hóa Thành Công",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Confirm me!",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    });
-                                    window.location.href = "/Goods/Index";
-                                }
+                                    for (let i = 0; i < TagArray1.length; i++) {
+                                        var epc = TagArray1[i]
+                                        $.ajax({
+                                            url: '/goods/EPC',
+                                            type: 'post',
+                                            data: {
+                                                id, epc
+                                            },
+                                            success: function (data) {
+                                                if (data.code == 200) {
+                                                    if (i == TagArray1.length - 1) {
+                                                        Swal.fire({
+                                                            title: "Tạo Hàng Hóa Thành Công",
+                                                            icon: "success",
+                                                            buttonsStyling: false,
+                                                            confirmButtonText: "Confirm me!",
+                                                            customClass: {
+                                                                confirmButton: "btn btn-primary"
+                                                            }
+                                                        });
+                                                        window.location.href = "/Goods/Index";
+                                                    }
 
+
+                                                } else if (data.code == 300) {
+                                                    alert(data.msg)
+                                                }
+                                                else {
+                                                    alert("Tạo  Thất Bại")
+                                                }
+                                            },
+                                        })
+                                    }
+                                }
 
                             } else if (data.code == 300) {
                                 alert(data.msg)
@@ -227,6 +262,7 @@ function Add() {
                         },
                     })
                 }
+
             } else if (data.code == 300) {
                 alert(data.msg)
             }
@@ -243,23 +279,23 @@ function Add() {
 //----------------Edit::Goods---------------------
 function Edit() {
     var id = $('#id').val().trim();
-    var categoods = $("#categoods option:selected").val();
-    var name = $("#name").val().trim();
-    var price = $("#price").val().trim()
-    var pricetax = $("#pricetax").val().trim();
-    var internalprice = $("#internalprice").val().trim()
-    var gtgtinternaltax = $("#gtgtinternaltax").val().trim();
-    var discount = $("#discount").val().trim();
-    var internaldiscount = $("#internaldiscount").val().trim();
-    var expiry = $("#expiry").val().trim().length == 0 ? "01/01/9991" : $("#expiry").val().trim()
-    var warrantyperiod = $("#warrantyperiod").val().trim().length == 0 ? "01/01/9991" : $("#warrantyperiod").val().trim()
-    var minimuminventory = $("#minimuminventory").val().trim().length == 0 ? 0 : $("#minimuminventory").val().trim()
-    var maximuminventory = $("#maximuminventory").val().trim().length == 0 ? 1e10 : $("#maximuminventory").val().trim()
-    var des = $("#des").val().trim().length == 0 ? "Không Có" : $("#des").val().trim();;
-    var unit = $("#unit1 option:selected").val();
-    var season = $("#season option:selected").val();
+    var idgood = $('#idgood').val().trim();
+    var sku = $('#sku').val().trim();
+    var style = $("#style option:selected").val();
+    var warehouse = $("#warehouse option:selected").val();
+    var qty = $('#qty').val().trim();
     var color = $("#color option:selected").val();
     var size = $("#size option:selected").val();
+    var name = $("#name").val().trim();
+    var gender = $("#gender option:selected").val();
+    var categoods = $("#categoods option:selected").val();
+    var groupgoods = $("#groupgoods option:selected").val();
+    var price = $("#price").val().trim();
+    var season = $("#season option:selected").val();
+    var coo = $("#coo option:selected").val();
+    var material = $("#material").val().trim();
+    var company = $("#company").val().trim()
+    var pricenew = $("#pricenew").val().trim();
     if ($('#supplier').val().trim().length <= 0) {
         alert("Chọn Nhà Cung Cấp !!!")
         return;
@@ -270,20 +306,50 @@ function Edit() {
     for (let i = 0; i < tags.length; i++) {
         TagArray.push(tags[i].value.substring(0, tags[i].value.indexOf(' :')))
     }
-    if (name.length <= 0) {
+    if (style == -1) {
+        alert("Chọn Phong Cách !!!")
+        return;
+    } if (color == -1) {
+        alert("Chọn Màu Sắc !!!")
+        return;
+    } if (size == -1) {
+        alert("Chọn Kích Thước !!!")
+        return;
+    } if (name.length <= 0) {
         alert("Nhập Tên Hàng Hóa")
+        return;
+    } if (gender == -1) {
+        alert("Chọn Giới Tính !!!")
         return;
     } if (categoods == -1) {
         alert("Chọn Loại hàng !!!")
         return;
-    } if (unit == -1) {
-        alert("Chọn Đơn Vị !!!")
+    } if (groupgoods == -1) {
+        alert("Chọn Nhóm hàng!!!")
         return;
-    } if (/[a-zA-Z]/.test(expiry)) {
-        alert("Sai Hạn Sử Dụng !!!")
+    } if (price.length <= 0) {
+        alert("Chọn Giá!!!")
         return;
-    } if (/[a-zA-Z]/.test(warrantyperiod)) {
-        alert("Sai Ngày Bảo Hành !!!")
+    } if (season == -1) {
+        alert("Chọn Mùa!!!")
+        return;
+    } if (coo == -1) {
+        alert("Chọn Nơi Sản Xuất!!!")
+        return;
+    } if (material <= 0) {
+        alert("Nhập Thành Phần !!!")
+        return;
+    } if (company <= 0) {
+        alert("Nhập Công Ty !!!")
+        return;
+    } if (pricenew <= 0) {
+        alert("Nhập Giá Mới !!!")
+        return;
+    } if (warehouse == -1) {
+        alert("Chọn Kho !!!")
+        return;
+    } if (qty.length <= 0) {
+        alert("Nhập Số Lượng Tồn !!!")
         return;
     }
 
@@ -291,11 +357,8 @@ function Edit() {
         url: '/goods/Edit',
         type: 'post',
         data: {
-            id, categoods, name, price, pricetax,
-            internalprice, gtgtinternaltax, discount, internaldiscount,
-            expiry, warrantyperiod, minimuminventory, maximuminventory, des, unit,
-            season, color, size
-
+            id, idgood, sku, style, warehouse, qty, color, size, name, gender, categoods
+            , groupgoods, price, season, coo, material, company, pricenew
         },
         success: function (data) {
             if (data.code == 200) {
@@ -441,12 +504,15 @@ $('#id').keyup(function () {
 //---------------idgood----------------
 $('#style').change(function () {
     IdGood()
+    SKU()
 })
 $('#color').change(function () {
     IdGood()
+    SKU()
 })
 $('#size').change(function () {
     IdGood()
+    SKU()
 })
 
 function IdGood() {
@@ -455,3 +521,15 @@ function IdGood() {
     var size = $("#size option:selected").val();
     $('#idgood').val(style + "-" + color + "-" + size)
 }
+function SKU() {
+    var style = $("#style option:selected").val();
+    var color = $("#color option:selected").val();
+    $('#sku').val(style + "-" + color)
+}
+
+$('#qty').keyup(function () {
+    $('#slepc').empty();
+    var qty = $('#qty').val().trim();
+    $('#slepc').append("Cho " + qty + " Sản Phẩm")
+    new Tagify(input1, { maxTags: Number(qty) })
+})

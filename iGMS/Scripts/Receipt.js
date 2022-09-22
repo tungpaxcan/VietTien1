@@ -54,26 +54,33 @@ function getDetailGoodOrder() {
                     height: 100,
 
                 })
+
                 $.each(data.c, function (k, v) {
-                    let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
-                    table += '<td class="resultnhanhang" style="background:red; color: white;text-align: center;" id="result' + v.id + '">0</td>'
-                    table += '<td>' + (Stt++) + '</td>'
-                    table += '<td>' + v.id + '</td>'
-                    table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.unit + '</td>'
-                    table += '<td id="amountresult' + v.id + '">' + v.amount + '</td>'
-                    table += '<td>' + v.price + '</td>'
-                    table += '<td>' + v.discount + '</td>'
-                    table += '<td>' + v.pricediscount + '</td>'
-                    table += '<td>' + v.tax + '</td>'
-                    table += '<td>' + v.pricetax + '</td>'
-                    table += '<td>' + v.sumprice + '</td>'
-
-
-                    table += '</tr>';
-                    pricetax += Number(v.pricetax)
-                    $('tbody[name="tbd"]').append(table);
-
+                    var ids = $('.IDBA').map(function () {
+                        return this.id;
+                    }).get();
+                    if (ids.includes(v.id)) {                       
+                        var amounts = $('#amountresult' + v.id + '').text();
+                        $('#amountresult' + v.id + '').empty();
+                        
+                        $('#amountresult' + v.id + '').append(Number(amounts) + 1);
+                    }
+                    else {
+                        let id = '<span id="' + v.id + '" class="IDBA"></span>'
+                        let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
+                        table += '<td class="resultnhanhang" style="background:red; color: white;text-align: center;" id="result' + v.id + '">0</td>'
+                        table += '<td>' + (Stt++) + '</td>'
+                        table += '<td >' + v.id + '</td>'
+                        table += '<td>' + v.name + '</td>'
+                        table += '<td>' + v.size + '</td>'
+                        table += '<td id="amountresult' + v.id + '">1</td>'
+                        table += '<td>' + v.price + '</td>'
+                        table += '<td>' + v.sumprice + '</td>'
+                        table += '</tr>';
+                        pricetax += Number(v.pricetax)
+                        $('#ID').append(id);
+                        $('tbody[name="tbd"]').append(table);
+                    }                
                 });
                 $.each(data.d, function (k, v) {
                     let table = '<tr role="row" class="odd">';
@@ -87,7 +94,6 @@ function getDetailGoodOrder() {
                     table += '</tr>';
                     $('#tbdct').append(table);
                 });
-
             } else (
                 alert(data.msg)
             )
@@ -266,5 +272,7 @@ $(document).scannerDetection({
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
+
+
 
 

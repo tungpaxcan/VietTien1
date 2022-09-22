@@ -56,7 +56,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddDetail(int amount,string goods,float price,float discount,float pricediscount,float tax,float pricetax,float sumpricegoods)
+        public JsonResult AddDetail(string goods,float price,float sumpricegoods,string epc)
         {
             try
             {
@@ -64,15 +64,10 @@ namespace iGMS.Controllers
                 var nameAdmin = session.Name;
                 var idpurchaseorder = db.PurchaseOrders.OrderBy(x => x.Id);
                 var d = new DetailGoodOrder();
+                d.EPC = epc;
                 d.IdGoods = goods;
                 d.PurchaseOrder = idpurchaseorder.ToList().LastOrDefault();
                 d.Price = price;
-                d.Discount = discount;
-                d.PriceDiscount = pricediscount;
-                d.TaxGTGT = tax;
-                d.PriceTax = pricetax;
-                d.Amount = amount;
-                d.Amount1 = amount;
                 d.Sumprice = sumpricegoods;
                 d.CreateDate = DateTime.Now;
                 d.CreateBy = nameAdmin;
@@ -89,7 +84,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult EditDetailSupplierGoods(string supplier,string goods,float price,float tax,float discount)
+        public JsonResult EditDetailSupplierGoods(string supplier,string goods,float price)
         {
             try
             {
@@ -97,8 +92,6 @@ namespace iGMS.Controllers
                 var nameAdmin = session.Name;
                 var d = db.DetailSupplierGoods.SingleOrDefault(x=>x.IdSupplier==supplier&&x.IdGoods==goods);
                 d.PurchasePrice = price;
-                d.PurchaseTax = tax;
-                d.PurchaseDiscount = discount;
                 db.SaveChanges();
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
@@ -161,14 +154,10 @@ namespace iGMS.Controllers
                          select new
                          {
                              idgoods = b.IdGoods,
+                             epc = b.EPC,
                              name = b.Good.Name,
-                             unit = b.Good.Unit.Name,
-                             amount = b.Amount,
+                             size = b.Good.Size.Name,
                              price = b.Price,
-                             discount = b.Discount,
-                             tax = b.TaxGTGT,
-                             pricediscount = b.PriceDiscount,
-                             pricetax = b.PriceTax,
                              sumprice = b.Sumprice
                          }).ToList();
                 return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
@@ -206,10 +195,10 @@ namespace iGMS.Controllers
                          {
                              id = b.Good.Id,
                              name = b.Good.Name,
-                             unit = b.Good.Unit.Name,
+                             size = b.Good.Size.Name,
                              purchaseprice = b.PurchasePrice==null?0:b.PurchasePrice,
                              purchasediscount= b.PurchaseDiscount==null?0:b.PurchaseDiscount,
-                             purchasetax = b.PurchaseTax == null ? 10 : b.PurchaseTax
+                             purchasetax = b.PurchaseTax == null ? 0 : b.PurchaseTax
                          }).ToList().Where(x=>x.id.Contains(seach));
                 return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
             }
