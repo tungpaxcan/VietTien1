@@ -3,7 +3,6 @@
     ViewBag.Title = "Lập Phiếu Nhận Hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-ab
 <div hidden id="ID"></div>
 <div class="card card-custom">
     <div class="card-header">
@@ -106,8 +105,6 @@ ab
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Size</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
 
                         </tr>
                     </thead>
@@ -181,12 +178,6 @@ ab
                             <th class="">Tên Hàng</th>
                             <th class="">Đơn Vị</th>
                             <th class="">Số Lượng</th>
-                            <th class="">Đơn Giá</th>
-                            <th class="">%Chiết Khấu</th>
-                            <th class="">Tiền Chiết Khấu</th>
-                            <th class="">%Thuế GTGT</th>
-                            <th class="">Tiền Thuế GTGT</th>
-                            <th class="">Thành Tiền</th>
                         </tr>
                     </thead>
                     <tbody name="tbd">
@@ -307,7 +298,7 @@ ab
     <script src="~/Scripts/elements.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-    <script type="text/javascript">
+    @*<script type="text/javascript">
 
       //Switch Toggle
         $("#ScanMethod").change(function () {
@@ -410,5 +401,5 @@ ab
         function setPurchaseOrderText(code) {
             $('#purchaseorder').val(code)
         }
-    </script>
+    </script>*@
 }

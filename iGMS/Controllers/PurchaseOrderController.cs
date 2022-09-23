@@ -63,7 +63,11 @@ namespace iGMS.Controllers
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
                 var idpurchaseorder = db.PurchaseOrders.OrderBy(x => x.Id);
+                var idpu = idpurchaseorder.ToList().LastOrDefault();
+                var EPC = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == goods && x.EPC == epc);
+                var id = idpu.Id;
                 var d = new DetailGoodOrder();
+
                 d.EPC = epc;
                 d.IdGoods = goods;
                 d.PurchaseOrder = idpurchaseorder.ToList().LastOrDefault();
@@ -73,10 +77,10 @@ namespace iGMS.Controllers
                 d.CreateBy = nameAdmin;
                 d.ModifyDate = DateTime.Now;
                 d.ModifyBy = nameAdmin;
+                d.Status = true;
                 db.DetailGoodOrders.Add(d);
                 db.SaveChanges();
-                return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
-
+                return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);        
             }
             catch (Exception e)
             {
@@ -273,6 +277,28 @@ namespace iGMS.Controllers
                              name = b.Name,
                          }).ToList();
                 return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult EPCDaCo()
+        {
+            try
+            {
+                var c = (from b in db.EPCs.Where(x => x.Id > 0)
+                         select new
+                         {
+                             epc = b.IdEPC
+                         }).ToList();
+                var d = (from b in db.DetailGoodOrders.Where(x => x.Id > 0)
+                         select new
+                         {
+                             epc = b.EPC
+                         }).ToList();
+                return Json(new { code = 200, c = c,d=d }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

@@ -16,6 +16,23 @@ namespace iGMS.Controllers
             return View();
         }
         [HttpGet]
+        public JsonResult TonKho(string H,string id)
+        {
+            try
+            {
+                var c = (from b in db.DetailWareHouses.Where(x => (x.IdWareHouse==H||x.IdStore==H)&&x.IdGoods==id)
+                         select new
+                         {
+                             qty = b.Inventory,
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
         public JsonResult Customer()
         {
             try
@@ -61,10 +78,8 @@ namespace iGMS.Controllers
                          {
                              id = b.Id,
                              name = b.Name,
-                             unit = b.Unit.Name,
+                             size = b.Size.Name,
                              price = b.Price,
-                             discount = b.Discount,
-                             tax = b.PriceTax,
                          }).ToList();
                 return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
             }

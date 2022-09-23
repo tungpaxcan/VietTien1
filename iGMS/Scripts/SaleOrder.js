@@ -56,13 +56,9 @@ function Good(id) {
                         table += '<td>' + (Stt++) + '</td>'
                         table += '<td class="' + v.id + '">' + v.id + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td>' + v.unit + '</td>'
+                        table += '<td>' + v.size + '</td>'
                         table += '<td><input type="number" value="1" id="amount' + v.id + '" name="amount" /></td>'
                         table += '<td><input type="text" value="' + v.price + '" id="price' + v.id + '" name="price" /></td>'
-                        table += '<td><input type="number" value="' + v.discount + '" id="discount' + v.id + '" name="discount" placeholder="%" /></td>'
-                        table += '<td id="pricediscount' + v.id + '">0</td>'
-                        table += '<td><input type="number" value="' + v.tax + '" id="tax' + v.id + '" name="tax"/></td>'
-                        table += '<td id="pricetax' + v.id + '">0</td>'
                         table += '<td class="sumpricegoods" id="sumpricegoods' + v.id + '"></td>'
                         table += '<td name="delete"><img src="/Images/icons8-remove-38.png" /></td>'
                         table += '</tr>';
@@ -74,13 +70,10 @@ function Good(id) {
                     $('input[name="amount"]').keypress(function (event) {
                         if (event.which == 13) {
                             var id = $(this).closest('tr').attr('id');
+                            var amount = $('#amount' + id + '').val()
+
                             Tien(id)
-                        }
-                    })
-                    $('input[name="discount"]').keypress(function (event) {
-                        if (event.which == 13) {
-                            var id = $(this).closest('tr').attr('id')
-                            Tien(id)
+                            validateAmount(id, amount)
                         }
                     })
                     $('input[name="price"]').keypress(function (event) {
@@ -88,12 +81,7 @@ function Good(id) {
                             var id = $(this).closest('tr').attr('id')
                             Tien(id)
                         }
-                    })
-                    $('input[name="tax"]').keypress(function (event) {
-                        if (event.which == 13) {
-                            var id = $(this).closest('tr').attr('id')
-                            Tien(id)
-                        }
+
                     })
                     Tong()
                     //-------xóa
@@ -107,20 +95,39 @@ function Good(id) {
     })
 }
 
+function validateAmount(id, amount) {
+    var warehouse = $('#warehouse option:selected').val();
+    var store = $('#store option:selected').val();
+    var H = "";
+    if (warehouse == -1) {
+        H = store
+    } else {
+        H = warehouse
+    }
+    $.ajax({
+        url: '/saleorder/TonKho',
+        type: 'get',
+        data: {
+            H,id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.c, function (k, v) {
+                    if (amount > v.qty) {
+                        alert("Hàng Không Đủ")
+                    }
+                })
+            }
+        }
+    })
+}
+
 function Tien(id) {
-    $('#pricediscount' + id + '').empty()
-    $('#pricetax' + id + '').empty()
     $('#sumpricegoods' + id + '').empty()
     var amount = $('#amount' + id + '').val();
     var price = $('#price' + id + '').val();
-    var discount = $('#discount' + id + '').val();
-    var tax = $('#tax' + id + '').val();
     var sum = amount * price;
-    var di = sum * discount / 100;
-    var ta = sum * tax / 100;
-    $('#pricediscount' + id + '').append(di)
-    $('#pricetax' + id + '').append(ta)
-    $('#sumpricegoods' + id + '').append(sum + ta - di)
+    $('#sumpricegoods' + id + '').append(sum)
     Tong();
 }
 

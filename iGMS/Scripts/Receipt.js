@@ -74,8 +74,6 @@ function getDetailGoodOrder() {
                         table += '<td>' + v.name + '</td>'
                         table += '<td>' + v.size + '</td>'
                         table += '<td id="amountresult' + v.id + '">1</td>'
-                        table += '<td>' + v.price + '</td>'
-                        table += '<td>' + v.sumprice + '</td>'
                         table += '</tr>';
                         pricetax += Number(v.pricetax)
                         $('#ID').append(id);
@@ -129,7 +127,7 @@ function Add() {
             if (data.code == 200) {
                 LastReceipt()
                 $('#BILL').modal('show')
-                DaNhan(purchaseorder)
+                DaNhan(purchaseorder, id)
             } else if (data.code == 300) {
                 alert(data.msg)
             }
@@ -137,7 +135,7 @@ function Add() {
     })
 }
 
-function DaNhan(purchaseorder) {
+function DaNhan(purchaseorder, idd) {
     var ResultReceipt = $('.tablenhan .resultnhanhang').map(function () {
         return this.id;
     })
@@ -149,7 +147,7 @@ function DaNhan(purchaseorder) {
             url: '/receipt/DaNhan',
             type: 'post',
             data: {
-                id, amounttext, purchaseorder
+                id, amounttext, purchaseorder, idd
             },
             success: function (data) {
                 if (data.code == 200) {

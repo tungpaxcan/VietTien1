@@ -88,12 +88,24 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult DaNhan(string id, string amounttext, int purchaseorder)
+        public JsonResult DaNhan(string id, string amounttext, int purchaseorder,string idd)
         {
             try
             {
-                var c = db.DetailGoodOrders.Where(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder);
+                for(int i = 0; i < int.Parse(amounttext); i++)
+                {
+                    var c = db.DetailGoodOrders.OrderBy(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder&&x.Status==true).ToList().LastOrDefault();
+                    c.Status = false;
+                    db.SaveChanges();
+                }
+                var a = new DetailReceipt();
+                a.IdReceipt = idd;
+                a.Amount = int.Parse(amounttext);
+                a.idGood = id;
+                a.Status = true;
+                db.DetailReceipts.Add(a);
                 db.SaveChanges();
+             
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -160,14 +172,12 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == purchaseorder)
+                var c = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == purchaseorder&&x.Status==true)
                          select new
                          {
                              id = b.Good.Id,
                              name = b.Good.Name,
                              size = b.Good.Size.Name,
-                             price = b.Price,
-                             sumprice = b.Sumprice,
                          }).ToList();
                 var d = (from b in db.PurchaseOrders.Where(x => x.Id == purchaseorder)
                          select new

@@ -34,7 +34,7 @@ $('input[name="idReceipt"]').keyup(function () {
                     let table = '<tr id="' + v.id + '" role="row" class="odd ">';
                     
                     table += '<td>' + (Stt++) + '</td>'
-                    table += '<td><input type="number"name="amount' + v.id + '" /></td>'
+                    table += '<td id="amounts'+v.id+'">'+v.amount+'</td>'
                     table += '<td name="idgoods" >' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
 
@@ -77,11 +77,8 @@ function Add() {
     var idgoods = document.getElementsByName('idgoods')
     for (let i = 0; i < idgoods.length; i++) {
         var idgood = idgoods[i].innerText;
-        var amount = $('input[name="amount' + idgood + '"]').val().trim();
-        $('td[name="tbd1amount' + idgood + '"]').text(amount)
-        if (amount.length == 0) {
-            alert("Nhập Số Lượng hàng !!!")
-        }
+        var amount = $('#amounts' + idgood + '').text()
+        console.log(idgood, amount)
         $.ajax({
             url: '/detailwarehouse/Add',
             type: 'post',

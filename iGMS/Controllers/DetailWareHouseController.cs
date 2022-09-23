@@ -61,7 +61,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult Add(string idwarehouse,string idsupplier,string idgood,float amount,string idReceipt)
+        public JsonResult Add(string idwarehouse,string idsupplier,string idgood,string amount,string idReceipt)
         {
             try
             {
@@ -69,12 +69,14 @@ namespace iGMS.Controllers
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
                 var e = db.DetailWareHouses.SingleOrDefault(x => (x.IdWareHouse == idwarehouse || x.IdStore == idwarehouse) && x.IdGoods == idgood);
+                var g = db.DetailReceipts.SingleOrDefault(x => x.IdReceipt == idReceipt  && x.idGood == idgood&&x.Status==true);
                 var f = db.Receipts.Find(idReceipt);
+                g.Status = false;
                 f.Status = true;
                 db.SaveChanges();
                 if (e != null)
                 {
-                    e.Inventory += amount;
+                    e.Inventory += float.Parse(amount);
                     db.SaveChanges();
                     return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
                 }
@@ -90,7 +92,7 @@ namespace iGMS.Controllers
                         d.IdStore = idwarehouse;
                     }
                     d.IdGoods = idgood;
-                    d.Inventory = amount;
+                    d.Inventory = float.Parse(amount);
                     db.DetailWareHouses.Add(d);
 
                     db.SaveChanges();
@@ -154,19 +156,12 @@ namespace iGMS.Controllers
                              idwarehouse = b.PurchaseOrder.WareHouse.Id == null ? b.PurchaseOrder.Store.Id : b.PurchaseOrder.WareHouse.Id,
                              sumprice = b.PurchaseOrder.Sumprice
                          }).ToList();
-                var d = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == idpurchaseorder)
+                var d = (from b in db.DetailReceipts.Where(x => x.IdReceipt == idReceipt&&x.Status==true)
                          select new
                          {
                              id = b.Good.Id,
                              name = b.Good.Name,
-                             unit = b.Good.Unit.Name,
-                             price = b.Price,
-                             discount = b.Discount,
-                             pricediscount = b.PriceDiscount,
-                             tax = b.TaxGTGT,
-                             pricetax = b.PriceTax,
-                             sumprice = b.Sumprice,
-
+                             amount = b.Amount,
                          }).ToList();
                 return Json(new { code = 200, c = c,d=d }, JsonRequestBehavior.AllowGet);
             }

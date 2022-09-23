@@ -14,6 +14,12 @@ namespace iGMS.Models
     
     public partial class Receipt
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Receipt()
+        {
+            this.DetailReceipts = new HashSet<DetailReceipt>();
+        }
+    
         public string Id { get; set; }
         public Nullable<int> IdPurchaseOrder { get; set; }
         public Nullable<int> IdMethod { get; set; }
@@ -26,6 +32,8 @@ namespace iGMS.Models
         public string ModifyBy { get; set; }
         public Nullable<bool> Status { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailReceipt> DetailReceipts { get; set; }
         public virtual Method Method { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
     }

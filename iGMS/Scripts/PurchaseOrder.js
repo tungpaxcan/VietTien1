@@ -59,10 +59,10 @@ function ListGoods(supplier, seach, checkboxesChecked) {
                     $('#tbd').append(table);
                     PriceDiscount(v.id)
                     $('#amount' + v.id + '').keyup(function () {
-                        var input = document.getElementById('epc' + v.id + '');
+                      
                         PriceDiscount(v.id)
                         var amount = $('#amount' + v.id + '').val().trim();
-                        new Tagify(input, { maxTags: Number(amount) })
+                        EPC(v.id, amount)
                     })
                     $('#price' + v.id + '').keyup(function () {
                         PriceDiscount(v.id)
@@ -240,13 +240,12 @@ function Add() {
                                 success: function (data) {
                                     if (data.code == 200) {
 
-                                    }
+                                    } 
                                     else {
                                     }
                                 },
                             })
-                        }
-                           
+                        }                           
                         $.ajax({
                             url: '/purchaseorder/EditDetailSupplierGoods',
                             type: 'post',
@@ -394,4 +393,27 @@ $('input[type="radio"]').click(function () {
         }
     }
 })
-
+function EPC(id,amount){
+    var input = document.getElementById('epc' + id + '');
+    // init Tagify script on the above inputs
+    $.ajax({
+        url: '/purchaseorder/EPCDaCo',
+        type: 'get',
+        success: function (data) {
+            if (data.code == 200) {
+                let a = ''
+                $.each(data.c, function (k, v) {
+                    a += v.epc + ","
+                })
+                $.each(data.d, function (k, v) {
+                    a += v.epc + ","
+                })
+                const myArray = a.split(",");
+                new Tagify(input, {
+                    maxTags: Number(amount),
+                    blacklist: myArray
+                })
+            }
+        }
+    })
+}

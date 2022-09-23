@@ -12,12 +12,15 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class DetailReceipt
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int Id { get; set; }
+        public string IdReceipt { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public string idGood { get; set; }
+        public Nullable<bool> Status { get; set; }
+    
+        public virtual Good Good { get; set; }
+        public virtual Receipt Receipt { get; set; }
     }
 }
