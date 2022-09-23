@@ -313,10 +313,13 @@
         $("#ScanMethod").change(function () {
             if ($(this).is(":checked")) {
                 getDetailGoodOrder()
+                BarcodeEnumrate()
 
             } else {
 
                 getDetailGoodOrder()
+                EB.Barcode.disable()
+                RFIDEnumrate()
             }
 
         })
@@ -338,8 +341,7 @@
 
             rfidTagQty(lstEpc)
         }
-        function RFIDEnumrate() {
-            EB.Barcode.disable()
+    function RFIDEnumrate() {
 
             rfid.transport = 'serial'
             rfid.enumerate();
@@ -352,7 +354,7 @@
         ///Kiem tra so luong bang rfid
         function rfidTagQty(epc) {
             $.ajax({
-                url: '/RFID/getBarcodeByEPC',
+                url: '/rfid/getbarcodebyepc',
                 type: 'POST',
                 data: {
                     tags: epc
@@ -361,7 +363,7 @@
                     if (result.code = 200) {
                         $.each(result.barcode, function (i, d) {
 
-                            CompareReceipt(d)
+                            CompareReceipt(code.data)
 
                         })
                     } else {
@@ -404,9 +406,6 @@
             return null;
         }
 
-        function fnBarcodeScanned(jsonObject) {
-            CompareReceipt(jsonObject);
-        }
 
         function setPurchaseOrderText(code) {
             $('#purchaseorder').val(code)

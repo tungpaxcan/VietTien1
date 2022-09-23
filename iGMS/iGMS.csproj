@@ -2348,6 +2348,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\DetailWareHouse.js" />
     <Content Include="Scripts\ebapi-modules.js" />
