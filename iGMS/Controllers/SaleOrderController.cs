@@ -69,19 +69,27 @@ namespace iGMS.Controllers
             }
         }
         [HttpGet]
-        public JsonResult Good(string id)
+        public JsonResult Good(string id,string H)
         {
             try
             {
-                var c = (from b in db.Goods.Where(x => x.Id == id)
-                         select new
-                         {
-                             id = b.Id,
-                             name = b.Name,
-                             size = b.Size.Name,
-                             price = b.Price,
-                         }).ToList();
-                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+                var a = db.DetailWareHouses.SingleOrDefault(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods == id);
+                if (a != null)
+                {
+                    var c = (from b in db.Goods.Where(x => x.Id == id)
+                             select new
+                             {
+                                 id = b.Id,
+                                 name = b.Name,
+                                 size = b.Size.Name,
+                                 price = b.Price,
+                             }).ToList();
+                    return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { code = 1, msg="Chưa Có Hàng Trong Nơi Xuất" }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {
@@ -128,8 +136,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddDetails(string id,string H,int amount,float price,float discount,float tax,
-                                   float pricediscount,float pricetax,float sumpricegoods)
+        public JsonResult AddDetails(string id,string H,int amount,float price,float sumpricegoods)
         {
             try
             {
@@ -140,10 +147,6 @@ namespace iGMS.Controllers
                 b.Amount = amount;
                 b.Amount1 = amount;
                 b.Price = price;
-                b.Discount = discount;
-                b.Tax = tax;
-                b.PriceTax = pricetax;
-                b.PriceDiscount = pricediscount;
                 b.SumPrice = sumpricegoods;
                 db.DetailSaleOrders.Add(b);
                 db.SaveChanges();
@@ -193,13 +196,9 @@ namespace iGMS.Controllers
                          {
                              id = b.Good.Id,
                              name = b.Good.Name,
-                             unit = b.Good.Unit.Name,
+                             size = b.Good.Size.Name,
                              amount = b.Amount,
                              price=b.Price,
-                             discount = b.Discount,
-                             pricediscount = b.PriceDiscount,
-                             tax=b.Tax,
-                             pricetax=b.PriceTax,
                              sumprice = b.SumPrice,
 
                          }).ToList();

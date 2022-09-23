@@ -17,12 +17,7 @@ namespace iGMS.Models
         public int Id { get; set; }
         public string IdGoods { get; set; }
         public Nullable<int> IdPurchaseOrder { get; set; }
-        public Nullable<int> IdSalesOrder { get; set; }
         public Nullable<double> Price { get; set; }
-        public Nullable<double> Discount { get; set; }
-        public Nullable<double> PriceDiscount { get; set; }
-        public Nullable<double> TaxGTGT { get; set; }
-        public Nullable<double> PriceTax { get; set; }
         public Nullable<double> Sumprice { get; set; }
         public string EPC { get; set; }
         public string Description { get; set; }
@@ -34,6 +29,5 @@ namespace iGMS.Models
     
         public virtual Good Good { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
-        public virtual SalesOrder SalesOrder { get; set; }
     }
 }

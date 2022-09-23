@@ -43,30 +43,38 @@ function ListGoods(supplier, seach, checkboxesChecked) {
             $('#kt_datatable_info').empty();
             if (data.code == 200) {
                 $.each(data.c, function (k, v) {
-                    let table = '<tr id="' + v.id + '" role="row" class="odd">';
-                    table += '<td class="datatable-cell-sorted datatable-cell-center datatable-cell datatable-cell-check" data-field="RecordID" aria-label="2"><span style="width: 30px;"><label class="checkbox checkbox-single kt-checkbox--solid"><input id="'+v.id+'abc" onclick="Sumprice();" type="checkbox" value="' + v.id + '" name="change">&nbsp;<span></span></label></span></td>'
-                    table += '<td>' + (Stt++) + '</td>'
-                    table += '<td>' + v.id + '</td>'
-                    table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.size + '</td>'
-                    table += '<td><input type="number" value="0" id="amount' + v.id + '" /></td>'
-                    table += '<td>'
-                    table += '<textarea name="tags-outside" placeholder="Nhập Đủ Mã EPC" class="tagify--outside form-control" id="epc' + v.id + '"></textarea>'
-                    table += '</td>'
-                    table += '<td><input type="text" value="' + v.purchaseprice+'" id="price' + v.id + '" /></td>'
-                    table += '<td id="sumpricegoods' + v.id + '"></td>'                 
-                    table += '</tr>';
-                    $('#tbd').append(table);
-                    PriceDiscount(v.id)
-                    $('#amount' + v.id + '').keyup(function () {
-                      
+                    var ids = $('.nhanhang').map(function () {
+                        return this.id;
+                    }).get();
+                    if (ids.includes(v.id)) {
+                    }
+                    else {
+                        let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
+                        table += '<td class="datatable-cell-sorted datatable-cell-center datatable-cell datatable-cell-check" data-field="RecordID" aria-label="2"><span style="width: 30px;"><label class="checkbox checkbox-single kt-checkbox--solid"><input id="' + v.id + 'abc" onclick="Sumprice();" type="checkbox" value="' + v.id + '" name="change">&nbsp;<span></span></label></span></td>'
+                        table += '<td>' + (Stt++) + '</td>'
+                        table += '<td>' + v.id + '</td>'
+                        table += '<td>' + v.name + '</td>'
+                        table += '<td>' + v.size + '</td>'
+                        table += '<td><input type="number" value="0" id="amount' + v.id + '" /></td>'
+                        table += '<td>'
+                        table += '<textarea name="tags-outside" placeholder="Nhập Đủ Mã EPC" class="tagify--outside form-control" id="epc' + v.id + '"></textarea>'
+                        table += '</td>'
+                        table += '<td><input type="text" value="' + v.purchaseprice + '" id="price' + v.id + '" /></td>'
+                        table += '<td id="sumpricegoods' + v.id + '"></td>'
+                        table += '</tr>';
+                        $('#tbd').append(table);
                         PriceDiscount(v.id)
-                        var amount = $('#amount' + v.id + '').val().trim();
-                        EPC(v.id, amount)
-                    })
-                    $('#price' + v.id + '').keyup(function () {
-                        PriceDiscount(v.id)
-                    })
+                        $('#amount' + v.id + '').keyup(function () {
+
+                            PriceDiscount(v.id)
+                            var amount = $('#amount' + v.id + '').val().trim();
+                            EPC(v.id, amount)
+                        })
+                        $('#price' + v.id + '').keyup(function () {
+                            PriceDiscount(v.id)
+                        })
+                    }
+           
                   
                 });
                 Active(checkboxesChecked);
@@ -235,46 +243,25 @@ function Add() {
                                 url: '/purchaseorder/AddDetail',
                                 type: 'post',
                                 data: {
-                                    goods, price, sumpricegoods, epc
+                                    price, sumpricegoods, epc,  goods
                                 },
                                 success: function (data) {
                                     if (data.code == 200) {
-
+                                           
                                     } 
                                     else {
                                     }
                                 },
                             })
                         }                           
-                        $.ajax({
-                            url: '/purchaseorder/EditDetailSupplierGoods',
-                            type: 'post',
-                            data: {
-                                supplier, goods, price,
-                            },
-                            success: function (data) {
-                                if (data.code == 200) {
-                                    if (i == checkboxes.length) {
-                                        BILL()
-                                    }
-                                } 
-                                else {
-                                    alert("Tạo Đơn Hàng Thất Bại")
-                                }
-                            },
-                        })
                     }
                 }
-              
-            } else if (data.code == 300) {
-                alert(data.msg)
-            }
+
+                BILL()
+            } 
             else {
                 alert("Tạo Quầy Bán Thất Bại")
             }
-        },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
         }
     })
 }

@@ -56,13 +56,24 @@
                     if (data.code == 200) {
                         $('#tbd').empty()
                         $.each(data.c, function (k, v) {
-                            let table = '<tr>';
-                            table += '<td>' + (Stt++) + '</td>'
-                            table+='<td>'+v.K+'</td>'
-                            table+='<td>'+v.id+'</td>'
-                            table+='<td>'+v.name+'</td>'
-                            table += '<td>' + v.inventory + '</td></tr>'
-                            $('#tbd').append(table)
+                            var ids = $('.TON').map(function () {
+                                return this.id;
+                            }).get();
+                            if (ids.includes(v.id)) {
+                                var amounts = $('#inventory' + v.id + '').text();
+                                $('#inventory' + v.id + '').empty();
+
+                                $('#inventory' + v.id + '').append(Number(amounts) + 1);
+                            } else {
+                                let table = '<tr id="'+v.id+'" class="TON">';
+                                table += '<td>' + (Stt++) + '</td>'
+                                table += '<td>' + v.K + '</td>'
+                                table += '<td>' + v.id + '</td>'
+                                table += '<td>' + v.name + '</td>'
+                                table += '<td id="inventory'+v.id+'">1</td></tr>'
+                                $('#tbd').append(table)
+                            }
+                          
                         })
                     }
                 }

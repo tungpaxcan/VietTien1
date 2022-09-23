@@ -2339,7 +2339,7 @@
     <Content Include="Scripts\Customer.js" />
     <Content Include="Scripts\Customers.js" />
     <Content Include="Scripts\data.json.js" />
-    <Content Include="Images\a.xlsx" />
+    <Content Include="Images\HangHoa.xlsx" />
     <EntityDeploy Include="Models\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>

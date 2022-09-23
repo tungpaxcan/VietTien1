@@ -159,12 +159,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdPurchaseOrder" Type="int" />
-          <Property Name="IdSalesOrder" Type="int" />
           <Property Name="Price" Type="float" />
-          <Property Name="Discount" Type="float" />
-          <Property Name="PriceDiscount" Type="float" />
-          <Property Name="TaxGTGT" Type="float" />
-          <Property Name="PriceTax" Type="float" />
           <Property Name="Sumprice" Type="float" />
           <Property Name="EPC" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
@@ -875,18 +870,6 @@
             </Principal>
             <Dependent Role="DetailGoodOrder">
               <PropertyRef Name="IdPurchaseOrder" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetailGoodOrder_SalesOrder">
-          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
-          <End Role="DetailGoodOrder" Type="Self.DetailGoodOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOrder">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DetailGoodOrder">
-              <PropertyRef Name="IdSalesOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1653,10 +1636,6 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
             <End Role="DetailGoodOrder" EntitySet="DetailGoodOrder" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetailGoodOrder_SalesOrder" Association="Self.FK_DetailGoodOrder_SalesOrder">
-            <End Role="SalesOrder" EntitySet="SalesOrder" />
-            <End Role="DetailGoodOrder" EntitySet="DetailGoodOrder" />
-          </AssociationSet>
           <AssociationSet Name="FK_DetailReceipt_Goods" Association="Self.FK_DetailReceipt_Goods">
             <End Role="Goods" EntitySet="Goods" />
             <End Role="DetailReceipt" EntitySet="DetailReceipt" />
@@ -2056,12 +2035,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdPurchaseOrder" Type="Int32" />
-          <Property Name="IdSalesOrder" Type="Int32" />
           <Property Name="Price" Type="Double" />
-          <Property Name="Discount" Type="Double" />
-          <Property Name="PriceDiscount" Type="Double" />
-          <Property Name="TaxGTGT" Type="Double" />
-          <Property Name="PriceTax" Type="Double" />
           <Property Name="Sumprice" Type="Double" />
           <Property Name="EPC" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -2072,7 +2046,6 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Good" Relationship="Self.FK_DetailGoodOrder_Goods" FromRole="DetailGoodOrder" ToRole="Goods" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_DetailGoodOrder_PurchaseOrder" FromRole="DetailGoodOrder" ToRole="PurchaseOrder" />
-          <NavigationProperty Name="SalesOrder" Relationship="Self.FK_DetailGoodOrder_SalesOrder" FromRole="DetailGoodOrder" ToRole="SalesOrder" />
         </EntityType>
         <EntityType Name="DetailReceipt">
           <Key>
@@ -2528,7 +2501,6 @@
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_SalesOrder_Customer" FromRole="SalesOrder" ToRole="Customer" />
           <NavigationProperty Name="Deliveries" Relationship="Self.FK_Delivery_SalesOrder" FromRole="SalesOrder" ToRole="Delivery" />
-          <NavigationProperty Name="DetailGoodOrders" Relationship="Self.FK_DetailGoodOrder_SalesOrder" FromRole="SalesOrder" ToRole="DetailGoodOrder" />
           <NavigationProperty Name="DetailSaleOrders" Relationship="Self.FK_DetailSaleOrder_SalesOrder" FromRole="SalesOrder" ToRole="DetailSaleOrder" />
           <NavigationProperty Name="DetailSaleOrders1" Relationship="Self.FK_DetailSaleOrder_SalesOrder1" FromRole="SalesOrder" ToRole="DetailSaleOrder" />
           <NavigationProperty Name="PaymentMethod" Relationship="Self.FK_SalesOrder_PaymentMethods" FromRole="SalesOrder" ToRole="PaymentMethods" />
@@ -2953,18 +2925,6 @@
             </Principal>
             <Dependent Role="DetailGoodOrder">
               <PropertyRef Name="IdPurchaseOrder" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetailGoodOrder_SalesOrder">
-          <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="0..1" />
-          <End Role="DetailGoodOrder" Type="Self.DetailGoodOrder" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SalesOrder">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="DetailGoodOrder">
-              <PropertyRef Name="IdSalesOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3691,10 +3651,6 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="DetailGoodOrder" EntitySet="DetailGoodOrders" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetailGoodOrder_SalesOrder" Association="Self.FK_DetailGoodOrder_SalesOrder">
-            <End Role="SalesOrder" EntitySet="SalesOrders" />
-            <End Role="DetailGoodOrder" EntitySet="DetailGoodOrders" />
-          </AssociationSet>
           <AssociationSet Name="FK_DetailReceipt_Goods" Association="Self.FK_DetailReceipt_Goods">
             <End Role="Goods" EntitySet="Goods" />
             <End Role="DetailReceipt" EntitySet="DetailReceipts" />
@@ -4064,12 +4020,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
                 <ScalarProperty Name="IdPurchaseOrder" ColumnName="IdPurchaseOrder" />
-                <ScalarProperty Name="IdSalesOrder" ColumnName="IdSalesOrder" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="Discount" ColumnName="Discount" />
-                <ScalarProperty Name="PriceDiscount" ColumnName="PriceDiscount" />
-                <ScalarProperty Name="TaxGTGT" ColumnName="TaxGTGT" />
-                <ScalarProperty Name="PriceTax" ColumnName="PriceTax" />
                 <ScalarProperty Name="Sumprice" ColumnName="Sumprice" />
                 <ScalarProperty Name="EPC" ColumnName="EPC" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

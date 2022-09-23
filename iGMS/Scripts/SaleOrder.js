@@ -17,26 +17,41 @@ $('input[type="radio"]').click(function () {
     }
 })
 //-------------------tim hang hoa
-$('#seachidgood').keypress(function(event){
-    if (event.which == 13) {
-        var id = $('#seachidgood').val().trim();
-
-        Good(id);
-        
+$('#seachidgood').keypress(function (event) {
+    var warehouse = $('#warehouse option:selected').val();
+    var store = $('#store option:selected').val();
+    if (warehouse == -1 && store == -1) {
+        alert("Chọn Nơi Xuất")
+    } else {
+        if (event.which == 13) {
+            var id = $('#seachidgood').val().trim();
+            var amount = $('#amount' + id + '').val() == null ? 1 : Number($('#amount' + id + '').val()) + 1;
+            Good(id);
+            validateAmount(id, amount)
+        }
     }
+  
 })
 
 function Good(id) {
+    var warehouse = $('#warehouse option:selected').val();
+    var store = $('#store option:selected').val();
+    var H = "";
+    if (warehouse == -1) {
+        H = store
+    } else {
+        H = warehouse
+    }
     $.ajax({
         url: '/saleorder/Good',
         type: 'get',
         data: {
-            id
+            id,H
         },
         success: function (data) {
             if (data.code == 200) {
                 var Stt = 1;
-          
+
                 $.each(data.c, function (k, v) {
                     var ids = $('.IDGOOD').map(function () {
                         return this.id;
@@ -66,12 +81,12 @@ function Good(id) {
                         var amount = $('#amount' + v.id + '').val();
                         $('#sumpricegoods' + v.id + '').append(v.price * amount + (v.price * v.discount / 100))
                     }
+                    Tien(id)
                     //-----------Nhap số liệu-----------
                     $('input[name="amount"]').keypress(function (event) {
                         if (event.which == 13) {
                             var id = $(this).closest('tr').attr('id');
                             var amount = $('#amount' + id + '').val()
-
                             Tien(id)
                             validateAmount(id, amount)
                         }
@@ -90,6 +105,8 @@ function Good(id) {
                         $('#' + id + '').remove();
                     })
                 })
+            } else if (data.code == 1) {
+                alert(data.msg)
             }
         }
     })
@@ -114,7 +131,9 @@ function validateAmount(id, amount) {
             if (data.code == 200) {
                 $.each(data.c, function (k, v) {
                     if (amount > v.qty) {
-                        alert("Hàng Không Đủ")
+                        alert("Hàng Không Đủ, Chỉ Còn " + v.qty+"  !!!")
+                        $('#amount' + id + '').val(v.qty)
+                        Tien(id)
                     }
                 })
             }
@@ -176,7 +195,7 @@ function Add() {
     var user = $('#user option:selected').val()
     var paymethod = $('#paymethod option:selected').val()
     var sumprice = document.getElementById('sumprice').innerText;
-    var partialpay = $('#partialpay').val().trim().substring(1).replace(/,/g, '')
+    var partialpay = $('#partialpay').val().trim()
     var liabilities = document.getElementById('liabilities').innerText;
     var datepay = $('#datepay').val().trim()
     var deliverydate = $('#deliverydate').val().trim()
@@ -235,12 +254,8 @@ function Add() {
                     var id = ids[i];
                     var amount = $('#' + id + ' #amount' + id + '').val()
                     var price = $('#' + id + ' #price' + id + '').val()
-                    var discount = $('#' + id + ' #discount' + id + '').val()
-                    var tax = $('#' + id + ' #tax' + id + '').val()
-                    var pricediscount = $('#' + id + ' #pricediscount' + id + '').text();
-                    var pricetax = $('#' + id + ' #pricetax' + id + '').text();
                     var sumpricegoods = $('#' + id + ' #sumpricegoods' + id + '').text();
-                    Xuat(id, H, amount, price, discount, tax, pricediscount, pricetax, sumpricegoods)
+                    Xuat(id, H, amount, price, sumpricegoods)
                 }
 
             } 
@@ -250,12 +265,12 @@ function Add() {
         },
     })
 }
-function Xuat(id, H, amount, price, discount, tax, pricediscount, pricetax, sumpricegoods) {
+function Xuat(id, H, amount, price, sumpricegoods) {
     $.ajax({
         url: '/saleorder/AddDetails',
         type: 'post',
         data: {
-            id, H, amount, price, discount, tax, pricediscount, pricetax, sumpricegoods
+            id, H, amount, price, sumpricegoods
         },
         success: function (data) {
             if (data.code == 200) {
@@ -324,13 +339,9 @@ function BILL() {
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.unit + '</td>'
+                    table += '<td>' + v.size + '</td>'
                     table += '<td>' + v.amount + '</td>'
-                    table += '<td>' + v.price + '</td>'
-                    table += '<td >' + v.discount + '</td>'
-                    table += '<td class="modaldiscount">' + v.pricediscount + '</td>'
-                    table += '<td>' + v.tax + '</td>'
-                    table += '<td class="modaltax">' + v.pricetax + '</td>'
+                    table += '<td>' + v.price + '</td>'       
                     table += '<td class="modalsumprice">' + v.sumprice + '</td></tr>'
                     $('#tbdmodal').append(table)
                 })
@@ -358,5 +369,14 @@ function BILL() {
     })
 
 }
+
+$('#warehouse').change(function () {
+    $('#tbd').empty()
+})
+
+$('#store').change(function () {
+    $('#tbd').empty()
+})
+
 
 
