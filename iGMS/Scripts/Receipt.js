@@ -30,6 +30,7 @@ function getDetailGoodOrder() {
             $('#tbdct').empty();
             $('#sumpricetax').empty();
             $('#qrcode').empty();
+            $('#ID').empty();
             var Stt = 1;
             var pricetax = 0;
             if (data.code == 200) {
@@ -61,8 +62,7 @@ function getDetailGoodOrder() {
                     }).get();
                     if (ids.includes(v.id)) {                       
                         var amounts = $('#amountresult' + v.id + '').text();
-                        $('#amountresult' + v.id + '').empty();
-                        
+                        $('#amountresult' + v.id + '').empty();                        
                         $('#amountresult' + v.id + '').append(Number(amounts) + 1);
                     }
                     else {
@@ -263,7 +263,7 @@ $(document).scannerDetection({
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
     minLength: 1,
     onComplete: function (barcode, qty) {
-        CompareReceipt(barcode)
+        CompareReceipt(barcode.substring(0, barcode.length-8))
 
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)

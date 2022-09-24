@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows;
 using iGMS.Models;
+using OfficeOpenXml;
 
 namespace iGMS.Controllers
 {
@@ -88,7 +90,6 @@ namespace iGMS.Controllers
                 db.Goods.Add(e);
                 db.SaveChanges();
                 var d = new DetailGoodOrder();
-
                 d.EPC = epc;
                 d.IdGoods = epc;
                 d.Price = price;
@@ -201,7 +202,7 @@ namespace iGMS.Controllers
                 var c = (from b in db.DetailSupplierGoods.Where(x => x.IdSupplier == supplier)
                          select new
                          {
-                             id = (b.Good.Id).Substring(0, b.Good.Id.Length-6),
+                             id = (b.Good.Id).Substring(0, b.Good.Id.Length-8),
                              name = b.Good.Name,
                              size = b.Good.Size.Name,
                              purchaseprice = b.PurchasePrice==null?0:b.PurchasePrice,

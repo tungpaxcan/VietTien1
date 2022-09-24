@@ -247,7 +247,7 @@ function Add() {
                                 },
                                 success: function (data) {
                                     if (data.code == 200) {
-                                           
+                                        BILL()
                                     } 
                                     else {
                                     }
@@ -257,7 +257,7 @@ function Add() {
                     }
                 }
 
-                BILL()
+                
             } 
             else {
                 alert("Tạo Quầy Bán Thất Bại")
@@ -322,12 +322,6 @@ function BILL() {
                                         $('span[name="sumpricetax"]').empty()
                                      
                                         $.each(data.c, function (k, v) {
-                                            var tags = JSON.parse($('#epc' + v.idgoods + '').val());
-                                            var TagArray = [];
-                                            //Convert to array
-                                            for (let i = 0; i < tags.length; i++) {
-                                                TagArray.push(tags[i].value)
-                                            }
                                             let a = '<tr>';
                                             a += '<td>' + (Stt++) + '</td>';
                                             a += '<td>' + v.idgoods + '</td>';

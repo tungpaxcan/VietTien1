@@ -175,7 +175,7 @@ namespace iGMS.Controllers
                 var c = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == purchaseorder&&x.Status==true)
                          select new
                          {
-                             id = b.Good.Id,
+                             id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
                              name = b.Good.Name,
                              size = b.Good.Size.Name,
                          }).ToList();
