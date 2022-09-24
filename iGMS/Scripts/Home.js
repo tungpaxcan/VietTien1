@@ -197,7 +197,6 @@ function Goods(id) {
         },
         success: function (data) {
             if (data.code == 200) {
-
                 $.each(data.c, function (k, v) {
                     var ids = $('.id').map(function () {
                         return this.id;
@@ -232,9 +231,9 @@ function Goods(id) {
                 })
                 TongGiaTri()
 
-            } else (
-                alert(data.msg)
-            )
+            } else {
+            }
+               /* alert(data.msg)*/
         }
     })
 }
@@ -253,17 +252,15 @@ function ValidateAmount(id) {
             var price = $('#HH' + id + ' #price' + id + '').text();
             var discount = $('#HH' + id + ' #discount' + id + '').text();
             if (data.code == 200) {                
-                $.each(data.c, function (k, v) {
-                    if (v.qty < Number(amounts)) {
-                        $('#HH' + id + ' #amount' + id + '').text(v.qty);
-                        $('input[name="amountgoods"]').val(v.qty)
+                    if (data.c < Number(amounts)) {
+                        $('#HH' + id + ' #amount' + id + '').text(data.c);
+                        $('input[name="amountgoods"]').val(data.c)
                         $('#HH' + id + ' #totalmoney' + id + '').empty()
-                        var sum = Number(price) * (v.qty);
+                        var sum = Number(price) * (data.c);
                         $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
                         alert("Số Lượng Vượt Hàng Tồn !!!")
                         TongGiaTri()
-                    }          
-                })              
+                    }                      
             } else {
                 alert(data.msg)
             }
@@ -293,7 +290,7 @@ $(document).scannerDetection({
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
     minLength: 1,
     onComplete: function (barcode, qty) {
-        Goods(barcode)
+        Goods(barcode.substring(0, barcode.length-8))
 
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
