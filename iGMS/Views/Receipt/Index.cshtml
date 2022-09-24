@@ -102,9 +102,10 @@
                         <tr role="row">
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Trạng Thái</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending" hidden></th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Size</th>
+                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Xuất Xứ</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
 
                         </tr>
@@ -175,9 +176,10 @@
                         <tr role="row">
                             <th>Stt</th>
                             <th class="">Trạng Thái</th>
+                            <th class="" hidden>Mã Hàng</th>
                             <th class="">Mã Hàng</th>
                             <th class="">Tên Hàng</th>
-                            <th class="">Đơn Vị</th>
+                            <th class="">Xuất Xứ</th>
                             <th class="">Số Lượng</th>
                         </tr>
                     </thead>
@@ -239,13 +241,12 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            
+            BarcodeEnumrate()
         if (/Android/i.test(navigator.userAgent)) {
            $("#HandHeld").show()
         } else {
             $("#HandHeld").hide()
         }
-            BarcodeEnumrate()
         });
         
         var d = new Date()
@@ -304,6 +305,8 @@
         rfid.statusEvent = "statusEvent(%json)";
         rfid.tagEvent = "TagHandler(%json)";
         var lstEpcSended = [];
+    <script type="text/javascript">
+
       //Switch Toggle
         $("#ScanMethod").change(function () {
             if ($(this).is(":checked")) {
@@ -328,6 +331,9 @@
         //RFID
        
       
+        var lstEpcSended = [];
+        rfid.statusEvent = "statusEvent(%json)";
+        rfid.tagEvent = "TagHandler(%json)";
         function TagHandler(tagarray) {
 
             for (i = 0; i < tagarray.TagData.length; i++) {
@@ -338,6 +344,7 @@
             }
 
 
+            rfidTagQty(lstEpc)
         }
     function RFIDEnumrate() {
 

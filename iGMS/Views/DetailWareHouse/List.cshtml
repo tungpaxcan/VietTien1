@@ -6,6 +6,7 @@
 
 <div class="form-group  row">
     <label for="example-search-input" class="col-2 col-form-label">Hàng Hóa<span style="color:red"> (*) </span></label>
+    <button type="button" onclick="CompareReceipt()"></button>
     <div class="col-10" style="height: 500px;overflow-y: scroll;">
         <div class="input-group ">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -20,14 +21,6 @@
             </svg>
             <input class="form-control" type="search" placeholder="Tìm Mã Hàng" id="seachidgood" />
         </div>
-        <div class="input-group " id="HandHeld">
-            <label for="example-search-input" class="col-2 col-form-label">Phương thức quét<span style="color:red"> (*Handheld)</span> </label>
-            
-            <input class="form-control" type="checkbox" id="ScanMethod" checked data-toggle="toggle" data-on="RFID" data-off="Barcode" data-onstyle="success" data-offstyle="primary">
-
-        </div>
-
-       
         <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
             <thead>
                 <tr role="row">
@@ -51,7 +44,6 @@
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
-       
         $(document).ready(function () {
             if (/Android/i.test(navigator.userAgent)) {
               $("#HandHeld").show()
@@ -59,23 +51,27 @@
               $("#HandHeld").hide()
               }
 
-            rfid.statusEvent = "statusEvent(%json)";
-            rfid.tagEvent = "TagHandler(%json)";
-            RFIDEnumrate()
+            BarcodeEnumrate()
 
         })
-       
+        function BarcodeEnumrate() {
+            /*rfid.disconnect()*/
+
+            EB.Barcode.enable({
+                allDecoders: true
+            }, CompareReceipt);
+        }
+
     </script>
     <script>
         var seach = '';
         TonKho(seach)
 
         $('#seachidgood').keyup(function (e) {
-            
-            TonKho()
-        })
-        function TonKho() {
             seach = $('#seachidgood').val();
+            TonKho(seach)
+        })
+        function TonKho(seach) {
             $.ajax({
                 url: '/detailwarehouse/TonKho',
                 type: 'get',
@@ -116,109 +112,19 @@
             })
         }
 
-        
-        var lstEpcSended = [];
-        $("#ScanMethod").change(function () {
-            if ($(this).is(":checked")) {
-                alert('Bắt đầu quét RFID')
-                console.log('rfid')
-                lstEpcSended.length = 0;
-                TonKho()
-
-                EB.Barcode.disable()
-                RFIDEnumrate()
-
-            } else {
-                alert('Bắt đầu quét Barcode')
-                console.log('bar')
-                lstEpcSended.length = 0;
-                TonKho()
 
 
-                rfid.disconnect()
-                BarcodeEnumrate()
-
-                
-            }
-
-        });
-        //RFID
-       
-        function TagHandler(tagarray) {
-            
-            for (i = 0; i < tagarray.TagData.length; i++) {
-                var epc = tagarray.TagData[i].tagID
-                if (!lstEpcSended.includes(epc)) {
-                    CompareReceipt(epc)
-                }
-            }
-            
-
-        }
-        
-
-       
-        function RFIDEnumrate() {
-
-            rfid.transport = 'serial'
-            rfid.enumerate();
-            rfid.readerID = 'RFID1';
-            rfid.connect();
-           
-        }
-
-
-        ///*/Kiem tra so luong bang rfid*/
-        //function rfidTagQty(epc) {
-        //    $.ajax({
-        //        //url: '/rfid/getbarcodebyepc',
-        //        url: 'https://webhook.site/67dd9d72-3fb6-473e-a84d-f31170f6c242',
-        //        type: 'POST',
-        //        data: {
-        //            tags: epc
-        //        },
-        //        success: function (result) {
-        //            //if (result.code = 200) {
-        //            //    $.each(result.barcode, function (i, d) {
-
-        //            //        CompareReceipt(d)
-
-        //            //    })
-        //            //} else {
-        //            //    alert("error")
-        //            //}
-        //        }
-        //    })
-        //}
-
-        //Barcode
-        // MC3300
-
-        function BarcodeEnumrate() {
-            
-
-            EB.Barcode.enable({
-                allDecoders: true
-            }, temp);
-        }
-
-        
-        function temp(rawBar) {
-            CompareReceipt(rawBar.data)
-        }
-
-        function CompareReceipt(barcode ) {
-            barcode = barcode.substring(0, barcode.length - 8)
-
+        function CompareReceipt(code) {
+            var barcode = code.data
+            barcode = barcode.substring(0,barcode.length - 8)
             var invent = $('#inventory' + barcode + '').text()
             var inventcheck = $('#checkinvent' + barcode + '').text()
 
-            
+            var qty = Number(invent);
+
+            var checkqty = Number(inventcheck);
 
             if (invent != null && inventcheck != null) {
-                var qty = Number(invent);
-
-                var checkqty = Number(inventcheck);
                 if (checkqty < qty)
                     checkqty++
                 if (checkqty < qty && checkqty > 0) {

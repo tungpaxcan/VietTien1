@@ -176,8 +176,9 @@ namespace iGMS.Controllers
                          select new
                          {
                              id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
+                             idgood = b.Good.IdGood,
                              name = b.Good.Name,
-                             size = b.Good.Size.Name,
+                             coo = b.Good.Coo.Name,
                          }).ToList();
                 var d = (from b in db.PurchaseOrders.Where(x => x.Id == purchaseorder)
                          select new

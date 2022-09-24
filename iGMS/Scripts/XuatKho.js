@@ -34,9 +34,11 @@ function Show() {
                         let table = '<tr id="' + v.id + '" class="donhang IDSA">'
                         table += '<td style="background:red" id="result' + v.id + '">0</td>'
                         table += '<td>' + (Stt++) + '</td>'
-                        table += '<td>' + v.id + '</td>'
+                        table += '<td hidden>' + v.id + '</td>'
+                        table += '<td>' + v.idgood + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td id="amountresult' + v.id + '">' + v.amount + '</td></tr>'
+                        table += '<td>' + v.coo + '</td>'
+                        table += '<td id="amountresult' + v.id + '">1</td></tr>'
                         $('tbody[name="tbd"]').append(table)
                     }
 
