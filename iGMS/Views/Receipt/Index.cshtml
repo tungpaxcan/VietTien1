@@ -238,12 +238,13 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            BarcodeEnumrate()
+            
         if (/Android/i.test(navigator.userAgent)) {
            $("#HandHeld").show()
         } else {
             $("#HandHeld").hide()
         }
+            BarcodeEnumrate()
         });
         
         var d = new Date()
@@ -298,8 +299,8 @@
     <script src="~/Scripts/elements.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-    @*<script type="text/javascript">
-
+    <script type="text/javascript">
+        var lstEpcSended = [];
       //Switch Toggle
         $("#ScanMethod").change(function () {
             if ($(this).is(":checked")) {
@@ -316,7 +317,7 @@
         })
 
         //RFID
-        var lstEpcSended = [];
+       
         rfid.statusEvent = "statusEvent(%json)";
         rfid.tagEvent = "TagHandler(%json)";
         function TagHandler(tagarray) {
@@ -329,8 +330,12 @@
                     lstEpcSended.push(epc)
                 }
             }
+            if (lstEpc > 0) {
+                $.each(lstEpc, function (i, d) {
+                    CompareReceipt(d)
+                })
+            }
 
-            rfidTagQty(lstEpc)
         }
     function RFIDEnumrate() {
 
@@ -401,5 +406,5 @@
         function setPurchaseOrderText(code) {
             $('#purchaseorder').val(code)
         }
-    </script>*@
+    </script>
 }
