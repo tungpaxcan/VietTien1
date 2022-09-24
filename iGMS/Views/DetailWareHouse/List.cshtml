@@ -20,7 +20,7 @@
             </svg>
             <input class="form-control" type="search" placeholder="Tìm Mã Hàng" id="seachidgood" />
         </div>
-        <div class="input-group ">
+        <div class="input-group " id="HandHeld">
             <label for="example-search-input" class="col-2 col-form-label">Phương thức quét<span style="color:red"> (*Handheld)</span> </label>
             
             <input class="form-control" type="checkbox" id="ScanMethod" checked data-toggle="toggle" data-on="RFID" data-off="Barcode" data-onstyle="success" data-offstyle="primary">
@@ -51,20 +51,20 @@
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script>
-        rfid.statusEvent = "statusEvent(%json)";
-        rfid.tagEvent = "TagHandler(%json)";
+       
         $(document).ready(function () {
-            //if (/Android/i.test(navigator.userAgent)) {
-            //  $("#HandHeld").show()
-            //      } else {
-            //  $("#HandHeld").hide()
-            //  }
+            if (/Android/i.test(navigator.userAgent)) {
+              $("#HandHeld").show()
+             } else {
+              $("#HandHeld").hide()
+              }
 
-          
+            rfid.statusEvent = "statusEvent(%json)";
+            rfid.tagEvent = "TagHandler(%json)";
             RFIDEnumrate()
 
         })
-        
+       
     </script>
     <script>
         var seach = '';
@@ -168,28 +168,28 @@
         }
 
 
-        /*/Kiem tra so luong bang rfid*/
-        function rfidTagQty(epc) {
-            $.ajax({
-                //url: '/rfid/getbarcodebyepc',
-                url: 'https://webhook.site/67dd9d72-3fb6-473e-a84d-f31170f6c242',
-                type: 'POST',
-                data: {
-                    tags: epc
-                },
-                success: function (result) {
-                    //if (result.code = 200) {
-                    //    $.each(result.barcode, function (i, d) {
+        ///*/Kiem tra so luong bang rfid*/
+        //function rfidTagQty(epc) {
+        //    $.ajax({
+        //        //url: '/rfid/getbarcodebyepc',
+        //        url: 'https://webhook.site/67dd9d72-3fb6-473e-a84d-f31170f6c242',
+        //        type: 'POST',
+        //        data: {
+        //            tags: epc
+        //        },
+        //        success: function (result) {
+        //            //if (result.code = 200) {
+        //            //    $.each(result.barcode, function (i, d) {
 
-                    //        CompareReceipt(d)
+        //            //        CompareReceipt(d)
 
-                    //    })
-                    //} else {
-                    //    alert("error")
-                    //}
-                }
-            })
-        }
+        //            //    })
+        //            //} else {
+        //            //    alert("error")
+        //            //}
+        //        }
+        //    })
+        //}
 
         //Barcode
         // MC3300

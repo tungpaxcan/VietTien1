@@ -1,9 +1,10 @@
 ﻿$('#idsaleorder').keyup(function () {
-    var id = $('#idsaleorder').val().trim().substring(5)
-    Show(id)
+    Show()
 })
 
-function Show(id) {
+function Show() {
+    var id = $('#idsaleorder').val().trim().substring(5)
+   
     $.ajax({
         url: '/detailwarehouse/Show2',
         type: 'get',
@@ -48,6 +49,7 @@ function Show(id) {
 }
 
 function CompareReceipt(barcode) {
+    
     var amounttext = $('#result' + barcode + '').text();
     var amountresulttext = $('#amountresult' + barcode + '').text();
     var amount = Number(amounttext)

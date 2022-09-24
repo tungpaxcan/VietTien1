@@ -99,6 +99,7 @@ function getDetailGoodOrder() {
     })
 }
 function CompareReceipt(barcode) {
+   
     var amounttext = $('#result' + barcode + '').text();
     var amountresulttext = $('#amountresult' + barcode + '').text();
     var amount = Number(amounttext)
