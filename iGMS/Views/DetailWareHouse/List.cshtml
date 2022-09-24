@@ -6,6 +6,7 @@
 
 <div class="form-group  row">
     <label for="example-search-input" class="col-2 col-form-label">Hàng Hóa<span style="color:red"> (*) </span></label>
+    <button type="button" onclick="CompareReceipt()"></button>
     <div class="col-10" style="height: 500px;overflow-y: scroll;">
         <div class="input-group ">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -23,6 +24,8 @@
         <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
             <thead>
                 <tr role="row">
+
+                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Kiểm kho</th>
                     <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
                     <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Hàng Tại</th>
                     <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
@@ -36,13 +39,37 @@
     </div>
 </div>
 @section scripts{
+    <script src="~/Scripts/ebapi-modules.js"></script>
+    <script src="~/Scripts/elements.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //if (/Android/i.test(navigator.userAgent)) {
+            //  $("#HandHeld").show()
+            //      } else {
+            //  $("#HandHeld").hide()
+            //  }
+
+            BarcodeEnumrate()
+
+        })
+        function BarcodeEnumrate() {
+            /*rfid.disconnect()*/
+
+            EB.Barcode.enable({
+                allDecoders: true
+            }, CompareReceipt);
+        }
+
+    </script>
     <script>
         var seach = '';
         TonKho(seach)
 
         $('#seachidgood').keyup(function (e) {
-                seach = $('#seachidgood').val();
-                TonKho(seach)
+            seach = $('#seachidgood').val();
+            TonKho(seach)
         })
         function TonKho(seach) {
             $.ajax({
@@ -65,20 +92,55 @@
 
                                 $('#inventory' + v.id + '').append(Number(amounts) + 1);
                             } else {
-                                let table = '<tr id="'+v.id+'" class="TON">';
+                                let table = '<tr id="' + v.id + '" class="TON">'
+                                table += '<td id="checkinvent' + v.id + '" style="background:red;color:white">0</td>'
                                 table += '<td>' + (Stt++) + '</td>'
                                 table += '<td>' + v.K + '</td>'
                                 table += '<td>' + v.id + '</td>'
                                 table += '<td>' + v.name + '</td>'
-                                table += '<td id="inventory'+v.id+'">1</td></tr>'
+                                table += '<td id="inventory' + v.id + '">1</td>'
+
+
+
+                                table += '</tr>'
                                 $('#tbd').append(table)
                             }
-                          
+
                         })
                     }
                 }
             })
         }
+
+
+
+        function CompareReceipt(code) {
+            var barcode = code.data
+            barcode = barcode.substring(0,barcode.length - 8)
+            var invent = $('#inventory' + barcode + '').text()
+            var inventcheck = $('#checkinvent' + barcode + '').text()
+
+            var qty = Number(invent);
+
+            var checkqty = Number(inventcheck);
+
+            if (invent != null && inventcheck != null) {
+                if (checkqty < qty)
+                    checkqty++
+                if (checkqty < qty && checkqty > 0) {
+
+                    $('#checkinvent' + barcode + '').css('background', '#ffa800')
+                }
+                else {
+                    $('#checkinvent' + barcode + '').css('background', 'green')
+                }
+                $('#checkinvent' + barcode + '').text(checkqty)
+            }
+
+
+        }
+
     </script>
+    
 }
 

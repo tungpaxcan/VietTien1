@@ -31,7 +31,7 @@ namespace iGMS.Controllers
                 var c = (from b in db.DetailWareHouses.Where(x => x.Id > 0)
                          select new
                          {
-                             id = b.Good.Id.Substring(0, b.Good.Id.Length-6),
+                             id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
                              K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
                              name = b.Good.Name,
                              inventory = b.Inventory
