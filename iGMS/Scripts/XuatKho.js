@@ -22,13 +22,23 @@ function Show(id) {
                     $('span[name="customer"]').append(v.customer)
                 })
                 $.each(data.c, function (k, v) {
-                    let table = '<tr id="' + v.id + '" class="donhang">'
-                    table += '<td style="background:red" id="result' + v.id + '">0</td>'
-                    table += '<td>' + (Stt++) + '</td>'
-                    table += '<td>' + v.id + '</td>'
-                    table += '<td>' + v.name + '</td>'
-                    table += '<td id="amountresult' + v.id + '">' + v.amount + '</td></tr>'
-                    $('tbody[name="tbd"]').append(table)
+                    var ids = $('.IDSA').map(function () {
+                        return this.id;
+                    }).get();
+                    if (ids.includes(v.id)) {
+                        var amounts = $('#amountresult' + v.id + '').text();
+                        $('#amountresult' + v.id + '').empty();
+                        $('#amountresult' + v.id + '').append(Number(amounts) + 1);
+                    } else {
+                        let table = '<tr id="' + v.id + '" class="donhang IDSA">'
+                        table += '<td style="background:red" id="result' + v.id + '">0</td>'
+                        table += '<td>' + (Stt++) + '</td>'
+                        table += '<td>' + v.id + '</td>'
+                        table += '<td>' + v.name + '</td>'
+                        table += '<td id="amountresult' + v.id + '">' + v.amount + '</td></tr>'
+                        $('tbody[name="tbd"]').append(table)
+                    }
+
                 })
             }  else {
                 alert(data.msg)
@@ -109,7 +119,7 @@ $(document).scannerDetection({
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
     minLength: 1,
     onComplete: function (barcode, qty) {
-        CompareReceipt(barcode)
+        CompareReceipt(barcode.substring(0, barcode.length-8))
 
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)

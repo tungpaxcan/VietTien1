@@ -201,7 +201,7 @@ namespace iGMS.Controllers
                          select new
                          {
                              amount=b.Amount,
-                             id = b.IdGoods,
+                             id = b.IdGoods.Substring(0,b.IdGoods.Length-8),
                              name=b.Good.Name,
 
                          }).ToList();

@@ -73,13 +73,13 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailWareHouses.SingleOrDefault(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods == id);
-                if (a != null)
+                var a = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id));
+                if (a.Count()>0)
                 {
-                    var c = (from b in db.Goods.Where(x => x.Id == id)
+                    var c = (from b in db.Goods.Where(x => x.Id.Contains(id))
                              select new
                              {
-                                 id = b.Id,
+                                 id = b.Id.Substring(0,b.Id.Length-8),
                                  name = b.Name,
                                  size = b.Size.Name,
                                  price = b.Price,
@@ -140,6 +140,7 @@ namespace iGMS.Controllers
         {
             try
             {
+                var sta = db.Goods.OrderBy(x => x.Id.Contains(id)).ToList();
                 var a = db.SalesOrders.OrderBy(x => x.Id).ToList().LastOrDefault();
                 var b = new DetailSaleOrder();
                 b.IdGoods = id;
@@ -147,6 +148,7 @@ namespace iGMS.Controllers
                 b.Amount = amount;
                 b.Amount1 = amount;
                 b.Price = price;
+                b.IdSaleOrder = a.Id;
                 b.SumPrice = sumpricegoods;
                 db.DetailSaleOrders.Add(b);
                 db.SaveChanges();
