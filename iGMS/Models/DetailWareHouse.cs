@@ -19,6 +19,7 @@ namespace iGMS.Models
         public string IdGoods { get; set; }
         public string IdStore { get; set; }
         public Nullable<double> Inventory { get; set; }
+        public Nullable<bool> Status { get; set; }
     
         public virtual Good Good { get; set; }
         public virtual Store Store { get; set; }

@@ -132,16 +132,16 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = (from b in db.Goods.Where(x => x.Id == id)
+                var c = (from b in db.Goods.Where(x => x.Id.Contains(id))
                          select new
                          {
-                             id = b.Id,
+                             id = b.Id.Substring(0,b.Id.Length-8),
                              name = b.Name,
                              size = b.Size.Name,
                              price = b.Price,
                              discount = b.Discount,
                              categoods = b.CateGood.Name
-                         }).ToList();
+                         }).ToList().Take(1);
                 return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -156,12 +156,8 @@ namespace iGMS.Controllers
             {
                 var store = (Store)Session["Store"];
                 var wareHouse = (WareHouse)Session["WareHouse"];
-                var c = (from b in db.DetailWareHouses.Where(x => (x.IdStore == store.Id||x.IdWareHouse==wareHouse.Id)&&x.IdGoods==id)
-                         select new
-                         {
-                            qty = b.Inventory,
-                         }).ToList();
-                return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
+                var c = db.DetailWareHouses.Where(x => (x.IdStore == store.Id || x.IdWareHouse == wareHouse.Id) && x.IdGoods.Contains(id));
+                return Json(new { code = 200, c = c.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -281,23 +277,30 @@ namespace iGMS.Controllers
             try
             {
                 var store = (Store)Session["Store"];
-                var e = db.DetailWareHouses.SingleOrDefault(x => x.IdStore == store.Id && x.IdGoods == idgoods);
+                var warehouse =(WareHouse)Session["WareHouse"];
+                var e = db.DetailWareHouses.OrderBy(x => (x.IdStore == store.Id||x.IdWareHouse==warehouse.Id) && x.IdGoods.Contains(idgoods)&&x.Status==true).ToList().LastOrDefault();
+                var f = db.DetailWareHouses.Where(x => (x.IdStore == store.Id || x.IdWareHouse == warehouse.Id) && x.IdGoods.Contains(idgoods) && x.Status == true);
                 if (e == null)
                 {
                     return Json(new { code = 100,msg=idgoods+" : Hàng Chưa Có Trong Cửa Hàng !!!" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    if (e.Inventory <= 0)
+                    if (f.Count() <= 0)
                     {
                         return Json(new { code = 1 ,msg=idgoods+" : Hết Hàng !!!"}, JsonRequestBehavior.AllowGet);
-                    }else if (e.Inventory<=float.Parse(amounts))
+                    }else if (f.Count()<float.Parse(amounts))
                     {
                         return Json(new { code = 2, msg = idgoods + " : Không đủ Hàng Trong Cửa Hàng !!!\n Giảm Số Lượng !!!" }, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
-                        e.Inventory -= float.Parse(amounts);
+                        for(int i = 0; i < int.Parse(amounts); i++)
+                        {
+                            e.Status = false;
+                            db.SaveChanges();
+                        }
+                       
                     }
                   
                 }
@@ -306,7 +309,7 @@ namespace iGMS.Controllers
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
                 var d = new DetailBill();
-                d.IdGoods = idgoods;
+                d.IdGoods = e.IdGoods;
                 d.Bill = idbill.ToList().LastOrDefault();
                 d.Amount = int.Parse(amounts);
                 d.Price = float.Parse(price);

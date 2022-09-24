@@ -4,53 +4,53 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9f8b492ce399458d827d1a9bef03e1e3" Name="Diagram1">
-        <EntityTypeShape EntityType="VietTienModel.Bill" Width="1.5" PointX="9" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.CateGood" Width="1.5" PointX="6.75" PointY="15.75" IsExpanded="true" />
+      <Diagram DiagramId="ec060ecb626e455c8bfbf5ac8f4a2696" Name="Diagram1">
+        <EntityTypeShape EntityType="VietTienModel.Bill" Width="1.5" PointX="9" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.CateGood" Width="1.5" PointX="6.75" PointY="15.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.CategoryGood" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Color" Width="1.5" PointX="6.75" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Coo" Width="1.5" PointX="6.75" PointY="30.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Customer" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Delivery" Width="1.5" PointX="3" PointY="26.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailBill" Width="1.5" PointX="11.25" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Color" Width="1.5" PointX="6.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Coo" Width="1.5" PointX="6.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Customer" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Delivery" Width="1.5" PointX="3" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailBill" Width="1.5" PointX="11.25" PointY="26.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.DetailEPC" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailGoodOrder" Width="1.5" PointX="11.25" PointY="21.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailReceipt" Width="1.5" PointX="14.25" PointY="25.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailReportEndShift" Width="1.5" PointX="11.25" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailSaleOrder" Width="1.5" PointX="14.25" PointY="28.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.DetailSupplierGood" Width="1.5" PointX="11.25" PointY="31.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailGoodOrder" Width="1.5" PointX="11.25" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailReceipt" Width="1.5" PointX="14.25" PointY="25.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailReportEndShift" Width="1.5" PointX="11.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailSaleOrder" Width="1.5" PointX="14.25" PointY="28.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.DetailSupplierGood" Width="1.5" PointX="11.25" PointY="32" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.DetailWareHouse" Width="1.5" PointX="6" PointY="27" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.EPC" Width="1.5" PointX="11.25" PointY="46.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Gender" Width="1.5" PointX="6.75" PointY="33.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.GeneralAccounting" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Good" Width="1.5" PointX="9" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.GroupGood" Width="1.5" PointX="1.5" PointY="38.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Industry" Width="1.5" PointX="1.5" PointY="42.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.InternalAccounting" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Gender" Width="1.5" PointX="6.75" PointY="34" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.GeneralAccounting" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Good" Width="1.5" PointX="9" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.GroupGood" Width="1.5" PointX="1.5" PointY="38.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Industry" Width="1.5" PointX="1.5" PointY="43" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.InternalAccounting" Width="1.5" PointX="0.75" PointY="13.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.License" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Method" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.NumberShift" Width="1.5" PointX="12" PointY="36.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Promotion" Width="1.5" PointX="11.25" PointY="49.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Method" Width="1.5" PointX="3" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.NumberShift" Width="1.5" PointX="12" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.PaymentMethod" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Promotion" Width="1.5" PointX="11.25" PointY="49.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.PurchaseOrder" Width="1.5" PointX="3" PointY="19" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.PurchaseOrderReport" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Receipt" Width="1.5" PointX="5.25" PointY="20.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.ReportFirstShift" Width="1.5" PointX="9" PointY="35.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.ReportlEndShift" Width="1.5" PointX="14.25" PointY="34.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Role" Width="1.5" PointX="1.5" PointY="59.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Receipt" Width="1.5" PointX="5.25" PointY="20.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.ReportFirstShift" Width="1.5" PointX="9" PointY="35.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.ReportlEndShift" Width="1.5" PointX="14.25" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Role" Width="1.5" PointX="1.5" PointY="59.75" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.RoleAdmin" Width="1.5" PointX="1.5" PointY="64.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.SalesOrder" Width="1.5" PointX="3" PointY="31" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.Season" Width="1.5" PointX="6.75" PointY="37.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Size" Width="1.5" PointX="6.75" PointY="40.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Stall" Width="1.5" PointX="6.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Store" Width="1.5" PointX="0.75" PointY="19.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Size" Width="1.5" PointX="6.75" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Stall" Width="1.5" PointX="6.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Store" Width="1.5" PointX="0.75" PointY="19.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.Style" Width="1.5" PointX="6.75" PointY="43.875" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.Supplier" Width="1.5" PointX="0.75" PointY="31.25" IsExpanded="true" />
         <EntityTypeShape EntityType="VietTienModel.TypeSale" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.TypeStatu" Width="1.5" PointX="0.75" PointY="47.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.Unit" Width="1.5" PointX="6.75" PointY="47.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.User" Width="1.5" PointX="0.75" PointY="52.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="VietTienModel.WareHouse" Width="1.5" PointX="0.75" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.TypeStatu" Width="1.5" PointX="0.75" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.Unit" Width="1.5" PointX="6.75" PointY="47.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.User" Width="1.5" PointX="0.75" PointY="52.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="VietTienModel.WareHouse" Width="1.5" PointX="0.75" PointY="26.625" IsExpanded="true" />
         <AssociationConnector Association="VietTienModel.FK_Bill_Customer" ManuallyRouted="false" />
         <AssociationConnector Association="VietTienModel.FK_Bill_Stalls" ManuallyRouted="false" />
         <AssociationConnector Association="VietTienModel.FK_Bill_Store" ManuallyRouted="false" />

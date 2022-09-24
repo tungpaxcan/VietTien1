@@ -28,7 +28,7 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = (from b in db.DetailWareHouses.Where(x => x.Id > 0)
+                var c = (from b in db.DetailWareHouses.Where(x => x.Id > 0 &&x.Status==true)
                          select new
                          {
                              id = b.Good.Id.Substring(0, b.Good.Id.Length-8),

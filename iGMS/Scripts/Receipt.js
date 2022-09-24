@@ -98,7 +98,39 @@ function getDetailGoodOrder() {
         }
     })
 }
+function CompareReceipt(barcode) {
+    var amounttext = $('#result' + barcode + '').text();
+    var amountresulttext = $('#amountresult' + barcode + '').text();
+    var amount = Number(amounttext)
+    var amountresult = Number(amountresulttext)
+    var GoodPucharseOder = $('.tablenhan .nhanhang').map(function () {
 
+        return this.id;
+    })
+    for (var i = 0; i < GoodPucharseOder.length; i++) {
+        if (GoodPucharseOder[i] == barcode) {
+
+            amount += 1;
+            if (amount > amountresult) {
+                return;
+            } else {
+                $('.tablenhan #result' + barcode + '').text(amount)
+                $('.modal #result' + barcode + '').text(amount)
+            }
+            if (amount == amountresult) {
+                $('.tablenhan #result' + barcode + '').css('background', 'green')
+                $('.modal #result' + barcode + '').css('background', 'green')
+            } else if (amount < amountresult) {
+                $('.tablenhan #result' + barcode + '').css('background', '#ffa800')
+                $('.modal #result' + barcode + '').css('background', '#ffa800')
+            } else if (amount <= 0) {
+                $('.tablenhan #result' + barcode + '').css('background', 'red')
+                $('.modal #result' + barcode + '').css('background', 'red')
+            }
+
+        }
+    }
+}
 //-------------------add--------------------
 function Add() {
     var id = $('#id').val().trim();
@@ -218,6 +250,7 @@ function LastReceipt() {
 $('#btnct').click(function () {
     $('#CT').modal('show')
 })
+
 
 
 

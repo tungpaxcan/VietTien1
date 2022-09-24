@@ -236,6 +236,7 @@
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdStore" Type="varchar" MaxLength="20" />
           <Property Name="Inventory" Type="float" />
+          <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="EPC">
           <Key>
@@ -2123,6 +2124,7 @@
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdStore" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Inventory" Type="Double" />
+          <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="Good" Relationship="Self.FK_DetailWareHouse_Goods" FromRole="DetailWareHouse" ToRole="Goods" />
           <NavigationProperty Name="Store" Relationship="Self.FK_DetailWareHouse_Store" FromRole="DetailWareHouse" ToRole="Store" />
           <NavigationProperty Name="WareHouse" Relationship="Self.FK_DetailWareHouse_WareHouse" FromRole="DetailWareHouse" ToRole="WareHouse" />
@@ -4102,6 +4104,7 @@
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
                 <ScalarProperty Name="Inventory" ColumnName="Inventory" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
