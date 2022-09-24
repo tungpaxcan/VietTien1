@@ -241,12 +241,14 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            BarcodeEnumrate()
+            
+
         if (/Android/i.test(navigator.userAgent)) {
            $("#HandHeld").show()
         } else {
             $("#HandHeld").hide()
-        }
+            }
+            RFIDEnumrate()
         });
         
         var d = new Date()
@@ -302,10 +304,9 @@
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script type="text/javascript">
-        rfid.statusEvent = "statusEvent(%json)";
-        rfid.tagEvent = "TagHandler(%json)";
+       
         var lstEpcSended = [];
-    <script type="text/javascript">
+   
 
       //Switch Toggle
         $("#ScanMethod").change(function () {
@@ -331,53 +332,33 @@
         //RFID
        
       
-        var lstEpcSended = [];
-        rfid.statusEvent = "statusEvent(%json)";
-        rfid.tagEvent = "TagHandler(%json)";
+        
         function TagHandler(tagarray) {
 
             for (i = 0; i < tagarray.TagData.length; i++) {
                 var epc = tagarray.TagData[i].tagID
                 if (!lstEpcSended.includes(epc)) {
-                    CompareReceipt(epc)
+                    lstEpcSended.push(epc)
+                    temp1(epc)
                 }
             }
 
 
-            rfidTagQty(lstEpc)
+            
         }
-    function RFIDEnumrate() {
+
+        function RFIDEnumrate() {
 
             rfid.transport = 'serial'
             rfid.enumerate();
             rfid.readerID = 'RFID1';
             rfid.connect();
-           
+        rfid.statusEvent = "statusEvent(%json)";
+        rfid.tagEvent = "TagHandler(%json)";
         }
 
 
-        ///Kiem tra so luong bang rfid
-        //function rfidTagQty(epc) {
-        //    $.ajax({
-        //        url: '/rfid/getbarcodebyepc',
-        //        type: 'POST',
-        //        data: {
-        //            tags: epc
-        //        },
-        //        success: function (result) {
-        //            if (result.code = 200) {
-        //                $.each(result.barcode, function (i, d) {
-
-        //                    CompareReceipt(code.data)
-
-        //                })
-        //            } else {
-        //                alert("error")
-        //            }
-        //        }
-        //    })
-        //}
-
+        
         //Barcode
         // MC3300
        
@@ -396,14 +377,23 @@
                 setPurchaseOrderText(code.data)
 
             } else {
-                var rs = code.data
-                rs = rs.substring(0, barcode.length - 8)
-                alert(rs)
-                CompareReceipt(rs)
+
+                temp(code)
             }
 
         }
+        function temp(rawBar) {
+            var t = rawBar.data
+            t = t.substring(0, t.length - 8)
+            CompareReceipt(t)
+        }
 
+        function temp1(t) {
+
+            t = t.substring(0, t.length - 8)
+            
+            CompareReceipt(t)
+        }
         function getText(elem) {
             if ((elem.tagName === "INPUT" && elem.type === "text")) {
 

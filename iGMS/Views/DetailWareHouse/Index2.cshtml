@@ -131,7 +131,8 @@
             for (i = 0; i < tagarray.TagData.length; i++) {
                 var epc = tagarray.TagData[i].tagID
                 if (!lstEpcSended.includes(epc)) {
-                    CompareReceipt(epc)
+                    lstEpcSended.push(epc)
+                    temp1(epc)
                 }
             }
 
@@ -167,10 +168,7 @@
                 setPurchaseOrderText(code.data)
 
             } else {
-                var rs = code.data
-                rs = rs.substring(0, barcode.length - 8)
-                alert(rs)
-                fCompareReceipt(rs)
+                temp(code)
             }
 
         }
@@ -187,6 +185,18 @@
 
         function setPurchaseOrderText(code) {
             $('#idsaleorder').val(code)
+        }
+
+        function temp(rawBar) {
+            var t = rawBar.data
+            t = t.substring(0, t.length - 8)
+            CompareReceipt(t)
+        }
+
+        function temp1(t) {
+
+            t = t.substring(0, t.length - 8)
+            CompareReceipt(t)
         }
     </script>
 }
