@@ -603,6 +603,7 @@ namespace iGMS.Controllers
                             {
                                 var dewa = new DetailWareHouse();
                                 dewa.Inventory = 1;
+                                dewa.Status = true;
                                 dewa.IdGoods = id;
                                 dewa.IdWareHouse = warehouse;
                                 db.DetailWareHouses.Add(dewa);

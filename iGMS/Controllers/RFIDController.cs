@@ -17,9 +17,7 @@ namespace iGMS.Controllers
         {
             try
             {
-                var stall = (Stall)Session["Stalls"];
-                var store = (Stall)Session["Store"];
-                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length > 0 && x.IdStall == stall.Id && x.Idstore == store.Id)
+                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length > 0/* && x.IdStall == stall.Id && x.Idstore == store.Id*/)
                          select new
                          {
                              id = b.IdEPC
@@ -39,7 +37,7 @@ namespace iGMS.Controllers
                 var a = (from b in db.EPCs.Where(x => x.IdEPC == epc)
                          select new
                          {
-                             idgood = b.IdGoods
+                             idgood = b.IdGoods.Substring(0,b.IdGoods.Length-8)
                          }).ToList();
                 return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
             }
@@ -66,8 +64,8 @@ namespace iGMS.Controllers
         [HttpPost]
         public string Post(Root root)
         {
-            var stall = (Stall)Session["Stalls"];
-            var store = (Stall)Session["Store"];
+            //var stall = (Stall)Session["Stalls"];
+            //var store = (Stall)Session["Store"];
             var tags = root.tag_reads.ToList();
             foreach (var tag in tags)
             {
@@ -75,8 +73,8 @@ namespace iGMS.Controllers
                 {
                     IdEPC = tag.epc
                 };
-                t.IdStall = stall.Id;
-                t.Idstore = store.Id;
+                //t.IdStall = stall.Id;
+                //t.Idstore = store.Id;
                 if (!db.DetailEPCs.Any(x => x.IdEPC.Equals(t.IdEPC)))
                     db.DetailEPCs.Add(t);
             }

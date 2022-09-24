@@ -62,17 +62,21 @@ function getDetailGoodOrder() {
                     }).get();
                     if (ids.includes(v.id)) {                       
                         var amounts = $('#amountresult' + v.id + '').text();
-                        $('#amountresult' + v.id + '').empty();                        
-                        $('#amountresult' + v.id + '').append(Number(amounts) + 1);
+                        $('.nhanhang #amountresult' + v.id + '').empty();
+                       
+                        $('.nhanhang #amountresult' + v.id + '').append(Number(amounts) + 1);
+                        $('.modal #amountresult' + v.id + '').empty();
+                        $('.modal #amountresult' + v.id + '').append(Number(amounts) + 1);
                     }
                     else {
                         let id = '<span id="' + v.id + '" class="IDBA"></span>'
                         let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
                         table += '<td class="resultnhanhang" style="background:red; color: white;text-align: center;" id="result' + v.id + '">0</td>'
                         table += '<td>' + (Stt++) + '</td>'
-                        table += '<td >' + v.id + '</td>'
+                        table += '<td hidden>' + v.id + '</td>'
+                        table += '<td>' + v.idgood + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td>' + v.size + '</td>'
+                        table += '<td>' + v.coo + '</td>'
                         table += '<td id="amountresult' + v.id + '">1</td>'
                         table += '</tr>';
                         pricetax += Number(v.pricetax)

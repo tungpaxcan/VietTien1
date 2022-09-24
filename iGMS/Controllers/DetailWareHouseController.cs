@@ -200,9 +200,10 @@ namespace iGMS.Controllers
                 var c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id)
                          select new
                          {
-                             amount=b.Amount,
                              id = b.IdGoods.Substring(0,b.IdGoods.Length-8),
+                             idgood = b.Good.IdGood,
                              name=b.Good.Name,
+                             coo = b.Good.Coo.Name
 
                          }).ToList();
                 return Json(new { code = 200, a = a,c=c }, JsonRequestBehavior.AllowGet);
