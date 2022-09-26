@@ -248,6 +248,8 @@
         } else {
             $("#HandHeld").hide()
             }
+            rfid.statusEvent = "statusEvent(%json)";
+            rfid.tagEvent = "TagHandler(%json)";
             RFIDEnumrate()
         });
         
@@ -350,11 +352,12 @@
         function RFIDEnumrate() {
 
             rfid.transport = 'serial'
-            rfid.enumerate();
             rfid.readerID = 'RFID1';
-            rfid.connect();
-        rfid.statusEvent = "statusEvent(%json)";
-        rfid.tagEvent = "TagHandler(%json)";
+            rfid.enumerate();
+            setTimeout(function () {
+                rfid.connect();
+            }, 1000);
+        
         }
 
 

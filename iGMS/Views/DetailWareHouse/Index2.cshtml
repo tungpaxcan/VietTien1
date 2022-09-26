@@ -141,9 +141,11 @@
         function RFIDEnumrate() {
 
             rfid.transport = 'serial'
-            rfid.enumerate();
             rfid.readerID = 'RFID1';
-            rfid.connect();
+            rfid.enumerate();
+            setTimeout(function () {
+                rfid.connect();
+            }, 1000);
 
         }
 
