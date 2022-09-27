@@ -28,6 +28,7 @@ $('#seachidgood').keypress(function (event) {
             var amount = $('#amount' + id + '').val() == null ? 1 : Number($('#amount' + id + '').val()) + 1;
             Good(id);
             validateAmount(id, amount)
+           
         }
     }
   
@@ -61,7 +62,7 @@ function Good(id) {
                         var price = $('#' + id + ' #price' + id + '').val();
                         var discount = $('#' + id + ' #discount' + id + '').val();
                         $('#' + id + ' #amount' + v.id + '').val('');
-                        $('#' + id + ' #amount' + v.id + '').val(Number(amounts) + 1);
+                        $('#' + id + ' #amount' + v.id + '').val(1);
                         $('#' + id + ' #totalmoney' + id + '').empty()
                         var sum = Number(price) * (Number(amounts) + 1);
                         $('#' + id + ' #sumpricegoods' + id + '').empty();
@@ -81,29 +82,29 @@ function Good(id) {
                         var amount = $('#amount' + v.id + '').val();
                         $('#sumpricegoods' + v.id + '').append(v.price * amount + (v.price * v.discount / 100))
                     }
-                    Tien(id)
-                    //-----------Nhap số liệu-----------
-                    $('input[name="amount"]').keypress(function (event) {
-                        if (event.which == 13) {
-                            var id = $(this).closest('tr').attr('id');
-                            var amount = $('#amount' + id + '').val()
-                            Tien(id)
-                            validateAmount(id, amount)
-                        }
-                    })
-                    $('input[name="price"]').keypress(function (event) {
-                        if (event.which == 13) {
-                            var id = $(this).closest('tr').attr('id')
-                            Tien(id)
-                        }
-
-                    })
-                    Tong()
-                    //-------xóa
-                    $('td[name="delete"]').click(function () {
+                })
+                Tien(id)
+                //-----------Nhap số liệu-----------
+                $('input[name="amount"]').keypress(function (event) {
+                    if (event.which == 13) {
                         var id = $(this).closest('tr').attr('id');
-                        $('#' + id + '').remove();
-                    })
+                        var amount = $('#amount' + id + '').val()
+                        Tien(id)
+                        validateAmount(id, amount)
+                    }
+                })
+                $('input[name="price"]').keypress(function (event) {
+                    if (event.which == 13) {
+                        var id = $(this).closest('tr').attr('id')
+                        Tien(id)
+                    }
+
+                })
+                Tong()
+                //-------xóa
+                $('td[name="delete"]').click(function () {
+                    var id = $(this).closest('tr').attr('id');
+                    $('#' + id + '').remove();
                 })
             } else if (data.code == 1) {
                 alert(data.msg)
@@ -129,13 +130,11 @@ function validateAmount(id, amount) {
         },
         success: function (data) {
             if (data.code == 200) {
-                $.each(data.c, function (k, v) {
-                    if (amount > v.qty) {
-                        alert("Hàng Không Đủ, Chỉ Còn " + v.qty+"  !!!")
-                        $('#amount' + id + '').val(v.qty)
+                if (amount > data.c) {
+                        alert("Hàng Không Đủ, Chỉ Còn " + data.c+"  !!!")
+                        $('#amount' + id + '').val(data.c)
                         Tien(id)
                     }
-                })
             }
         }
     })

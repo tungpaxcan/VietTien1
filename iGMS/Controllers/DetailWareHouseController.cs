@@ -198,7 +198,7 @@ namespace iGMS.Controllers
                              customer = b.Customer.Name,
 
                          }).ToList();
-                var c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id)
+                var c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id&&x.Status==true)
                          select new
                          {
                              id = b.IdGoods.Substring(0,b.IdGoods.Length-8),
@@ -219,8 +219,13 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailSaleOrders.SingleOrDefault(x => x.IdGoods == id && x.IdSaleOrder == idsaleorder);
-                
+                var aa = db.DetailEPCs.Where(x => x.Status == false).ToList();
+                for (int i = 0; i < aa.Count(); i++)
+                {
+                    var ba = db.DetailEPCs.OrderBy(x => x.Status == false).ToList().LastOrDefault();
+                    db.DetailEPCs.Remove(ba);
+                    db.SaveChanges();
+                }              
                 var H = "";
                 var E = "";
                 if (K.Contains("CH"))
@@ -233,24 +238,18 @@ namespace iGMS.Controllers
                     E = K;
                     H = null;
                 }
-                var b = db.DetailWareHouses.Single(x=>x.IdGoods==id&&x.IdWareHouse==E&&x.IdStore==H);
-                if (b == null)
+                for (int i = 0; i < int.Parse(amount); i++)
                 {
+                    var c = db.DetailSaleOrders.OrderBy(x => x.IdGoods.Contains(id) && x.IdSaleOrder == idsaleorder && x.Status == true).ToList().LastOrDefault();
+                    var d = db.DetailWareHouses.OrderBy(x => x.IdGoods.Contains(id) && x.Status == true).ToList().LastOrDefault();
+                    var e = db.EPCs.OrderBy(x => x.IdGoods.Contains(id) && x.Status == true).ToList().LastOrDefault();
+
+                    e.Status = false;
+                    d.Status = false;
+                    c.Status = false;
+                    db.SaveChanges();
                 }
-                else
-                {
-                    if (b.Inventory < float.Parse(amount))
-                    {
-                        return Json(new { code = 1, msg = "Không Đủ hàng Giảm Số Lượng !!!" }, JsonRequestBehavior.AllowGet);
-                    }
-                    else
-                    {
-                        a.Amount -= int.Parse(amount);
-                        b.Inventory -= float.Parse(amount);
-                        db.SaveChanges();
-                    }
-                  
-                }
+
                 return Json(new { code = 200, msg = "Chưa Có Hàng Trong kho !!!" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

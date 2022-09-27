@@ -20,12 +20,9 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = (from b in db.DetailWareHouses.Where(x => (x.IdWareHouse==H||x.IdStore==H)&&x.IdGoods==id)
-                         select new
-                         {
-                             qty = b.Inventory,
-                         }).ToList();
-                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+                var c = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id) && x.Status==true);
+
+                return Json(new { code = 200, c = c.Count(), }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -73,7 +70,7 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id));
+                var a = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id)&&x.Status==true);
                 if (a.Count()>0)
                 {
                     var c = (from b in db.Goods.Where(x => x.Id.Contains(id))

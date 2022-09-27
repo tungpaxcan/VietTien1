@@ -41,7 +41,10 @@
             <tbody id="tbd">
             </tbody>
         </table>
+
     </div>
+    <button type="submit" class="btn btn-success mr-2" onclick="RFID()">Bắt Đầu Quét RFIF</button>
+    <button type="submit" class="btn btn-danger mr-2" onclick="Refresh()">Refresh</button>
 </div>
 @section scripts{
     <script src="~/Scripts/ebapi-modules.js"></script>
@@ -222,7 +225,50 @@
             scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
             onError: function (string) { alert('Error ' + string); }
         });
+        function RFID() {
+            setInterval(function () { AllShowEPC() }, 1000);
+        }
+        function AllShowEPC() {
+            $.ajax({
+                url: '/rfid/AllShowEPC',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceiptrfid(v.id)
+                        })
+                    }
+                }
+            })
+        }
+        function CompareReceiptrfid(epc) {
+            $.ajax({
+                url: '/rfid/CompareReceipt',
+                type: 'get',
+                data: {
+                    epc
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceipt(v.idgood)
+                        })
 
+                    }
+                }
+            })
+        }
+        function Refresh() {
+            $.ajax({
+                url: '/rfid/Refresh',
+                type: 'post',
+                success: function (data) {
+                    if (data.code == 200) {
+                        window.location.href = "/DetailWareHouse/List"
+                    }
+                }
+            })
+        }
     </script>
     
 }

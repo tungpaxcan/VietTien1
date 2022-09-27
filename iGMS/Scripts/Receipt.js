@@ -60,6 +60,7 @@ function getDetailGoodOrder() {
                     var ids = $('.IDBA').map(function () {
                         return this.id;
                     }).get();
+                    
                     if (ids.includes(v.id)) {                       
                         var amounts = $('#amountresult' + v.id + '').text();
                         $('.nhanhang #amountresult' + v.id + '').empty();
@@ -275,6 +276,40 @@ $(document).scannerDetection({
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
+
+function RFID() {
+    setInterval(function () { AllShowEPC() }, 1000);
+}
+function AllShowEPC() {
+    $.ajax({
+        url: '/rfid/AllShowEPC',
+        type: 'get',
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    CompareReceiptrfid(v.id)
+                })
+            }
+        }
+    })
+}
+function CompareReceiptrfid(epc) {
+    $.ajax({
+        url: '/rfid/CompareReceipt',
+        type: 'get',
+        data: {
+            epc
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    CompareReceipt(v.idgood)
+                })
+
+            }
+        }
+    })
+}
 
 
 

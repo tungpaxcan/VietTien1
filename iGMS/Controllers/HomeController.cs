@@ -280,6 +280,8 @@ namespace iGMS.Controllers
                 var warehouse =(WareHouse)Session["WareHouse"];
                 var e = db.DetailWareHouses.OrderBy(x => (x.IdStore == store.Id||x.IdWareHouse==warehouse.Id) && x.IdGoods.Contains(idgoods)&&x.Status==true).ToList().LastOrDefault();
                 var f = db.DetailWareHouses.Where(x => (x.IdStore == store.Id || x.IdWareHouse == warehouse.Id) && x.IdGoods.Contains(idgoods) && x.Status == true);
+                var g = db.EPCs.OrderBy(x => x.IdGoods.Contains(idgoods) && x.Status == true).ToList().LastOrDefault();
+
                 if (e == null)
                 {
                     return Json(new { code = 100,msg=idgoods+" : Hàng Chưa Có Trong Cửa Hàng !!!" }, JsonRequestBehavior.AllowGet);
@@ -298,6 +300,7 @@ namespace iGMS.Controllers
                         for(int i = 0; i < int.Parse(amounts); i++)
                         {
                             e.Status = false;
+                            g.Status = false;
                             db.SaveChanges();
                         }
                        

@@ -451,6 +451,7 @@ $('button[name="SaveBill"]').click(function () {
                         success: function (data) {
                             if (data.code == 200) {
                                 $('#TinhTien').css("display", "block")
+                                DeleteEPC()
                             }
                             else if (data.code == 100) {
                                 alert(data.msg)
@@ -605,9 +606,9 @@ function IN() {
                     impresora.write("Điểm Tích Lũy : " + v.point + "\n");
                     impresora.write("--------------------------------\n");
                     impresora.setAlign("left");
-                    impresora.write("Tên Hàng Hóa\tSL\tCK\tGiá\tTổng\n");
+                    impresora.write("Stt\tTên Hàng Hóa\tSL\tCK\tGiá\tTổng\n");
                     $.each(data.d, function (k, v) {
-                        impresora.write(v.namegoods + "\t" + v.amount + "\t" + v.discount + "\t" + Money(v.price) + "\t" + Money(v.totalmoney) + "\n");
+                        impresora.write((Stt++) + "\t" + v.namegoods + "\t" + v.amount + "\t" + v.discount + "\t" + Money(v.price) + "\t" + Money(v.totalmoney) + "\n");
                         impresora.write("----------------------\n");
                         
                     })
@@ -1041,20 +1042,32 @@ function CompareEPC(epc) {
         success: function (data) {
             if (data.code == 200) {
                 $.each(data.a, function (k, v) {
+                  /*  StatusEPC(epc)*/
                     Goods(v.idgood)
-                    DeleteEPC(epc)
+                   
                 })
+
             }
         }
     })
 }
-function DeleteEPC(epc) {
+function StatusEPC(epc) {
     $.ajax({
-        url: '/rfid/DeleteEPC',
+        url: '/rfid/StatusEPC',
         type: 'post',
         data: {
             epc
         },
+        success: function (data) {
+            if (data.code == 200) {
+            }
+        }
+    })
+}
+function DeleteEPC() {
+    $.ajax({
+        url: '/rfid/DeleteEPC',
+        type: 'post',
         success: function (data) {
             if (data.code == 200) {
             }

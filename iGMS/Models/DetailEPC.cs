@@ -17,5 +17,6 @@ namespace iGMS.Models
         public string IdEPC { get; set; }
         public string IdStall { get; set; }
         public string Idstore { get; set; }
+        public Nullable<bool> Status { get; set; }
     }
 }

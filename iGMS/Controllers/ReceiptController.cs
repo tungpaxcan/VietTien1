@@ -92,11 +92,19 @@ namespace iGMS.Controllers
         {
             try
             {
-                for(int i = 0; i < int.Parse(amounttext); i++)
+                var a = db.DetailEPCs.Where(x => x.Status == false).ToList();
+                for(int i = 0; i < a.Count(); i++)
+                {
+                    var b = db.DetailEPCs.OrderBy(x => x.Status == false).ToList().LastOrDefault();
+                    db.DetailEPCs.Remove(b);
+                    db.SaveChanges();
+                }
+                for (int i = 0; i < int.Parse(amounttext); i++)
                 {
                     var c = db.DetailGoodOrders.OrderBy(x => x.IdGoods.Contains(id) && x.IdPurchaseOrder == purchaseorder&&x.Status==true).ToList().LastOrDefault();
                     var d = db.DetailWareHouses.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
                     var e = db.EPCs.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
+                    
                     e.Status = true;
                     d.Status = true;
                     c.Status = false;

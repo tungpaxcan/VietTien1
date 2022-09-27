@@ -92,26 +92,28 @@ function Add() {
     var id = ""
     for (let i = 0; i < ids.length; i++) {
         id = ids[i]
+        var amount = $('#result' + id + '').text()
+        var K = $('span[name="K"]').attr('id');
+        $.ajax({
+            url: '/detailwarehouse/Tru',
+            type: 'post',
+            data: {
+                id, idsaleorder, amount, K
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    window.location.href = "/DetailWareHouse/Index2"
+                }
+                else if (data.code == 1) {
+                    alert(data.msg)
+                } else {
+                    alert(data.msg)
+                }
+            }
+        })
     }
-    var amount = $('#result' + id + '').text()
-    var K = $('span[name="K"]').attr('id');
-    $.ajax({
-        url: '/detailwarehouse/Tru',
-        type: 'post',
-        data: {
-            id, idsaleorder, amount,K
-        },
-        success: function (data) {
-            if (data.code == 200) {
 
-            }
-            else if (data.code == 1) {
-                alert(data.msg)
-            } else {
-                alert(data.msg)
-            }
-        }
-    })
+   
 }
 
 //-----------------------------
@@ -130,3 +132,37 @@ $(document).scannerDetection({
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
+
+function RFID() {
+    setInterval(function () { AllShowEPC() }, 1000);
+}
+function AllShowEPC() {
+    $.ajax({
+        url: '/rfid/AllShowEPC',
+        type: 'get',
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    CompareReceiptrfid(v.id)
+                })
+            }
+        }
+    })
+}
+function CompareReceiptrfid(epc) {
+    $.ajax({
+        url: '/rfid/CompareReceipt',
+        type: 'get',
+        data: {
+            epc
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    CompareReceipt(v.idgood)
+                })
+
+            }
+        }
+    })
+}
