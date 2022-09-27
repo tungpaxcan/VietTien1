@@ -131,6 +131,9 @@ function Add() {
     if (name.length <= 0) {
         alert("Nhập Tên Nhà Cung Cấp")
         return;
+    }if (id.length <= 0) {
+        alert("Nhập Mã Nhà Cung Cấp")
+        return;
     } if (represent.length <= 0) {
         alert("Nhập Tên Người Đại Diện")
         return;

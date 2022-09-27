@@ -94,17 +94,15 @@ namespace iGMS.Controllers
             {
                 for(int i = 0; i < int.Parse(amounttext); i++)
                 {
-                    var c = db.DetailGoodOrders.OrderBy(x => x.IdGoods == id && x.IdPurchaseOrder == purchaseorder&&x.Status==true).ToList().LastOrDefault();
+                    var c = db.DetailGoodOrders.OrderBy(x => x.IdGoods.Contains(id) && x.IdPurchaseOrder == purchaseorder&&x.Status==true).ToList().LastOrDefault();
+                    var d = db.DetailWareHouses.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
+                    var e = db.EPCs.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
+                    e.Status = true;
+                    d.Status = true;
                     c.Status = false;
                     db.SaveChanges();
                 }
-                var a = new DetailReceipt();
-                a.IdReceipt = idd;
-                a.Amount = int.Parse(amounttext);
-                a.idGood = id;
-                a.Status = true;
-                db.DetailReceipts.Add(a);
-                db.SaveChanges();
+              
              
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }

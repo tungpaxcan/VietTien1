@@ -4,6 +4,15 @@ var checkboxesChecked = [];
 //----------Change::supplier--------------
 $('#supplier').change(function () {
     var supplier = $("#supplier option:selected").val();
+    if (supplier == 0) {
+        $('#Excel').attr('hidden', false)
+        $('#addex').attr('hidden', false)
+        $('#add').attr('hidden', true)
+    } else {
+        $('#Excel').attr('hidden', true)
+        $('#addex').attr('hidden', true)
+        $('#add').attr('hidden', false)
+    }
     $('#listgoods').modal('show')
     ListGoods(supplier, seach, checkboxesChecked)
 
@@ -169,7 +178,7 @@ function Add() {
     var partialpay = $("#partialpay").val().trim();
     var liabilities = document.getElementById("liabilities").innerText;
     var des = $("#des").val().trim()
-    var H = ""
+    var  H= ""
     if ($("#warehouse option:selected").val() == -1) {
         H = $("#store option:selected").val()
 
@@ -239,11 +248,15 @@ function Add() {
                                 alert("Chưa Nhập Đủ Mã EPC Cho " + goods + " !!!")
                                 return;
                             }
+                            if (epc.length < 19) {
+                                alert("Giá Trị " + epc + " Chưa Đủ !!!")
+                                return;
+                            }
                             $.ajax({
                                 url: '/purchaseorder/AddDetail',
                                 type: 'post',
                                 data: {
-                                    price, sumpricegoods, epc,  goods
+                                    price, sumpricegoods, epc, goods, H
                                 },
                                 success: function (data) {
                                     if (data.code == 200) {
@@ -265,97 +278,7 @@ function Add() {
         }
     })
 }
-function BILL() {
-    var supplier = $("#supplier option:selected").val();
-    $.ajax({
-    url: '/purchaseorder/Bill',
-    type: 'get',
-    data: {
-        supplier
-    },
-    success: function (data) {
-        $('span[name="namesupplier"]').empty()
-        $('span[name="addresssupplier"]').empty()
-        $('span[name="phonesupplier"]').empty()
-        $('span[name="faxsupplier"]').empty();
-        if (data.code == 200) {
-            $.each(data.c, function (k, v) {
-                $('span[name="namesupplier"]').append(v.name)
-                $('span[name="addresssupplier"]').append(v.address)
-                $('span[name="phonesupplier"]').append(v.phone)
-                $('span[name="faxsupplier"]').append(v.fax)
-                $.ajax({
-                    url: '/purchaseorder/Bill1',
-                    type: 'get',
-                    success: function (data) {
-                        if (data.code == 200) {
-                            $('span[name="iddh"]').empty()
-                            $('span[name="datedh"]').empty()
-                            $('span[name="paydh"]').empty()
-                            $('span[name="datepaydh"]').empty()
-                            $('span[name="sumpricedh"]').empty()
-                            $('span[name="Tong"]').empty();
-                            $('#qrcode').empty();
-                            $.each(data.c, function (k, v) {
-                                $('span[name="iddh"]').append("00000" + v.id)
-                                $('span[name="datedh"]').append(v.datedh)
-                                $('span[name="paydh"]').append(v.paydh)
-                                $('span[name="datepaydh"]').append(v.datepaydh)
-                                $('span[name="sumpricedh"]').append(v.sumpricedh)
-                                $('span[name="Tong"]').append(to_vietnamese(v.sumpricedh))
-                                new QRCode(document.getElementById("qrcode"), {
-                                    text: '00000' + v.id,
-                                    width: 100,
-                                    height: 100,
 
-                                })
-                            })
-                         
-                            $.ajax({
-                                url: '/purchaseorder/Bill2',
-                                type: 'get',
-                                success: function (data) {
-                                    if (data.code == 200) {
-                                        var Stt = 1;
-                                        $('#tbdmodal').empty()
-                                        $('span[name="sumpricediscount"]').empty()
-                                        $('span[name="sumpricetax"]').empty()
-                                     
-                                        $.each(data.c, function (k, v) {
-                                            let a = '<tr>';
-                                            a += '<td>' + (Stt++) + '</td>';
-                                            a += '<td>' + v.idgoods + '</td>';
-                                            a += '<td>' + v.epc + '</td>';
-                                            a += '<td>' + v.name + '</td>';
-                                            a += '<td>' + v.size + '</td>';
-                                            a += '<td>' + v.price + '</td>';
-                                            a += '<td>' + v.sumprice + '</td></tr>';
-                                            $('#tbdmodal').append(a)
-                                        })
-                                        const myTimeout = setTimeout(function () { $('#BILL').modal('show')}, 500)
-                                       
-                                    }
-                                    else {
-                                        alert("Tạo Đơn Vị Thất Bại")
-                                    }
-                                }
-                            })
-                        }
-                        else {
-                            alert("Tạo Đơn Vị Thất Bại")
-                        }
-                    }
-                })
-            })
-         
-        }
-        else {
-            alert("Tạo Đơn Vị Thất Bại")
-        }
-    }
-    })
-   
-}
 
 $('input[type="radio"]').click(function () {
     var radio = document.getElementsByName('radio');
@@ -374,6 +297,8 @@ $('input[type="radio"]').click(function () {
         }
     }
 })
+
+//---------------tag loại trừ-------------
 function EPC(id,amount){
     var input = document.getElementById('epc' + id + '');
     // init Tagify script on the above inputs
@@ -397,4 +322,213 @@ function EPC(id,amount){
             }
         }
     })
+}
+
+
+var input = document.getElementById('fileUpload');
+input.addEventListener('change', function () {
+    readXlsxFile(input.files[0]).then(function (rows) {
+        var Stt = 1;
+        for (let i = 1; i < rows.length; i++) {         
+            var id = rows[i][0];
+            let table = '<tr id="' + id + '" role="row" class="odd nhanhangexcel">';
+            table += '<td class="datatable-cell-sorted datatable-cell-center datatable-cell datatable-cell-check" data-field="RecordID" aria-label="2"><span style="width: 30px;"><label class="checkbox checkbox-single kt-checkbox--solid"><input id="' + id + 'abc" onclick="Sumprice();" type="checkbox" value="' + id + '" name="change">&nbsp;<span></span></label></span></td>'
+            table += '<td>' + (Stt++) + '</td>'
+            table += '<td>' + id + '</td>'
+            table += '<td>' + rows[i][2] + '</td>'
+            table += '<td>' + rows[i][1] + '</td>'
+            table += '<td ><input disabled value="1" id="amount' + id + '" / ></td>'
+            table += '<td>'
+            table += '</td>'
+            table += '<td><input disabled type="text" value="' + rows[i][3] + '" id="price' + id + '" /></td>'
+            table += '<td id="sumpricegoods' + id + '"></td>'
+            table += '</tr>';
+            $('#tbd').append(table);
+            PriceDiscount(id)
+            Sumprice()
+        }
+
+    })
+})
+//----------------Add::PurchaseOrder---------------------
+function AddEX() {
+    var name = $('#name').val().trim();
+    var paymethod = $("#paymethod option:selected").val();
+    var supplier = $("#supplier option:selected").val();
+    var datepay = $("#datepay").val().trim();
+    var deliverydate = $("#deliverydate").val().trim();
+    var sumprice = document.getElementById("sumprice").innerText;
+    var partialpay = $("#partialpay").val().trim();
+    var liabilities = document.getElementById("liabilities").innerText;
+    var des = $("#des").val().trim()
+    var H = ""
+    if ($("#warehouse option:selected").val() == -1) {
+        H = $("#store option:selected").val()
+
+    } else {
+        H = $("#warehouse option:selected").val()
+    }
+    if (name.length <= 0) {
+        alert("Nhập Tên Đơn Hàng!!!")
+        return;
+    }
+    if (H == -1) {
+        alert("Chọn Nơi Nhập Hàng !!!")
+        return;
+    }
+    if (supplier == -1) {
+        alert("Chọn Nhà Cung Cấp!!!")
+        return;
+    } if (paymethod == -1) {
+        alert("Chọn Phương Thức Thanh Toán!!!")
+        return;
+    } if (datepay.length <= 0) {
+        alert("Chọn Thời Hạn Thanh Toán!!!")
+        return;
+    } if (deliverydate.length <= 0) {
+        alert("Chọn Thời Hạn Thanh Toán!!!")
+        return;
+    }
+    if (partialpay.length <= 0) {
+        alert("Nhập Tiền Đã Thanh Toán!!!")
+        return;
+    }
+    $.ajax({
+        url: '/purchaseorder/Add',
+        type: 'post',
+        data: {
+            paymethod, name, datepay, deliverydate, sumprice, liabilities, partialpay, des, H, supplier
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                var checkboxes = document.getElementsByName('change');
+                var checkboxesChecked = [];
+                // loop over them all
+                for (var i = 0; i < checkboxes.length; i++) {
+                    // And stick the checked ones onto an array...
+                    if (checkboxes[i].checked) {
+                        checkboxesChecked.push(checkboxes[i].value);
+                        var amount = $('#amount' + checkboxes[i].value + '').val().trim()
+                        var epc = checkboxes[i].value;
+                        var price = $('#price' + checkboxes[i].value + '').val().trim()
+                        var sumpricegoods = document.getElementById('sumpricegoods' + checkboxes[i].value + '').innerText;
+                        if (amount == 0) {
+                            alert("Chưa Nhập Số lượng  Cho " + goods + "!!!")
+                            return;
+                        }
+                        var goods = ""
+                            $.ajax({
+                                url: '/purchaseorder/AddDetail',
+                                type: 'post',
+                                data: {
+                                    price, sumpricegoods, epc, goods, H
+                                },
+                                success: function (data) {
+                                    if (data.code == 200) {
+                                        BILL()
+                                    }
+                                    else {
+                                    }
+                                },
+                            })
+                    }
+                }
+            }
+            else {
+                alert("Tạo Quầy Bán Thất Bại")
+            }
+        }
+    })
+}
+
+function BILL() {
+    var supplier = $("#supplier option:selected").val();
+    $.ajax({
+        url: '/purchaseorder/Bill',
+        type: 'get',
+        data: {
+            supplier
+        },
+        success: function (data) {
+            $('span[name="namesupplier"]').empty()
+            $('span[name="addresssupplier"]').empty()
+            $('span[name="phonesupplier"]').empty()
+            $('span[name="faxsupplier"]').empty();
+            if (data.code == 200) {
+                $.each(data.c, function (k, v) {
+                    $('span[name="namesupplier"]').append(v.name)
+                    $('span[name="addresssupplier"]').append(v.address)
+                    $('span[name="phonesupplier"]').append(v.phone)
+                    $('span[name="faxsupplier"]').append(v.fax)
+                    $.ajax({
+                        url: '/purchaseorder/Bill1',
+                        type: 'get',
+                        success: function (data) {
+                            if (data.code == 200) {
+                                $('span[name="iddh"]').empty()
+                                $('span[name="datedh"]').empty()
+                                $('span[name="paydh"]').empty()
+                                $('span[name="datepaydh"]').empty()
+                                $('span[name="sumpricedh"]').empty()
+                                $('span[name="Tong"]').empty();
+                                $('#qrcode').empty();
+                                $.each(data.c, function (k, v) {
+                                    $('span[name="iddh"]').append("00000" + v.id)
+                                    $('span[name="datedh"]').append(v.datedh)
+                                    $('span[name="paydh"]').append(v.paydh)
+                                    $('span[name="datepaydh"]').append(v.datepaydh)
+                                    $('span[name="sumpricedh"]').append(v.sumpricedh)
+                                    $('span[name="Tong"]').append(to_vietnamese(v.sumpricedh))
+                                    new QRCode(document.getElementById("qrcode"), {
+                                        text: '00000' + v.id,
+                                        width: 100,
+                                        height: 100,
+
+                                    })
+                                })
+
+                                $.ajax({
+                                    url: '/purchaseorder/Bill2',
+                                    type: 'get',
+                                    success: function (data) {
+                                        if (data.code == 200) {
+                                            var Stt = 1;
+                                            $('#tbdmodal').empty()
+                                            $('span[name="sumpricediscount"]').empty()
+                                            $('span[name="sumpricetax"]').empty()
+
+                                            $.each(data.c, function (k, v) {
+                                                let a = '<tr>';
+                                                a += '<td>' + (Stt++) + '</td>';
+                                                a += '<td>' + v.idgoods + '</td>';
+                                                a += '<td>' + v.epc + '</td>';
+                                                a += '<td>' + v.name + '</td>';
+                                                a += '<td>' + v.size + '</td>';
+                                                a += '<td>' + v.price + '</td>';
+                                                a += '<td>' + v.sumprice + '</td></tr>';
+                                                $('#tbdmodal').append(a)
+                                            })
+                                            const myTimeout = setTimeout(function () { $('#BILL').modal('show') }, 500)
+
+                                        }
+                                        else {
+                                            alert("Tạo Đơn Vị Thất Bại")
+                                        }
+                                    }
+                                })
+                            }
+                            else {
+                                alert("Tạo Đơn Vị Thất Bại")
+                            }
+                        }
+                    })
+                })
+
+            }
+            else {
+                alert("Tạo Đơn Vị Thất Bại")
+            }
+        }
+    })
+
 }

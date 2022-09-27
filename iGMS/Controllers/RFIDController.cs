@@ -110,29 +110,6 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-        [HttpPost]
-        public JsonResult checkRFID(string[] tags)
-        {
-            List<EPC> lstEPC = new List<EPC>();
-            try
-            {
-                foreach (var tag in tags)
-                {
-                    var UnPaidECP = db.EPCs.FirstOrDefault(e => e.IdEPC == tag);
-                    if (UnPaidECP != null)
-                    {
-                        if((bool)UnPaidECP.Status)
-                        lstEPC.Add(UnPaidECP);
-                    }
 
-                }
-                var unpaids = lstEPC.Select(x => new { x.IdEPC }).ToList();
-                return Json(new { unpaids }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception e)
-            {
-                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
-            }
-        }
     }
 }

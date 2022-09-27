@@ -32,6 +32,7 @@ namespace iGMS.Controllers
                          select new
                          {
                              id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
+                             idgood = b.Good.IdGood,
                              K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
                              name = b.Good.Name,
                              inventory = b.Inventory

@@ -81,33 +81,37 @@
                     </svg>
                     <input class="form-control" type="search" placeholder="Tìm Mã Hàng" id="seachidgood" />
                 </div>
-                <div>
-                    @using (Html.BeginForm("Upload", "PurchaseOrder", FormMethod.Post, new
-                    {
-                        enctype = "multipart/form-data"
-                    }))
-                    {<table> <tr> <td> Import (<a download href="~/Images/a.xlsx">Mẫu</a> </td> <td><input type="file" id="fileUpload" name="UploadedFile" /> </td> </tr><tr><td colspan="2"> <input type="submit" name="Submit" value="Submit" /> </td> </tr> </table>
-                    }
+                @*<div id="Excel" hidden>
+            @using (Html.BeginForm("Upload", "PurchaseOrder", FormMethod.Get, new
+            {
+                enctype = "multipart/form-data"
+            }))
+            {<table> <tr> <td> Import (<a download href="~/Images/a.xlsx">Mẫu</a> </td> <td><input type="file" id="fileUpload" name="UploadedFile" /> </td> </tr><tr><td colspan="2"> <input type="submit" name="Submit" value="Submit" /> </td> </tr> </table>
+            }
+
+        </div>*@
+                <div id="Excel" hidden>
+                    <input type="file" id="fileUpload" />
+                    </div>
+                    <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
+                        <thead>
+                            <tr role="row">
+                                <th data-field="RecordID" class="datatable-cell-center datatable-cell datatable-cell-check"><span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all kt-checkbox--solid"><input type="checkbox" id="allchange">&nbsp;<span></span></label></span></th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Size</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 1000px;" aria-label="Company Email: activate to sort column ascending">Nhập Đủ Mã EPC</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbd">
+                        </tbody>
+                    </table>
                 </div>
-                <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info" style="width: 1234px;">
-                    <thead>
-                        <tr role="row">
-                            <th data-field="RecordID" class="datatable-cell-center datatable-cell datatable-cell-check"><span style="width: 30px;"><label class="checkbox checkbox-single checkbox-all kt-checkbox--solid"><input type="checkbox" id="allchange">&nbsp;<span></span></label></span></th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Size</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 1000px;" aria-label="Company Email: activate to sort column ascending">Nhập Đủ Mã EPC</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbd">
-                    </tbody>
-                </table>
             </div>
-        </div>
         <div class="form-group row">
             <label for="example-password-input" class="col-2 col-form-label">Tổng Tiền Hàng<span style="color:red"> (*) </span></label>
             <div class="col-10">
@@ -171,7 +175,8 @@
             <div class="col-2">
             </div>
             <div class="col-10">
-                <button type="submit"  class="btn btn-success mr-2" onclick="Add()">Tạo Đơn Hàng</button>
+                <button type="submit" id="add" class="btn btn-success mr-2" onclick="Add()">Tạo Đơn Hàng</button>
+                <button type="submit" hidden id="addex" class="btn btn-success mr-2" onclick="AddEX()">Tạo Đơn Hàng</button>
                 <a href="/PurchaseOrder/Index" type="reset" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
@@ -247,6 +252,7 @@
 </div>
 
 @section scripts{
+    <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
     <script>
         Supplier();
         WareHouse();
@@ -264,6 +270,7 @@
                     $('#supplier').empty();
                     if (data.code == 200) {
                         let table = '<option value="-1">Chọn Nhà Cung Cấp</option>'
+                        table += '<option value="0">Import Excel</option>'
                         $.each(data.c, function (k, v) {
                             table += '<option value="' + v.id + '">' + v.name + '</option>'
                         });

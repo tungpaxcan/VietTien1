@@ -33,7 +33,7 @@ namespace iGMS.Controllers
                 {
                     d.IdWareHouse = H;
                 }
-                d.IdSupplier = supplier;
+                d.IdSupplier = supplier ;
                 d.Status = false;
                 d.IdPayMethod = paymethod;
                 d.Name = name;
@@ -58,7 +58,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddDetail(float price,float sumpricegoods,string epc,string goods)
+        public JsonResult AddDetail(float price,float sumpricegoods,string epc,string goods,string H)
         {
             try
             {
@@ -69,40 +69,79 @@ namespace iGMS.Controllers
                 var good = db.Goods.OrderBy(x => x.Id.Contains(goods)).ToList().LastOrDefault();
                 var id = idpu.Id;
                 var e = new Good();
-                e.Id = epc;
-                e.IdGood = good.IdGood;
-                e.IdWareHouse = good.IdWareHouse;
-                e.Material = good.Material;
-                e.IdSeason = good.IdSeason;
-                e.IdColor = good.IdColor;
-                e.IdSize = good.IdSize;
-                e.IdStyle = good.IdStyle;
-                e.IdCate = good.IdCate;
-                e.IdGender = good.IdGender;
-                e.IdGroupGood = good.IdGroupGood;
-                e.SKU = good.SKU;
-                e.IdGender = good.IdGender;
-                e.Company = good.Company;
-                e.Name = good.Name;
-                e.IdCoo = good.IdCoo;
-                e.Price = price;
-                e.PriceNew = price;
-                db.Goods.Add(e);
-                db.SaveChanges();
+                var ea = db.Goods.Find(epc);
+                if(ea == null)
+                {
+                    e.Id = epc;
+                    e.IdGood = good.IdGood;
+                    e.IdWareHouse = good.IdWareHouse;
+                    e.Material = good.Material;
+                    e.IdSeason = good.IdSeason;
+                    e.IdColor = good.IdColor;
+                    e.IdSize = good.IdSize;
+                    e.IdStyle = good.IdStyle;
+                    e.IdCate = good.IdCate;
+                    e.IdGender = good.IdGender;
+                    e.IdGroupGood = good.IdGroupGood;
+                    e.SKU = good.SKU;
+                    e.IdGender = good.IdGender;
+                    e.Company = good.Company;
+                    e.Name = good.Name;
+                    e.IdCoo = good.IdCoo;
+                    e.Price = price;
+                    e.PriceNew = price;
+                    db.Goods.Add(e);
+                    db.SaveChanges();
+                }
+            
+                var g = new EPC();
+                var ga = db.EPCs.SingleOrDefault(x => x.IdGoods == epc);
+                if (ga == null)
+                {
+                    g.IdGoods = epc;
+                    g.IdEPC = epc;
+                    g.Status = false;
+                    db.EPCs.Add(g);
+                    db.SaveChanges();
+                }              
+                var f = new DetailWareHouse();
+                var fa = db.DetailWareHouses.SingleOrDefault(x => x.IdGoods == epc);
+                if (fa == null)
+                {
+                    if (H.Contains("CH"))
+                    {
+                        f.IdStore = H;
+                    }
+                    else
+                    {
+                        f.IdWareHouse = H;
+                    }
+                    f.IdGoods = epc;
+                    f.Inventory = 1;
+                    f.Status = false;
+                    db.DetailWareHouses.Add(f);
+                    db.SaveChanges();
+                }
+            
                 var d = new DetailGoodOrder();
-                d.EPC = epc;
-                d.IdGoods = epc;
-                d.Price = price;
-                d.IdPurchaseOrder = id;
-                d.Sumprice = sumpricegoods;
-                d.Description = "";
-                d.CreateDate = DateTime.Now;
-                d.CreateBy = nameAdmin;
-                d.ModifyDate = DateTime.Now;
-                d.ModifyBy = nameAdmin;
-                d.Status = true;
-                db.DetailGoodOrders.Add(d);
-                db.SaveChanges();
+                var da = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == epc);
+                if (da == null)
+                {
+                    d.EPC = epc;
+                    d.IdGoods = epc;
+                    d.Price = price;
+                    d.IdPurchaseOrder = id;
+                    d.Sumprice = sumpricegoods;
+                    d.Description = "";
+                    d.CreateDate = DateTime.Now;
+                    d.CreateBy = nameAdmin;
+                    d.ModifyDate = DateTime.Now;
+                    d.ModifyBy = nameAdmin;
+                    d.Status = true;
+                    db.DetailGoodOrders.Add(d);
+                    db.SaveChanges();
+                }
+            
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);        
             }
             catch (Exception e)
@@ -298,7 +337,7 @@ namespace iGMS.Controllers
                          {
                              epc = b.IdEPC
                          }).ToList();
-                var d = (from b in db.DetailGoodOrders.Where(x => x.Id > 0)
+                var d = (from b in db.DetailGoodOrders.Where(x => x.Status==true)
                          select new
                          {
                              epc = b.EPC

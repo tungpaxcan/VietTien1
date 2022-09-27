@@ -51,16 +51,12 @@
     <script>
         
         $(document).ready(function () {
-            if (/Android/i.test(navigator.userAgent)) { 
+            if (/Android/i.test(navigator.userAgent)) {
                 $("#HandHeld").show()
 
             } else {
                 $("#HandHeld").hide()
-
-            }
-
-            rfid.statusEvent = "statusEvent(%json)";
-            rfid.tagEvent = "TagHandler(%json)";
+            }          
             RFIDEnumrate()
         })
         
@@ -100,7 +96,7 @@
                                 table += '<td id="checkinvent' + v.id + '" style="background:red;color:white">0</td>'
                                 table += '<td>' + (Stt++) + '</td>'
                                 table += '<td>' + v.K + '</td>'
-                                table += '<td>' + v.id + '</td>'
+                                table += '<td>' + v.idgood + '</td>'
                                 table += '<td>' + v.name + '</td>'
                                 table += '<td id="inventory' + v.id + '">1</td>'
 
@@ -118,18 +114,16 @@
         function RFIDEnumrate() {
           
             rfid.transport = 'serial'
-            rfid.readerID = 'RFID1';
             rfid.enumerate();
-            setTimeout(function () {
-                rfid.connect();
-            }, 1000);
-            
+            rfid.readerID = 'RFID1';
+            rfid.connect();
+            rfid.statusEvent = "statusEvent(%json)";
+            rfid.tagEvent = "TagHandler(%json)";
         }
         var lstEpcSended = [];
         $("#ScanMethod").change(function () {
             if ($(this).is(":checked")) {
                 alert('Bắt đầu quét RFID')
-                console.log('rfid')
                 lstEpcSended.length = 0;
                 TonKho()
 
@@ -138,7 +132,6 @@
 
             } else {
                 alert('Bắt đầu quét Barcode')
-                console.log('bar')
                 lstEpcSended.length = 0;
                 TonKho()
 
@@ -209,7 +202,23 @@
                 $('#checkinvent' + barcode + '').text(checkqty)
             }
 
+
         }
+        $(document).scannerDetection({
+            timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+            startChar: [120],
+            endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+            avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
+            ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
+            minLength: 1,
+            onComplete: function (barcode, qty) {
+                CompareReceipt(barcode.substring(0, barcode.length - 8))
+
+            }, // main callback function
+            scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
+            scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
+            onError: function (string) { alert('Error ' + string); }
+        });
 
     </script>
     
