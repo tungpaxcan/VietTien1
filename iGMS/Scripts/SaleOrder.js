@@ -25,10 +25,9 @@ $('#seachidgood').keypress(function (event) {
     } else {
         if (event.which == 13) {
             var id = $('#seachidgood').val().trim();
-            var amount = $('#amount' + id + '').val() == null ? 1 : Number($('#amount' + id + '').val()) + 1;
+            var amount = $('#amount' + id + '').val() == null ? 0 : Number($('#amount' + id + '').val()) + 1;
             Good(id);
-            validateAmount(id, amount)
-           
+            validateAmount(id, amount)        
         }
     }
   
@@ -58,22 +57,24 @@ function Good(id) {
                         return this.id;
                     }).get();
                     if (ids.includes(id)) {
-                        var amounts = $('#' + id + ' #amount' + id + '').val();
-                        var price = $('#' + id + ' #price' + id + '').val();
-                        var discount = $('#' + id + ' #discount' + id + '').val();
-                        $('#' + id + ' #amount' + v.id + '').val('');
-                        $('#' + id + ' #amount' + v.id + '').val(1);
-                        $('#' + id + ' #totalmoney' + id + '').empty()
-                        var sum = Number(price) * (Number(amounts) + 1);
-                        $('#' + id + ' #sumpricegoods' + id + '').empty();
-                        $('#' + id + ' #sumpricegoods' + id + '').append(sum + (sum * (Number(discount) / 100)))
+                        //var amounts = $('#' + id + ' #amount' + id + '').val();
+                        //var price = $('#' + id + ' #price' + id + '').val();
+                        //var discount = $('#' + id + ' #discount' + id + '').val();
+                        //$('#' + id + ' #amount' + v.id + '').val('');
+                        //$('#' + id + ' #amount' + v.id + '').val(1);
+                        //$('#' + id + ' #totalmoney' + id + '').empty()
+                        //var sum = Number(price) * (Number(amounts) + 1);
+                        //$('#' + id + ' #sumpricegoods' + id + '').empty();
+                        //$('#' + id + ' #sumpricegoods' + id + '').append(sum + (sum * (Number(discount) / 100)))
                     } else {
                         let table = '<tr id="' + v.id + '" role="row" class="odd IDGOOD">';
                         table += '<td>' + (Stt++) + '</td>'
                         table += '<td class="' + v.id + '">' + v.id + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td>' + v.size + '</td>'
-                        table += '<td><input type="number" value="1" id="amount' + v.id + '" name="amount" /></td>'
+                        table += '<td><input type="number" value="0" id="amount' + v.id + '" name="amount" /></td>'
+                        table += '<td>'
+                        table += '<input name="tags-outside" placeholder="Nhập Đủ Mã EPC" class="tagify--outside form-control" id="epc' + v.id + '" />'
+                        table += '</td>'
                         table += '<td><input type="text" value="' + v.price + '" id="price' + v.id + '" name="price" /></td>'
                         table += '<td class="sumpricegoods" id="sumpricegoods' + v.id + '"></td>'
                         table += '<td name="delete"><img src="/Images/icons8-remove-38.png" /></td>'
@@ -89,8 +90,9 @@ function Good(id) {
                     if (event.which == 13) {
                         var id = $(this).closest('tr').attr('id');
                         var amount = $('#amount' + id + '').val()
+                        EPC(id, amount)
                         Tien(id)
-                        validateAmount(id, amount)
+                        validateAmount(id, amount)                 
                     }
                 })
                 $('input[name="price"]').keypress(function (event) {
@@ -113,6 +115,35 @@ function Good(id) {
     })
 }
 
+//---------------tag con de ban-------------
+function EPC(id, amount) {
+    var input = document.getElementById('epc' + id + '');
+    // init Tagify script on the above inputs
+    $.ajax({
+        url: '/saleorder/EPCCon',
+        type: 'get',
+        data: {
+            id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                let a = ''
+                $.each(data.c, function (k, v) {
+                    a += v.epc + ","
+                })
+                const myArray = a.split(",");
+                new Tagify(input, {
+                    whitelist: myArray,
+                    maxTags: Number(amount),
+                    dropdown: {
+                        position: "input",
+                        enabled: 0// always opens dropdown when input gets focus
+                    }
+                })
+            }
+        }
+    })
+}
 function validateAmount(id, amount) {
     var warehouse = $('#warehouse option:selected').val();
     var store = $('#store option:selected').val();
@@ -265,23 +296,47 @@ function Add() {
     })
 }
 function Xuat(id, H, amount, price, sumpricegoods) {
-    $.ajax({
-        url: '/saleorder/AddDetails',
-        type: 'post',
-        data: {
-            id, H, amount, price, sumpricegoods
-        },
-        success: function (data) {
-            if (data.code == 200) {
-                $('#BILL').modal('show')
-                BILL()
-               
-            }
-            else {
-                alert("Thất bại")
-            }
-        },
-    })
+    if (amount == 0) {
+        alert("Chưa Nhập Số lượng  Cho " + id + "!!!")
+        return;
+    }
+    var tags = JSON.parse($('#epc' + id + '').val())
+    var TagArray = [];
+    //Convert to array
+    for (let j = 0; j < tags.length; j++) {
+        TagArray.push(tags[j].value)
+    }
+
+    for (let k = 0; k < TagArray.length; k++) {
+        var epc = TagArray[k]
+
+        if (TagArray.length < amount) {
+            alert("Chưa Nhập Đủ Mã EPC Cho " + id + " !!!")
+            return;
+        }
+        if (epc.length < 19) {
+            alert("Giá Trị " + epc + " Chưa Đủ !!!")
+            return;
+        }
+        $.ajax({
+            url: '/saleorder/AddDetails',
+            type: 'post',
+            data: {
+                epc, H, amount, price, sumpricegoods
+            },
+            success: function (data) {
+                if (data.code == 200) {
+                    $('#BILL').modal('show')
+                    BILL()
+
+                }
+                else {
+                    alert("Thất bại")
+                }
+            },
+        })
+    }
+   
 }
 
 function BILL() {
@@ -337,9 +392,8 @@ function BILL() {
                     let table = '<tr>';
                     table += '<td>' + (Stt++) + '</td>'
                     table += '<td>' + v.id + '</td>'
-                    table += '<td>' + v.name + '</td>'
-                    table += '<td>' + v.size + '</td>'
-                    table += '<td>' + v.amount + '</td>'
+                    table += '<td>' + v.idgood + '</td>'
+                    table += '<td>' + v.name + '</td>'  
                     table += '<td>' + v.price + '</td>'       
                     table += '<td class="modalsumprice">' + v.sumprice + '</td></tr>'
                     $('#tbdmodal').append(table)

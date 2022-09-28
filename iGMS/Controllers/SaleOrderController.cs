@@ -16,6 +16,22 @@ namespace iGMS.Controllers
             return View();
         }
         [HttpGet]
+        public JsonResult EPCCon(string id)
+        {
+            try
+            {
+                var c =(from b in db.DetailWareHouses.Where(x => x.IdGoods.Contains(id) && x.Status == true)
+                        select new { epc = b.IdGoods }
+                        ).ToList();
+
+                return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
         public JsonResult TonKho(string H,string id)
         {
             try
@@ -133,19 +149,19 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddDetails(string id,string H,int amount,float price,float sumpricegoods)
+        public JsonResult AddDetails(string epc, string H,int amount,float price,float sumpricegoods)
         {
             try
             {
-                var sta = db.Goods.OrderBy(x => x.Id.Contains(id)).ToList();
                 var a = db.SalesOrders.OrderBy(x => x.Id).ToList().LastOrDefault();
                 var b = new DetailSaleOrder();
-                b.IdGoods = id;
+                b.IdGoods = epc;
                 b.IdSaleOrder = a.Id;
                 b.Amount = amount;
                 b.Amount1 = amount;
                 b.Price = price;
                 b.IdSaleOrder = a.Id;
+                b.Status = true;
                 b.SumPrice = sumpricegoods;
                 db.DetailSaleOrders.Add(b);
                 db.SaveChanges();
@@ -194,9 +210,8 @@ namespace iGMS.Controllers
                          select new
                          {
                              id = b.Good.Id,
+                             idgood = b.Good.IdGood,
                              name = b.Good.Name,
-                             size = b.Good.Size.Name,
-                             amount = b.Amount,
                              price=b.Price,
                              sumprice = b.SumPrice,
 
