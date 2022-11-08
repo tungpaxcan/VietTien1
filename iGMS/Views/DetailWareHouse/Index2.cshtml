@@ -31,7 +31,7 @@
             <label for="example-password-input" class="col-2 col-form-label">Số Đơn Hàng <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
-                    <input class="form-control selectpicker" id="idsaleorder" name="" />
+                    <input class="form-control selectpicker" id="idsaleorder" onkeyup="Show()" name="" />
                 </div>
             </div>
         </div>
@@ -59,8 +59,6 @@
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending" hidden>Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Xuất Xứ</th>
-
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
                         </tr>
                     </thead>
@@ -68,6 +66,7 @@
                     </tbody>
                 </table>
                 <button type="submit" class="btn btn-success mr-2" onclick="RFID()">Bắt Đầu Quét RFIF</button>
+                <button type="submit" class="btn btn-danger mr-2" onclick="StopRFID()">Dừng Quét RFIF</button>
             </div>
         </div>
     </div>
@@ -102,10 +101,8 @@
         });
 
         $("#ScanMethod").change(function () {
-           
-            if ($(this).is(":checked")) {
-               
 
+            if ($(this).is(":checked")) {
                 alert('Bắt đầu quét RFID')
                 console.log('rfid')
                 lstEpcSended.length = 0;
@@ -124,7 +121,7 @@
         })
 
         //RFID
-     
+
         rfid.statusEvent = "statusEvent(%json)";
         rfid.tagEvent = "TagHandler(%json)";
         function TagHandler(tagarray) {
@@ -142,7 +139,7 @@
         function RFIDEnumrate() {
             rfid.transport = 'serial'
             rfid.readerID = 'RFID1';
-            
+
             rfid.enumerate();
             setTimeout(function () {
                 rfid.connect();
@@ -151,7 +148,7 @@
         }
 
 
-        
+
 
         //Barcode
         // MC3300
@@ -184,7 +181,7 @@
             return null;
         }
 
-      
+
 
         function setPurchaseOrderText(code) {
             $('#idsaleorder').val(code)
@@ -192,16 +189,28 @@
 
         function temp(rawBar) {
             var t = rawBar.data
-            t = t.substring(0, t.length - 8)
             CompareReceipt(t)
         }
 
         function temp1(t) {
-
-            t = t.substring(0, t.length - 8)
-            CompareReceipt(t)
+            CompareReceiptrfidMC33(t)
         }
+        function CompareReceiptrfidMC33(epc) {
+            $.ajax({
+                url: '/rfid/CompareReceiptMC33',
+                type: 'get',
+                data: {
+                    epc
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceipt(v.idgood)
+                        })
 
-
+                    }
+                }
+            })
+        }
     </script>
 }

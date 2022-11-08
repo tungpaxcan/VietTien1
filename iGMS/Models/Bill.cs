@@ -19,6 +19,7 @@ namespace iGMS.Models
         {
             this.DetailBills = new HashSet<DetailBill>();
             this.DetailReportEndShifts = new HashSet<DetailReportEndShift>();
+            this.EPCs = new HashSet<EPC>();
         }
     
         public int Id { get; set; }
@@ -46,5 +47,7 @@ namespace iGMS.Models
         public virtual ICollection<DetailBill> DetailBills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailReportEndShift> DetailReportEndShifts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EPC> EPCs { get; set; }
     }
 }

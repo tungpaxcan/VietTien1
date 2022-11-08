@@ -102,7 +102,6 @@
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending" hidden></th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
-                            <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Xuất Xứ</th>
                             <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Số Lượng</th>
 
                         </tr>
@@ -111,14 +110,7 @@
                     </tbody>
                 </table>
                 <button type="submit" class="btn btn-success mr-2" onclick="RFID()">Bắt Đầu Quét RFIF</button>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tổng Tiền Hàng<span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group">
-                    <h1 id="sumprice"></h1>
-                </div>
+                <button type="submit" class="btn btn-danger mr-2" onclick="StopRFID()">Dừng Quét RFIF</button>
             </div>
         </div>
         <div class="form-group row">
@@ -178,7 +170,6 @@
                             <th class="" hidden>Mã Hàng</th>
                             <th class="">Mã Hàng</th>
                             <th class="">Tên Hàng</th>
-                            <th class="">Xuất Xứ</th>
                             <th class="">Số Lượng</th>
                         </tr>
                     </thead>
@@ -305,11 +296,10 @@
     <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
     <script type="text/javascript">
-       
         var lstEpcSended = [];
-   
 
-      //Switch Toggle
+
+        //Switch Toggle
         $("#ScanMethod").change(function () {
             if ($(this).is(":checked")) {
                 alert('Bắt đầu quét RFID')
@@ -318,7 +308,7 @@
                 getDetailGoodOrder()
                 EB.Barcode.disable()
                 RFIDEnumrate()
-                
+
             } else {
                 alert('Bắt đầu quét Barcode')
                 console.log('bar')
@@ -329,11 +319,11 @@
             }
 
         })
-       
+
         //RFID
-       
-      
-        
+
+
+
         function TagHandler(tagarray) {
 
             for (i = 0; i < tagarray.TagData.length; i++) {
@@ -345,7 +335,7 @@
             }
 
 
-            
+
         }
 
         function RFIDEnumrate() {
@@ -357,14 +347,14 @@
             setTimeout(function () {
                 rfid.connect();
             }, 1000);;
-      
+
         }
 
 
-        
+
         //Barcode
         // MC3300
-       
+
         function BarcodeEnumrate() {
             rfid.disconnect()
             EB.Barcode.enable({
@@ -387,15 +377,10 @@
         }
         function temp(rawBar) {
             var t = rawBar.data
-            t = t.substring(0, t.length - 8)
             CompareReceipt(t)
         }
-
         function temp1(t) {
-
-            t = t.substring(0, t.length - 8)
-            
-            CompareReceipt(t)
+            CompareReceiptrfidMC33(t)
         }
         function getText(elem) {
             if ((elem.tagName === "INPUT" && elem.type === "text")) {
@@ -408,6 +393,23 @@
 
         function setPurchaseOrderText(code) {
             $('#purchaseorder').val(code)
+        }
+        function CompareReceiptrfidMC33(epc) {
+            $.ajax({
+                url: '/rfid/CompareReceiptMC33',
+                type: 'get',
+                data: {
+                    epc
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceipt(v.idgood)
+                        })
+
+                    }
+                }
+            })
         }
     </script>
 }

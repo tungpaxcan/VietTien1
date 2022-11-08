@@ -22,6 +22,7 @@ namespace iGMS.Models
             this.DetailReceipts = new HashSet<DetailReceipt>();
             this.DetailSaleOrders = new HashSet<DetailSaleOrder>();
             this.DetailSupplierGoods = new HashSet<DetailSupplierGood>();
+            this.DetailTransferOrders = new HashSet<DetailTransferOrder>();
             this.DetailWareHouses = new HashSet<DetailWareHouse>();
             this.EPCs = new HashSet<EPC>();
             this.Promotions = new HashSet<Promotion>();
@@ -80,6 +81,8 @@ namespace iGMS.Models
         public virtual ICollection<DetailSaleOrder> DetailSaleOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailSupplierGood> DetailSupplierGoods { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailTransferOrder> DetailTransferOrders { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailWareHouse> DetailWareHouses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

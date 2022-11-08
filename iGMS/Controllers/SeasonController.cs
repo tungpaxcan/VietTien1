@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class SeasonController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Season
         public ActionResult Index()
         {

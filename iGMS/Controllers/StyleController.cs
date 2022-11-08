@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class StyleController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Style
         public ActionResult Index()
         {

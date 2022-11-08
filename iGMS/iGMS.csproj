@@ -157,6 +157,7 @@
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ReportSaleController.cs" />
     <Compile Include="Controllers\RFIDController.cs" />
     <Compile Include="Controllers\RoleAdminController.cs" />
     <Compile Include="Controllers\Root.cs" />
@@ -214,6 +215,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailSupplierGood.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetailTransferOrder.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailWareHouse.cs">
@@ -2273,6 +2277,7 @@
     <Content Include="Images\icons8-gender-40.png" />
     <Content Include="Images\icons8-hanger-16.png" />
     <Content Include="Images\icons8-play-graph-report-16.91.png" />
+    <Content Include="Images\icons8-print-16.png" />
     <Content Include="Images\icons8-purchase-order-19.5.png" />
     <Content Include="Images\icons8-remove-38.png" />
     <Content Include="Images\icons8-stop-graph-report-16.91.png" />
@@ -2340,6 +2345,7 @@
     <Content Include="Scripts\Customers.js" />
     <Content Include="Scripts\data.json.js" />
     <Content Include="Images\HangHoa.xlsx" />
+    <Content Include="Images\PO iPOS.xlsx" />
     <EntityDeploy Include="Models\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -2476,6 +2482,12 @@
     <Content Include="Views\Coo\Index.cshtml" />
     <Content Include="Views\Coo\Adds.cshtml" />
     <Content Include="Views\Coo\Edits.cshtml" />
+    <Content Include="Views\ReportSale\ReportSaleTime.cshtml" />
+    <Content Include="Views\ReportSale\ReportSaleCate.cshtml" />
+    <Content Include="Views\ReportSale\ReportSaleGroup.cshtml" />
+    <Content Include="Views\ReportSale\ReportSaleGood.cshtml" />
+    <Content Include="Views\ReportSale\ReportSaleUser.cshtml" />
+    <Content Include="Views\PurchaseOrder\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

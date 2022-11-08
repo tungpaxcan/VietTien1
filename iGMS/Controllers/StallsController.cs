@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class StallsController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Stalls
         public ActionResult Index(string id)
         {

@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class RFIDController : Controller
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: RFID
         //------------------RFID---------------
         [HttpGet]
@@ -17,7 +17,7 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC.Length == 20 &&x.Status==true/* && x.IdStall == stall.Id && x.Idstore == store.Id*/)
+                var a = (from b in db.DetailEPCs.Where(x => x.Status == true/* && x.IdStall == stall.Id && x.Idstore == store.Id*/)
                          select new
                          {
                              id = b.IdEPC
@@ -34,10 +34,12 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC == epc&&x.Status==true)
+                var a = (from b in db.DetailEPCs.Where(x => x.IdEPC == epc && x.Status == true)
+                         join bb in db.EPCs on b.IdEPC equals bb.IdEPC
+                         join bbb in db.Goods on bb.IdGoods equals bbb.Id
                          select new
                          {
-                             idgood = b.IdEPC.Substring(0,b.IdEPC.Length-8)
+                             idgood = bbb.IdGood.Replace(".","")
                          }).ToList();
                 var c = db.DetailEPCs.SingleOrDefault(x => x.IdEPC == epc && x.Status == true);
                 if (c != null)
@@ -58,9 +60,10 @@ namespace iGMS.Controllers
             try
             {
                 var a = (from b in db.DetailEPCs.Where(x => x.IdEPC == epc && x.Status == true)
+                         join bb in db.EPCs on b.IdEPC equals bb.IdEPC
                          select new
                          {
-                             idgood = b.IdEPC.Substring(0, b.IdEPC.Length - 8)
+                             idgood = bb.IdGoods
                          }).ToList();
                 var c = db.DetailEPCs.SingleOrDefault(x => x.IdEPC == epc && x.Status == true);
                 if (c != null)
@@ -75,7 +78,23 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
+        [HttpGet]
+        public JsonResult CompareReceiptMC33(string epc)
+        {
+            try
+            {
+                var a = (from b in db.EPCs.Where(x => x.IdEPC == epc && x.Status == false)
+                         select new
+                         {
+                             idgood = b.IdGoods
+                         }).ToList();
+                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpPost]
         public JsonResult Refresh()
         {
@@ -110,7 +129,7 @@ namespace iGMS.Controllers
                 else
                 {
 
-                }                   
+                }
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -123,14 +142,14 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailEPCs.OrderBy(x=>x.Status).ToList().LastOrDefault();
+                var a = db.DetailEPCs.OrderBy(x => x.Status).ToList().LastOrDefault();
                 var b = db.DetailEPCs.Where(x => x.Status == false).ToList();
-                for(int i = 0; i < b.Count(); i++)
+                for (int i = 0; i < b.Count(); i++)
                 {
                     db.DetailEPCs.Remove(a);
                     db.SaveChanges();
                 }
-                
+
                 return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -165,7 +184,7 @@ namespace iGMS.Controllers
         }
         [HttpPost]
         public JsonResult getBarcodeByEPC(string[] tags)
-        
+
         {
             List<string> lstBar = new List<string>();
             try
@@ -173,17 +192,17 @@ namespace iGMS.Controllers
                 foreach (var tag in tags)
                 {
                     var barcode = db.EPCs.FirstOrDefault(b => b.IdEPC == tag);
-                    if(barcode != null)
+                    if (barcode != null)
                     {
                         if (!lstBar.Contains(barcode.IdGoods))
                         {
                             lstBar.Add(barcode.IdGoods);
                         }
-                       
+
                     }
-                 
+
                 }
-                return Json(new { code = 200, barcode = lstBar}, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 200, barcode = lstBar }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

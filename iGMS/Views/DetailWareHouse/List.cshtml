@@ -64,6 +64,7 @@
             rfid.tagEvent = "TagHandler(%json)";
             RFIDEnumrate()
         })
+
         
 
     </script>
@@ -91,40 +92,36 @@
                             var ids = $('.TON').map(function () {
                                 return this.id;
                             }).get();
-                            if (ids.includes(v.id)) {
-                                var amounts = $('#inventory' + v.id + '').text();
-                                $('#inventory' + v.id + '').empty();
-
-                                $('#inventory' + v.id + '').append(Number(amounts) + 1);
+                            if (ids.includes(v.idgood)) {
+                                var amounts = $('#inventory' + v.idgood + '').text();
+                                $('#inventory' + v.idgood + '').empty();
+                                $('#inventory' + v.idgood + '').append(Number(amounts) + 1);
                             } else {
-                                let table = '<tr id="' + v.id + '" class="TON">'
-                                table += '<td id="checkinvent' + v.id + '" style="background:red;color:white">0</td>'
+                                let table = '<tr id="' + v.idgood + '" class="TON">'
+                                table += '<td id="checkinvent' + v.idgood + '" style="background:red;color:white">0</td>'
                                 table += '<td>' + (Stt++) + '</td>'
                                 table += '<td>' + v.K + '</td>'
                                 table += '<td>' + v.idgood + '</td>'
                                 table += '<td>' + v.name + '</td>'
-                                table += '<td id="inventory' + v.id + '">1</td>'
-
-
-
+                                table += '<td id="inventory' + v.idgood + '">1</td>'
                                 table += '</tr>'
                                 $('#tbd').append(table)
                             }
-
                         })
                     }
                 }
             })
         }
+
         function RFIDEnumrate() {
-          
+
             rfid.transport = 'serial'
             rfid.readerID = 'RFID1';
 
             rfid.enumerate();
             setTimeout(function () {
                 rfid.connect();
-            }, 1000);
+            }, 200);
         }
         var lstEpcSended = [];
         $("#ScanMethod").change(function () {
@@ -167,7 +164,7 @@
         // MC3300
 
         function BarcodeEnumrate() {
-                EB.Barcode.enable({
+            EB.Barcode.enable({
                 allDecoders: true
             }, temp);
         }
@@ -175,40 +172,58 @@
 
         function temp(rawBar) {
             var t = rawBar.data
-            t = t.substring(0, t.length - 8)
             CompareReceipt(t)
         }
 
         function temp1(t) {
-            
-            t = t.substring(0, t.length - 8)
-            CompareReceipt(t)
+
+            CompareReceiptrfidMC33(t)
         }
+
        
+        var des = '';
+        function CompareReceipt(id) {
+            var barcode = '';
+            $.ajax({
+                url: '/receipt/ChangeGood',
+                type: 'get',
+                data: {
+                    id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.c, function (k, v) {
+                            barcode = v.idgood;
+                            var invent = $('#inventory' + barcode + '').text()
+                            var inventcheck = $('#checkinvent' + barcode + '').text()
 
-        function CompareReceipt(barcode) {
-           
-            var invent = $('#inventory' + barcode + '').text()
-            var inventcheck = $('#checkinvent' + barcode + '').text()
+                            var qty = Number(invent);
 
-            var qty = Number(invent);
+                            var checkqty = Number(inventcheck);
 
-            var checkqty = Number(inventcheck);
+                            if (invent != null && inventcheck != null) {
+                                if (checkqty < qty)
+                                    checkqty++
+                                if (checkqty < qty && checkqty > 0) {
 
-            if (invent != null && inventcheck != null) {
-                if (checkqty < qty)
-                    checkqty++
-                if (checkqty < qty && checkqty > 0) {
-
-                    $('#checkinvent' + barcode + '').css('background', '#ffa800')
+                                    $('#checkinvent' + barcode + '').css('background', '#ffa800')
+                                }
+                                else {
+                                    $('#checkinvent' + barcode + '').css('background', 'green')
+                                }
+                                $('#checkinvent' + barcode + '').text(checkqty)
+                            }
+                            if (Object.values(GoodPucharseOder).includes(barcode)) {
+                            } else {
+                                des += barcode + ", "
+                            }
+                            $('#des').val(des)
+                        })
+                    } else if (data.code == 300) {
+                        alert(data.msg)
+                    }
                 }
-                else {
-                    $('#checkinvent' + barcode + '').css('background', 'green')
-                }
-                $('#checkinvent' + barcode + '').text(checkqty)
-            }
-
-
+            })
         }
         $(document).scannerDetection({
             timeBeforeScanTest: 200, // wait for the next character for upto 200ms
@@ -218,7 +233,7 @@
             ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
             minLength: 1,
             onComplete: function (barcode, qty) {
-                CompareReceipt(barcode.substring(0, barcode.length - 8))
+                CompareReceipt(barcode)
 
             }, // main callback function
             scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
@@ -226,7 +241,7 @@
             onError: function (string) { alert('Error ' + string); }
         });
         function RFID() {
-            setInterval(function () { AllShowEPC() }, 1000);
+            setInterval(function () { AllShowEPC() }, 200);
         }
         function AllShowEPC() {
             $.ajax({
@@ -244,6 +259,23 @@
         function CompareReceiptrfid(epc) {
             $.ajax({
                 url: '/rfid/CompareReceipt',
+                type: 'get',
+                data: {
+                    epc
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceipt(v.idgood)
+                        })
+
+                    }
+                }
+            })
+        }
+        function CompareReceiptrfidMC33(epc) {
+            $.ajax({
+                url: '/rfid/CompareReceiptMC33',
                 type: 'get',
                 data: {
                     epc

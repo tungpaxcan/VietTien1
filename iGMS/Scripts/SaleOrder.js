@@ -1,4 +1,5 @@
-﻿//-------------------chọn nơi xuất hàng--------------
+﻿//Chọn cửa hàng hay kho hàng để xuất
+
 $('input[type="radio"]').click(function () {
     var radio = document.getElementsByName('radio');
     for (let i = 0; i < radio.length; i++) {
@@ -16,7 +17,13 @@ $('input[type="radio"]').click(function () {
         }
     }
 })
-//-------------------tim hang hoa
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Tìm Hàng hóa trong kho
+
 $('#seachidgood').keypress(function (event) {
     var warehouse = $('#warehouse option:selected').val();
     var store = $('#store option:selected').val();
@@ -30,8 +37,13 @@ $('#seachidgood').keypress(function (event) {
             validateAmount(id, amount)        
         }
     }
-  
 })
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Hiển thị hàng hóa để bán
 
 function Good(id) {
     var warehouse = $('#warehouse option:selected').val();
@@ -51,59 +63,65 @@ function Good(id) {
         success: function (data) {
             if (data.code == 200) {
                 var Stt = 1;
-
                 $.each(data.c, function (k, v) {
                     var ids = $('.IDGOOD').map(function () {
                         return this.id;
                     }).get();
                     if (ids.includes(id)) {
-                        //var amounts = $('#' + id + ' #amount' + id + '').val();
-                        //var price = $('#' + id + ' #price' + id + '').val();
-                        //var discount = $('#' + id + ' #discount' + id + '').val();
-                        //$('#' + id + ' #amount' + v.id + '').val('');
-                        //$('#' + id + ' #amount' + v.id + '').val(1);
-                        //$('#' + id + ' #totalmoney' + id + '').empty()
-                        //var sum = Number(price) * (Number(amounts) + 1);
-                        //$('#' + id + ' #sumpricegoods' + id + '').empty();
-                        //$('#' + id + ' #sumpricegoods' + id + '').append(sum + (sum * (Number(discount) / 100)))
+                        var amounts = $('#' + id + ' #amount' + id + '').val();
+                        var price = $('#' + id + ' #price' + id + '').val();
+                        var discount = $('#' + id + ' #discount' + id + '').val();
+                        $('#' + id + ' #amount' + v.id + '').val('');
+                        $('#' + id + ' #amount' + v.id + '').val(1);
+                        $('#' + id + ' #totalmoney' + id + '').empty()
+                        var sum = Number(price) * (Number(amounts) + 1);
+                        $('#' + id + ' #sumpricegoods' + id + '').empty();
+                        $('#' + id + ' #sumpricegoods' + id + '').append(sum + (sum * (Number(discount) / 100)))
                     } else {
-                        let table = '<tr id="' + v.id + '" role="row" class="odd IDGOOD">';
+                        let table = '<tr id="' + v.idgood + '" role="row" class="odd IDGOOD">';
                         table += '<td>' + (Stt++) + '</td>'
-                        table += '<td class="' + v.id + '">' + v.id + '</td>'
+                        table += '<td class="' + v.idgood + '">' + v.idgood + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td><input type="number" value="0" id="amount' + v.id + '" name="amount" /></td>'
+                        table += '<td><input type="number" value="0" id="amount' + v.idgood + '" name="amount" /></td>'
                         table += '<td>'
-                        table += '<input name="tags-outside" placeholder="Nhập Đủ Mã EPC" class="tagify--outside form-control" id="epc' + v.id + '" />'
+                        table += '<input name="tags-outside" disabled  placeholder="Nhập Đủ Mã Serial" class="tagify--outside form-control" id="epc' + v.idgood + '" />'
                         table += '</td>'
-                        table += '<td><input type="text" value="' + v.price + '" id="price' + v.id + '" name="price" /></td>'
-                        table += '<td class="sumpricegoods" id="sumpricegoods' + v.id + '"></td>'
+                        table += '<td><input type="text" value="' + v.price + '" id="price' + v.idgood + '" name="price" /></td>'
+                        table += '<td class="sumpricegoods" id="sumpricegoods' + v.idgood + '"></td>'
                         table += '<td name="delete"><img src="/Images/icons8-remove-38.png" /></td>'
                         table += '</tr>';
                         $('#tbd').append(table);
-                        var amount = $('#amount' + v.id + '').val();
-                        $('#sumpricegoods' + v.id + '').append(v.price * amount + (v.price * v.discount / 100))
+                        var amount = $('#amount' + v.idgood + '').val();
+                        $('#sumpricegoods' + v.idgood + '').append(v.price * amount + (v.price * v.discount / 100))
                     }
                 })
+
                 Tien(id)
-                //-----------Nhap số liệu-----------
+
+                //Nhấp số lượng cho hàng hóa
+
                 $('input[name="amount"]').keypress(function (event) {
                     if (event.which == 13) {
                         var id = $(this).closest('tr').attr('id');
                         var amount = $('#amount' + id + '').val()
-                        EPC(id, amount)
                         Tien(id)
-                        validateAmount(id, amount)                 
+                        validateAmount(id, amount)
+                        EPC(id,amount,H)
                     }
                 })
+
+                //Nhập Giá cho hàng hóa
+
                 $('input[name="price"]').keypress(function (event) {
                     if (event.which == 13) {
                         var id = $(this).closest('tr').attr('id')
                         Tien(id)
                     }
-
                 })
                 Tong()
-                //-------xóa
+
+                //Xóa Hàng hóa
+
                 $('td[name="delete"]').click(function () {
                     var id = $(this).closest('tr').attr('id');
                     $('#' + id + '').remove();
@@ -115,61 +133,7 @@ function Good(id) {
     })
 }
 
-//---------------tag con de ban-------------
-function EPC(id, amount) {
-    var input = document.getElementById('epc' + id + '');
-    // init Tagify script on the above inputs
-    $.ajax({
-        url: '/saleorder/EPCCon',
-        type: 'get',
-        data: {
-            id
-        },
-        success: function (data) {
-            if (data.code == 200) {
-                let a = ''
-                $.each(data.c, function (k, v) {
-                    a += v.epc + ","
-                })
-                const myArray = a.split(",");
-                new Tagify(input, {
-                    whitelist: myArray,
-                    maxTags: Number(amount),
-                    dropdown: {
-                        position: "input",
-                        enabled: 0// always opens dropdown when input gets focus
-                    }
-                })
-            }
-        }
-    })
-}
-function validateAmount(id, amount) {
-    var warehouse = $('#warehouse option:selected').val();
-    var store = $('#store option:selected').val();
-    var H = "";
-    if (warehouse == -1) {
-        H = store
-    } else {
-        H = warehouse
-    }
-    $.ajax({
-        url: '/saleorder/TonKho',
-        type: 'get',
-        data: {
-            H,id
-        },
-        success: function (data) {
-            if (data.code == 200) {
-                if (amount > data.c) {
-                        alert("Hàng Không Đủ, Chỉ Còn " + data.c+"  !!!")
-                        $('#amount' + id + '').val(data.c)
-                        Tien(id)
-                    }
-            }
-        }
-    })
-}
+//Tổng tiền trên 1 mặt hàng
 
 function Tien(id) {
     $('#sumpricegoods' + id + '').empty()
@@ -179,6 +143,12 @@ function Tien(id) {
     $('#sumpricegoods' + id + '').append(sum)
     Tong();
 }
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Tổng Tiền cho đơn hàng bán
 
 function Tong() {
     $('#sumprice').empty()
@@ -199,6 +169,83 @@ $('#partialpay').keyup(function () {
     Tong()
 })
 
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Kiểm tra số lượng hàng còn trong kho
+
+function validateAmount(id, amount) {
+    var warehouse = $('#warehouse option:selected').val();
+    var store = $('#store option:selected').val();
+    var H = "";
+    if (warehouse == -1) {
+        H = store
+    } else {
+        H = warehouse
+    }
+    $.ajax({
+        url: '/saleorder/TonKho',
+        type: 'get',
+        data: {
+            H, id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                if (amount > data.c) {
+                    alert("Hàng Không Đủ, Chỉ Còn " + data.c + "  !!!")
+                    $('#amount' + id + '').val(data.c)
+                    Tien(id)
+                }
+            }
+        }
+    })
+}
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Kiểm tra các serial còn trong kho
+
+function EPC(id,amount,H) {
+    var input = document.getElementById('epc' + id + '');
+    // init Tagify script on the above inputs
+    $.ajax({
+        url: '/saleorder/EPCCon',
+        type: 'get',
+        data: {
+            id,H
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                let a = ''
+                $.each(data.c, function (k, v) {
+                    a += v.epc + ","
+                })
+                const myArray = a.split(",");
+                new Tagify(input, {
+                    enforceWhitelist: false,
+                    whitelist: myArray,
+                    maxTags: Number(amount),
+                    dropdown: {
+                        position: "input",
+                        enabled: 0// always opens dropdown when input gets focus
+                    },
+                    editTags: false,
+                    readonly: false
+                })
+            }
+        }
+    })
+}
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Quet hàng hóa
+
 $(document).scannerDetection({
     timeBeforeScanTest: 200, // wait for the next character for upto 200ms
     startChar: [120],
@@ -207,13 +254,42 @@ $(document).scannerDetection({
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
     minLength: 1,
     onComplete: function (barcode, qty) {
-        Good(barcode)
-
+        Change_IdGood(barcode)
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Đổi mã barcode thành mã hàng hóa
+
+function Change_IdGood(barcode) {
+    $.ajax({
+        url: '/saleorder/Change_IdGood',
+        type: 'get',
+        data: {
+            barcode
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                Good(data.c)
+            }
+            else {
+                alert("Thất bại")
+            }
+        }
+    })
+}
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Thêm đơn hàng bán vào cơ sở dữ liệu
 
 function Add() {
     var name = $('#name').val().trim();
@@ -247,14 +323,14 @@ function Add() {
             return;
         }
     }
-    if (customerKH.length <= 0) {
+    if (customerKH == -1) {
         alert("Chọn khách hàng !!!")
         return;
     }
-    if (user.length <= 0) {
+    if (user == -1) {
         alert("Chọn Nhân Viên !!!")
         return;
-    } if (paymethod.length <= 0) {
+    } if (paymethod ==-1) {
         alert("Chọn Phương Thức Thanh Toán !!!")
         return;
     } if (partialpay.length <= 0) {
@@ -287,7 +363,6 @@ function Add() {
                     var sumpricegoods = $('#' + id + ' #sumpricegoods' + id + '').text();
                     Xuat(id, H, amount, price, sumpricegoods)
                 }
-
             } 
             else {
                 alert("Thất bại")
@@ -295,6 +370,7 @@ function Add() {
         },
     })
 }
+
 function Xuat(id, H, amount, price, sumpricegoods) {
     if (amount == 0) {
         alert("Chưa Nhập Số lượng  Cho " + id + "!!!")
@@ -311,7 +387,7 @@ function Xuat(id, H, amount, price, sumpricegoods) {
         var epc = TagArray[k]
 
         if (TagArray.length < amount) {
-            alert("Chưa Nhập Đủ Mã EPC Cho " + id + " !!!")
+            alert("Chưa Nhập Đủ Mã Serial Cho " + id + " !!!")
             return;
         }
         if (epc.length < 19) {
@@ -322,13 +398,12 @@ function Xuat(id, H, amount, price, sumpricegoods) {
             url: '/saleorder/AddDetails',
             type: 'post',
             data: {
-                epc, H, amount, price, sumpricegoods
+                id, epc, H, amount, price, sumpricegoods
             },
             success: function (data) {
                 if (data.code == 200) {
                     $('#BILL').modal('show')
                     BILL()
-
                 }
                 else {
                     alert("Thất bại")
@@ -336,8 +411,14 @@ function Xuat(id, H, amount, price, sumpricegoods) {
             },
         })
     }
-   
+
 }
+
+//End
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
+//BILL thông tin đơn hàng vừa bán
 
 function BILL() {
     var warehouse = $('#warehouse option:selected').val()
@@ -379,8 +460,8 @@ function BILL() {
                     $('span[name="address"]').append(v.address)
                     $('span[name="paydh"]').append(v.paymethod)
                     $('span[name="datepaydh"]').append(v.datepay)
-                    $('span[name="sumpricedh"]').append(v.datepay)
-                    $('span[name="Tong"]').append(v.sumprice)
+                    $('span[name="sumpricedh"]').append(v.sumprice)
+                    $('span[name="Tong"]').append(to_vietnamese(v.sumprice))
                     new QRCode(document.getElementById("qrcode"), {
                         text: '00000' + v.id,
                         width: 100,
@@ -395,7 +476,7 @@ function BILL() {
                     table += '<td>' + v.idgood + '</td>'
                     table += '<td>' + v.name + '</td>'  
                     table += '<td>' + v.price + '</td>'       
-                    table += '<td class="modalsumprice">' + v.sumprice + '</td></tr>'
+                    table += '<td class="modalsumprice">' + v.price + '</td></tr>'
                     $('#tbdmodal').append(table)
                 })
                 var modaldiscounts = $('.modaldiscount').map(function () {

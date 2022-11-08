@@ -93,7 +93,7 @@
                                     </li>
                                     <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
                                         <a class="menu-link menu-toggle">
-                                            <span class="menu-text">Quản Lý Mua Hàng</span>
+                                            <span class="menu-text">Quản Lý Nhập Hàng</span>
                                             <i class="menu-arrow"></i>
                                         </a>
                                         <div class="menu-submenu menu-submenu-classic menu-submenu-left">
@@ -104,6 +104,14 @@
                                                             <img src="~/Images/icons8-purchase-order-19.5.png" />
                                                         </span>
                                                         <span class="menu-text">Lập Đơn Hàng/Đặt Hàng Mua</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="PurchaseManager" href="/PurchaseOrder/Index2" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Lập Đơn Thêm Hàng Từ Kho</span>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -117,7 +125,7 @@
                                         <div class="menu-submenu menu-submenu-classic menu-submenu-left">
                                             <ul class="menu-subnav">
                                                 <li class="menu-item" aria-haspopup="true">
-                                                    <a name="WarehouseManagement" href="/SaleOrder/Index" class="menu-link">
+                                                    <a name="SalesManager" href="/SaleOrder/Index" class="menu-link">
                                                         <span class="svg-icon menu-icon">
                                                             <img src="~/Images/icons8-purchase-order-19.5.png" />
                                                         </span>
@@ -129,29 +137,55 @@
                                     </li>
                                     <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
                                         <a class="menu-link menu-toggle">
-                                            <span class="menu-text">Quản Lý Kho Hàng</span>
+                                            <span class="menu-text ">Quản Lý Kho Hàng </span><span class="number-notification" id="number-sum"></span>
                                             <i class="menu-arrow"></i>
                                         </a>
-                                        <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-                                            <ul class="menu-subnav">
-                                                <li class="menu-item" aria-haspopup="true">
-                                                    <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
-                                                        <span class="svg-icon menu-icon">
-                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                        </span>
-                                                        <span class="menu-text">Lập Phiếu Nhập Kho</span>
-                                                    </a>
-                                                </li>
-                                                <li class="menu-item" aria-haspopup="true">
-                                                    <a name="WarehouseManagement" href="/DetailWareHouse/Index2" class="menu-link">
-                                                        <span class="svg-icon menu-icon">
-                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                        </span>
-                                                        <span class="menu-text">Lập Phiếu Xuất Kho</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                    <div class="menu-submenu menu-submenu-classic menu-submenu-left">
+                                        <ul class="menu-subnav">
+                                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                                                <a name="WarehouseManagement" class="menu-link">
+                                                    <span class="svg-icon menu-icon">
+                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                    </span>
+                                                    <span class="menu-text">Danh Sách Cần Nhập <span class="number-notification" id="number-import"></span></span>
+                                                    <i class="menu-arrow"></i>
+                                                </a>
+                                                <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
+                                                    <ul class="menu-subnav" id="list-import">
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                                                <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
+                                                    <span class="svg-icon menu-icon">
+                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                    </span>
+                                                    <span class="menu-text">Danh Sách Cần Xuất <span class="number-notification" id="number-export"></span></span>
+                                                    <i class="menu-arrow"></i>
+                                                </a>
+                                                <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
+                                                    <ul class="menu-subnav" id="list-export">
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
+                                                    <span class="svg-icon menu-icon">
+                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                    </span>
+                                                    <span class="menu-text">Lập Phiếu Nhập Kho</span>
+                                                </a>
+                                            </li>
+                                            <li class="menu-item" aria-haspopup="true">
+                                                <a name="WarehouseManagement" href="/DetailWareHouse/Index2" class="menu-link">
+                                                    <span class="svg-icon menu-icon">
+                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                    </span>
+                                                    <span class="menu-text">Lập Phiếu Xuất Kho</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     </li>
                                     <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
                                         <a class="menu-link menu-toggle">
@@ -170,6 +204,57 @@
                                                 </li>
                                             </ul>
                                         </div>
+                                    </li>
+                                    <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
+                                        <a class="menu-link menu-toggle">
+                                            <span class="menu-text">Báo Cáo Bán Hàng</span>
+                                            <i class="menu-arrow"></i>
+                                        </a>
+                                        <div class="menu-submenu menu-submenu-classic menu-submenu-left">
+                                            <ul class="menu-subnav">
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="SalesManager" href="/ReportSale/ReportSaleTime" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Bán Hàng Theo Thời Gian</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="SalesManager" href="/ReportSale/ReportSaleCate" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Bán Hàng Theo Ngành Hàng</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="SalesManager" href="/ReportSale/ReportSaleGroup" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Bán Hàng Theo Nhóm Hàng</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="SalesManager" href="/ReportSale/ReportSaleGood" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Bán Hàng Theo Hàng Hóa</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="SalesManager" href="/ReportSale/ReportSaleUser" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Bán Hàng Theo Nhân Viên Bán</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
                                     </li>
                                 </ul>
                                 <!--end::Header Nav-->
@@ -1195,8 +1280,7 @@
     <script src="~/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
     <script src="~/assets/js/scripts.bundle.js"></script>
     <script src="~/Scripts/JsBarcode.all.min.js"></script>
-    <script>
-        
+    <script>       
         PurchaseOrder()
         function PurchaseOrder() {
             $.ajax({

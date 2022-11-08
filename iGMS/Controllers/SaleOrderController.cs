@@ -9,19 +9,20 @@ namespace iGMS.Controllers
 {
     public class SaleOrderController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: SaleOrder
         public ActionResult Index()
         {
             return View();
         }
         [HttpGet]
-        public JsonResult EPCCon(string id)
+        public JsonResult EPCCon(string id,string H)
         {
             try
             {
-                var c =(from b in db.DetailWareHouses.Where(x => x.IdGoods.Contains(id) && x.Status == true)
-                        select new { epc = b.IdGoods }
+                var c =(from b in db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.Good.IdGood.Replace(".","")==id && x.Status == true)
+                        join bb in db.EPCs on b.IdGoods equals bb.IdGoods
+                        select new { epc = bb.IdGoods }
                         ).ToList();
 
                 return Json(new { code = 200, c = c }, JsonRequestBehavior.AllowGet);
@@ -36,9 +37,23 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id) && x.Status==true);
+                var c = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.Good.IdGood.Replace(".","") == id && x.Status==true);
 
                 return Json(new { code = 200, c = c.Count(), }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Change_IdGood(string barcode)
+        {
+            try
+            {
+                var c = db.Goods.SingleOrDefault(x => x.Id== barcode );
+                var Idgood = c.IdGood.Replace(".", "");
+                return Json(new { code = 200, c = Idgood }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -86,13 +101,14 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.IdGoods.Contains(id)&&x.Status==true);
+                var a = db.DetailWareHouses.Where(x => (x.IdWareHouse == H || x.IdStore == H) && x.Good.IdGood.Replace(".","") == id && x.Status==true);
                 if (a.Count()>0)
                 {
-                    var c = (from b in db.Goods.Where(x => x.Id.Contains(id))
+                    var c = (from b in db.Goods.Where(x => x.IdGood.Replace(".", "") == id)
                              select new
                              {
-                                 id = b.Id.Substring(0,b.Id.Length-8),
+                                 id = b.Id,
+                                 idgood = b.IdGood.Replace(".",""),
                                  name = b.Name,
                                  size = b.Size.Name,
                                  price = b.Price,
@@ -117,7 +133,6 @@ namespace iGMS.Controllers
             {
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-
                     var d = new SalesOrder();
                     d.Name = name;
                 if (H.Contains("CH"))
@@ -137,7 +152,7 @@ namespace iGMS.Controllers
                 d.DatePay = datepay;
                 d.DeliveryDate = deliverydate;
                 d.Description = des;
-                d.Status = false;
+                d.Status = true;
                 d.CreateDate = DateTime.Now;
                     db.SalesOrders.Add(d);
                     db.SaveChanges();
@@ -149,13 +164,14 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult AddDetails(string epc, string H,int amount,float price,float sumpricegoods)
+        public JsonResult AddDetails(string id,string epc, string H,int amount,float price,float sumpricegoods)
         {
             try
             {
                 var a = db.SalesOrders.OrderBy(x => x.Id).ToList().LastOrDefault();
                 var b = new DetailSaleOrder();
                 b.IdGoods = epc;
+                b.IdGood = id;
                 b.IdSaleOrder = a.Id;
                 b.Amount = amount;
                 b.Amount1 = amount;

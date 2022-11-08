@@ -20,6 +20,7 @@ namespace iGMS.Models
         public string IdStore { get; set; }
         public Nullable<double> Inventory { get; set; }
         public Nullable<bool> Status { get; set; }
+        public Nullable<bool> StatusWait { get; set; }
     
         public virtual Good Good { get; set; }
         public virtual Store Store { get; set; }

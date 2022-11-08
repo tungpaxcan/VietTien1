@@ -12,16 +12,23 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class EPC
+    public partial class DetailTransferOrder
     {
         public int Id { get; set; }
-        public Nullable<int> IdBill { get; set; }
         public string IdGoods { get; set; }
-        public string IdEPC { get; set; }
-        public string IdSerial { get; set; }
+        public Nullable<int> IdPuchaseOrder { get; set; }
+        public string IdGood { get; set; }
+        public Nullable<int> Amount { get; set; }
+        public Nullable<int> Amount1 { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public string CreateBy { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public string ModifyBy { get; set; }
+        public Nullable<bool> StatusExport { get; set; }
         public Nullable<bool> Status { get; set; }
     
-        public virtual Bill Bill { get; set; }
         public virtual Good Good { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }

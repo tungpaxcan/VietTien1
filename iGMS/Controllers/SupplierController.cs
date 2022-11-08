@@ -10,7 +10,7 @@ namespace iGMS.Controllers
 {
     public class SupplierController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Supplier
         public ActionResult Index()
         {
@@ -58,7 +58,7 @@ namespace iGMS.Controllers
                              id = b.Id,
                              name = b.Name,
                              address= b.AddRess
-                         }).ToList().Where(x => x.name.ToLower().Contains(seach));
+                         }).ToList().Where(x => x.id.ToLower().Contains(seach)||x.id.Contains(seach));
                 var pages = a.Count() % pageSize == 0 ? a.Count() / pageSize : a.Count() / pageSize + 1;
                 var c = a.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var count = a.Count();

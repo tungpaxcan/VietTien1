@@ -1,11 +1,34 @@
-﻿$('input[name="purchaseorder"]').keyup(function () {
-    getDetailGoodOrder()
+﻿var epcshow = [];
+$(document).ready(function () {
+    $.ajax({
+        url: '/receipt/Ready_Session',
+        type: 'get',
+        success: function (data) {
+            if (data.code == 200) {
+                $('input[name="purchaseorder"]').val('00000' + data.Id_Purchase)
+                getDetailGoodOrder(data.Id_Purchase)
+            } else (
+                alert(data.msg)
+            )
+        }
+    })
 })
 
-//----DetailGoodOrder----
-function getDetailGoodOrder() {
+//Nhập số Đơn Mua hàng
+
+$('input[name="purchaseorder"]').keyup(function () {
     var purchaseorders = $('input[name="purchaseorder"]').val();
     var purchaseorder = purchaseorders.substring(5);
+    getDetailGoodOrder(purchaseorder)
+})
+
+//End Nhập số Đơn Mua hàng
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+//Xuất dữ liệu của sô đơn hàng mua
+
+function getDetailGoodOrder(purchaseorder) {
     var id = $('#id').val().trim();
     var d = new Date()
     $.ajax({
@@ -44,41 +67,32 @@ function getDetailGoodOrder() {
                     $('span[name="faxsupplier"]').append(v.faxsupplier)
                     $('span[name="idpurchaseorder"]').append(v.idpurchaseorder)
                     $('span[name="warehouse"]').append(v.warehouse)
-                    $('#sumprice').append(Money(v.sumprice))
-                    $('span[name="Tong"]').append(to_vietnamese(v.sumprice))
-
-
                 });
                 new QRCode(document.getElementById("qrcode"), {
                     text: $('#id').val().trim(),
                     width: 100,
                     height: 100,
-
                 })
-
-                $.each(data.c, function (k, v) {
+              $.each(data.c, function (k, v) {
                     var ids = $('.IDBA').map(function () {
                         return this.id;
-                    }).get();
-                    
-                    if (ids.includes(v.id)) {                       
-                        var amounts = $('#amountresult' + v.id + '').text();
-                        $('.nhanhang #amountresult' + v.id + '').empty();
-                       
-                        $('.nhanhang #amountresult' + v.id + '').append(Number(amounts) + 1);
-                        $('.modal #amountresult' + v.id + '').empty();
-                        $('.modal #amountresult' + v.id + '').append(Number(amounts) + 1);
+                    }).get();                 
+                  if (ids.includes(v.idgood)) {
+                      var amounts = $('#amountresult' + v.idgood + '').text();
+                      $('.nhanhang #amountresult' + v.idgood + '').empty();
+                      $('.nhanhang #amountresult' + v.idgood + '').append(Number(amounts) + 1);
+                      $('.modal #amountresult' + v.idgood + '').empty();
+                      $('.modal #amountresult' + v.idgood + '').append(Number(amounts) + 1);
                     }
                     else {
-                        let id = '<span id="' + v.id + '" class="IDBA"></span>'
-                        let table = '<tr id="' + v.id + '" role="row" class="odd nhanhang">';
-                        table += '<td class="resultnhanhang" style="background:red; color: white;text-align: center;" id="result' + v.id + '">0</td>'
+                      let id = '<span id="' + v.idgood + '" class="IDBA"></span>'
+                      let table = '<tr id="' + v.idgood + '" role="row" class="odd nhanhang">';
+                      table += '<td class="resultnhanhang" style="background:red; color: white;text-align: center;" id="result' + v.idgood + '">0</td>'
                         table += '<td>' + (Stt++) + '</td>'
-                        table += '<td hidden>' + v.id + '</td>'
+                      table += '<td hidden>' + v.idgood + '</td>'
                         table += '<td>' + v.idgood + '</td>'
                         table += '<td>' + v.name + '</td>'
-                        table += '<td>' + v.coo + '</td>'
-                        table += '<td id="amountresult' + v.id + '">1</td>'
+                      table += '<td id="amountresult' + v.idgood + '">1</td>'
                         table += '</tr>';
                         pricetax += Number(v.pricetax)
                         $('#ID').append(id);
@@ -103,41 +117,74 @@ function getDetailGoodOrder() {
         }
     })
 }
-function CompareReceipt(barcode) {
-   
-    var amounttext = $('#result' + barcode + '').text();
-    var amountresulttext = $('#amountresult' + barcode + '').text();
-    var amount = Number(amounttext)
-    var amountresult = Number(amountresulttext)
-    var GoodPucharseOder = $('.tablenhan .nhanhang').map(function () {
 
-        return this.id;
-    })
-    for (var i = 0; i < GoodPucharseOder.length; i++) {
-        if (GoodPucharseOder[i] == barcode) {
+//End
 
-            amount += 1;
-            if (amount > amountresult) {
-                return;
-            } else {
-                $('.tablenhan #result' + barcode + '').text(amount)
-                $('.modal #result' + barcode + '').text(amount)
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+//quét so sánh số lượng hàng
+
+var des = '';
+function CompareReceipt(id) {
+    var barcode = '';
+    $.ajax({
+        url: '/receipt/ChangeGood',
+        type: 'get',
+        data: {
+            id
+        },
+        success: function (data) {
+            if (data.code == 200) {
+                $.each(data.c, function (k, v) {
+                    barcode = v.idgood;
+                    var amounttext = $('#result' + barcode + '').text();
+                    var amountresulttext = $('#amountresult' + barcode + '').text();
+                    var amount = Number(amounttext)
+                    var amountresult = Number(amountresulttext)
+                    var GoodPucharseOder = $('.tablenhan .nhanhang').map(function () {
+                        return this.id;
+                    })
+                    for (var i = 0; i < GoodPucharseOder.length; i++) {
+                        if (GoodPucharseOder[i] == barcode) {
+                            amount += 1;
+                            if (amount > amountresult) {
+                                return;
+                            } else {
+                                $('.tablenhan #result' + barcode + '').text(amount)
+                                $('.modal #result' + barcode + '').text(amount)
+                            }
+                            if (amount == amountresult) {
+                                $('.tablenhan #result' + barcode + '').css('background', 'green')
+                                $('.modal #result' + barcode + '').css('background', 'green')
+                            } else if (amount < amountresult) {
+                                $('.tablenhan #result' + barcode + '').css('background', '#ffa800')
+                                $('.modal #result' + barcode + '').css('background', '#ffa800')
+                            } else if (amount <= 0) {
+                                $('.tablenhan #result' + barcode + '').css('background', 'red')
+                                $('.modal #result' + barcode + '').css('background', 'red')
+                            }
+                        }
+                    }
+                    if (Object.values(GoodPucharseOder).includes(barcode)) {
+                    } else {
+                        des += barcode + ", "
+                    }
+                    $('#des').val(des)
+                })
+            } else if (data.code == 300) {
+                alert(data.msg)
             }
-            if (amount == amountresult) {
-                $('.tablenhan #result' + barcode + '').css('background', 'green')
-                $('.modal #result' + barcode + '').css('background', 'green')
-            } else if (amount < amountresult) {
-                $('.tablenhan #result' + barcode + '').css('background', '#ffa800')
-                $('.modal #result' + barcode + '').css('background', '#ffa800')
-            } else if (amount <= 0) {
-                $('.tablenhan #result' + barcode + '').css('background', 'red')
-                $('.modal #result' + barcode + '').css('background', 'red')
-            }
-
         }
-    }
+    })
+
 }
-//-------------------add--------------------
+
+//End
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+//lưu dữ liệu nhập kho vào cơ sở dữ liệu
+
 function Add() {
     var id = $('#id').val().trim();
     var purchaseorder = $('input[name="purchaseorder"]').val();
@@ -173,6 +220,33 @@ function Add() {
     })
 }
 
+//End
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+
+//-------------LastReceip----------
+function LastReceipt() {
+    var id = $('#id').val().trim();
+    $.ajax({
+        url: '/receipt/ReceipLast',
+        type: 'get',
+        data: {
+            id
+        },
+        success: function (data) {
+            $('span[name="idpn"]').empty()
+            $('span[name="datepn"]').empty()
+            if (data.code == 200) {
+                $.each(data.a, function (k, v) {
+                    $('span[name="idpn"]').append(v.id)
+                    $('span[name="datepn"]').append(v.datepn)
+                })
+
+            }
+        }
+    })
+}
+
 function DaNhan(purchaseorder, idd) {
     var ResultReceipt = $('.tablenhan .resultnhanhang').map(function () {
         return this.id;
@@ -185,7 +259,7 @@ function DaNhan(purchaseorder, idd) {
             url: '/receipt/DaNhan',
             type: 'post',
             data: {
-                id, amounttext, purchaseorder, idd
+                id, amounttext, purchaseorder, idd, epcshow
             },
             success: function (data) {
                 if (data.code == 200) {
@@ -230,28 +304,7 @@ function AddCT() {
     })
 }
 
-//-------------LastReceip----------
-function LastReceipt() {
-    var id = $('#id').val().trim();
-    $.ajax({
-        url: '/receipt/ReceipLast',
-        type: 'get',
-        data: {
-            id
-        },
-        success: function (data) {
-            $('span[name="idpn"]').empty()
-            $('span[name="datepn"]').empty()
-            if (data.code == 200) {
-                $.each(data.a, function (k, v) {
-                    $('span[name="idpn"]').append(v.id)
-                    $('span[name="datepn"]').append(v.datepn)
-                })
-              
-            }
-        }
-    })
-}
+
 
 $('#btnct').click(function () {
     $('#CT').modal('show')
@@ -269,29 +322,33 @@ $(document).scannerDetection({
     ignoreIfFocusOn: 'input', // turn off scanner detection if an input has focus
     minLength: 1,
     onComplete: function (barcode, qty) {
-        CompareReceipt(barcode.substring(0, barcode.length-8))
-
+        epcshow.push(barcode)
+        console.log(barcode, epcshow)
+        CompareReceipt(barcode)
     }, // main callback function
     scanButtonKeyCode: 116, // the hardware scan button acts as key 116 (F5)
     scanButtonLongPressThreshold: 5, // assume a long press if 5 or more events come in sequence
     onError: function (string) { alert('Error ' + string); }
 });
 
-function RFID() {
-    setInterval(function () { AllShowEPC() }, 1000);
-}
+var a = setInterval(function () { }, 200);
+function RFID() { a = setInterval(function () { AllShowEPC() }, 200); }
+
 function AllShowEPC() {
     $.ajax({
         url: '/rfid/AllShowEPC',
         type: 'get',
         success: function (data) {
             if (data.code == 200) {
-                $.each(data.a, function (k, v) {
+                $.each(data.a, function (k, v) {                  
                     CompareReceiptrfid(v.id)
                 })
             }
         }
     })
+}
+function StopRFID() {
+    clearInterval(a)
 }
 function CompareReceiptrfid(epc) {
     $.ajax({
@@ -303,6 +360,7 @@ function CompareReceiptrfid(epc) {
         success: function (data) {
             if (data.code == 200) {
                 $.each(data.a, function (k, v) {
+                    epcshow.push(v.idgood)
                     CompareReceipt(v.idgood)
                 })
 

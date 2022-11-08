@@ -9,11 +9,72 @@ namespace iGMS.Controllers
 {
     public class ReceiptController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Receipt
         public ActionResult Index()
         {
             return View();
+        }
+        public JsonResult Session_Id_Purchase(string id)
+        {
+            try
+            {
+                Session["Id_Purchase"] = id;
+                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public JsonResult Session_Id_Sales(string id)
+        {
+            try
+            {
+                Session["Id_Sales"] = id;
+                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult Ready_Session()
+        {
+            try
+            {
+                 var Id_Purchase = Session["Id_Purchase"];
+                var Id_Sales = Session["Id_Sales"];
+                return Json(new { code = 200, Id_Purchase= Id_Purchase, Id_Sales= Id_Sales }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult ChangeGood(string id)
+        {
+            try
+            {
+                var c = (from b in db.Goods.Where(x => x.Id == id)
+                         select new
+                         {
+                             id = b.Id,
+                             idgood = b.IdGood.Replace(".",""),
+                             name = b.Name,
+                             size = b.Size.Name,
+                             price = b.Price,
+                             discount = b.Discount,
+                             categoods = b.CateGood.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
         [HttpPost]
         public JsonResult Add(string id,int purchaseorder,string user1,string user2,string des,int method)
@@ -23,7 +84,6 @@ namespace iGMS.Controllers
 
                 var session = (User)Session["user"];
                 var nameAdmin = session.Name;
-                var c = db.PurchaseOrders.Find(purchaseorder);
                 var d = new Receipt();
                 var ids = db.Receipts.Where(x => x.Id == id).ToList();
                 if (ids.Count == 0)
@@ -35,19 +95,15 @@ namespace iGMS.Controllers
                     d.IdUser2 = user2 == "-1" ? null : user2;
                     d.Description = des;
                     d.CreateDate = DateTime.Now;
-                    d.Status = false;
-                    c.Status = true;
+                    d.Status = true;
                     db.Receipts.Add(d);
-
                     db.SaveChanges();
                     return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
                     return Json(new { code = 300, msg = "Trùng Mã Phiếu !!!" }, JsonRequestBehavior.AllowGet);
-                }
-              
-
+                }            
             }
             catch (Exception e)
             {
@@ -88,30 +144,39 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult DaNhan(string id, string amounttext, int purchaseorder,string idd)
+        public JsonResult DaNhan(string id, string amounttext, int purchaseorder, string[] epcshow)
         {
             try
             {
                 var a = db.DetailEPCs.Where(x => x.Status == false).ToList();
-                for(int i = 0; i < a.Count(); i++)
+                for (int i = 0; i < a.Count(); i++)
                 {
                     var b = db.DetailEPCs.OrderBy(x => x.Status == false).ToList().LastOrDefault();
                     db.DetailEPCs.Remove(b);
                     db.SaveChanges();
                 }
-                for (int i = 0; i < int.Parse(amounttext); i++)
+                for (int i = 0; i < epcshow.Length; i++)
                 {
-                    var c = db.DetailGoodOrders.OrderBy(x => x.IdGoods.Contains(id) && x.IdPurchaseOrder == purchaseorder&&x.Status==true).ToList().LastOrDefault();
-                    var d = db.DetailWareHouses.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
-                    var e = db.EPCs.OrderBy(x => x.IdGoods.Contains(id) && x.Status == false).ToList().LastOrDefault();
-                    
-                    e.Status = true;
-                    d.Status = true;
-                    c.Status = false;
+                    var idepc = epcshow[i];
+                    var f = db.EPCs.SingleOrDefault(x => x.IdGoods == idepc);
+                    if (f != null)
+                    {
+                        var idf = f.IdGoods;
+                        var c = db.DetailGoodOrders.SingleOrDefault(x => x.IdGoods == idf && x.IdPurchaseOrder == purchaseorder && x.Status == true);
+                        var d = db.DetailWareHouses.SingleOrDefault(x => x.IdGoods == idf && x.Status == false);
+                        var e = db.EPCs.SingleOrDefault(x => x.IdGoods == idf && x.Status == false);
+                        e.Status = true;
+                        d.Status = true;
+                        c.Status = false;
+                        db.SaveChanges();
+                    }
+                }
+                var Status_Detail_GoodOrder = db.DetailGoodOrders.Where(x => x.Status == true && x.IdPurchaseOrder == purchaseorder).ToList();
+                if (Status_Detail_GoodOrder.Count() == 0)
+                {
+                    db.PurchaseOrders.Find(purchaseorder).Status = false;
                     db.SaveChanges();
                 }
-              
-             
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -178,14 +243,31 @@ namespace iGMS.Controllers
         {
             try
             {
-                var c = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == purchaseorder&&x.Status==true)
-                         select new
-                         {
-                             id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
-                             idgood = b.Good.IdGood,
-                             name = b.Good.Name,
-                             coo = b.Good.Coo.Name,
-                         }).ToList();
+
+                object c = null;
+                var type_Statuses = db.PurchaseOrders.Find(purchaseorder);
+                var Id_Type_Status = type_Statuses.TypeStatu.Name;
+                if(Id_Type_Status== "Order")
+                {
+                    c = (from b in db.DetailGoodOrders.Where(x => x.IdPurchaseOrder == purchaseorder && x.Status == true)
+                             select new
+                             {
+                                 id = b.Good.Id,
+                                 idgood = b.Good.IdGood.Replace(".",""),
+                                 name = b.Good.Name,
+                                 coo = b.Good.Coo.Name,
+                             }).ToList();
+                }else if(Id_Type_Status== "Transfer")
+                {
+                     c = (from b in db.DetailTransferOrders.Where(x => x.IdPuchaseOrder == purchaseorder && x.Status == true&&x.StatusExport==true)
+                             select new
+                             {
+                                 id = b.Good.Id,
+                                 idgood = b.Good.IdGood.Replace(".", ""),
+                                 name = b.Good.Name,
+                                 coo = b.Good.Coo.Name,
+                             }).ToList();
+                }             
                 var d = (from b in db.PurchaseOrders.Where(x => x.Id == purchaseorder)
                          select new
                          {

@@ -241,6 +241,25 @@ $.ajax({
         }
     }
 })
+//---QuanLyMuaHang
+$.ajax({
+    url: '/authorization/SalesManager',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            $(document).on('click', 'a[name="SalesManager"]', function (e) {
+                alert("Bạn Không Có Quyền !!!")
+                e.preventDefault();
+            })
+        }
+        else if (data.code == 300) {
+
+        }
+        else {
+            alert(data.msg)
+        }
+    }
+})
 //---QuanLyKhoHang
 $.ajax({
     url: '/authorization/WarehouseManagement',
@@ -266,7 +285,7 @@ $.ajax({
     type: 'get',
     success: function (data) {
         if (data.code == 200) {
-            $('#discountgoods').attr('disabled', 'disabled')
+            $('input[name="discountgoods"]').attr('disabled', 'disabled')
         } else if (data.code == 300) {}
         else {
             alert(data.msg)
@@ -292,13 +311,14 @@ $.ajax({
     type: 'get',
     success: function (data) {
         if (data.code == 200) {
-            $('#amountgoods').attr('disabled', 'disabled')
+            $('input[name="amountgoods"]').attr('disabled', 'disabled')
         } else if (data.code == 300) { }
         else {
             alert(data.msg)
         }
     }
 })
+
 //---NhanVienTuVan
 $.ajax({
     url: '/authorization/UserNV4',

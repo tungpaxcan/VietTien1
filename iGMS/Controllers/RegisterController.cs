@@ -11,7 +11,7 @@ namespace iGMS.Controllers
 {
     public class RegisterController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Register
         public ActionResult Index()
         {

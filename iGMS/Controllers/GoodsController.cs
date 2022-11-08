@@ -18,7 +18,7 @@ namespace iGMS.Controllers
 {
     public class GoodsController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Goods
         public ActionResult Index()
         {
@@ -458,17 +458,17 @@ namespace iGMS.Controllers
                             var epc = new EPC();
                           
                             var id = workSheet.Cells[rowIterator, 1].Value.ToString();
-                            var idepc = workSheet.Cells[rowIterator, 2].Value.ToString();
+                            var idepc = Encode.EPC(workSheet.Cells[rowIterator, 2].Value.ToString());
                             var supplier = workSheet.Cells[rowIterator, 5].Value.ToString();
                             var warehouse = workSheet.Cells[rowIterator, 4].Value.ToString();
-                            var style = workSheet.Cells[rowIterator, 6].Value.ToString();
-                            var color = workSheet.Cells[rowIterator, 7].Value.ToString();
-                            var size = workSheet.Cells[rowIterator, 9].Value.ToString();
-                            var gender = workSheet.Cells[rowIterator, 10].Value.ToString();
-                            var groupgood = workSheet.Cells[rowIterator, 11].Value.ToString();
-                            var categood = workSheet.Cells[rowIterator, 16].Value.ToString();
-                            var season = workSheet.Cells[rowIterator, 23].Value.ToString();
-                            var coo = workSheet.Cells[rowIterator, 24].Value.ToString();
+                            var style = workSheet.Cells[rowIterator, 6].Value == null ? null  : workSheet.Cells[rowIterator, 6].Value.ToString();
+                            var color = workSheet.Cells[rowIterator, 7].Value == null ? "" : workSheet.Cells[rowIterator, 7].Value.ToString();
+                            var size = workSheet.Cells[rowIterator, 9].Value == null ? "" : workSheet.Cells[rowIterator, 9].Value.ToString();
+                            var gender = workSheet.Cells[rowIterator, 10].Value == null ? "" : workSheet.Cells[rowIterator, 10].Value.ToString();
+                            var groupgood = workSheet.Cells[rowIterator, 11].Value == null ? "" : workSheet.Cells[rowIterator, 11].Value.ToString();
+                            var categood = workSheet.Cells[rowIterator, 16].Value == null ? "" : workSheet.Cells[rowIterator, 16].Value.ToString();
+                            var season = workSheet.Cells[rowIterator, 23].Value == null ? "" : workSheet.Cells[rowIterator, 23].Value.ToString();
+                            var coo = workSheet.Cells[rowIterator, 24].Value == null ? "" : workSheet.Cells[rowIterator, 24].Value.ToString();
                             var idss = db.Goods.Where(x => x.Id == id ).ToList();
                             var idssepc = db.EPCs.Where(x => x.IdGoods == id && x.IdEPC == idepc).ToList();
                             var su = suList.Where(x => x.IdSupplier == supplier &&x.IdGoods == id).ToList();
@@ -500,11 +500,11 @@ namespace iGMS.Controllers
                                 db.Suppliers.Add(sup);
                                 db.SaveChanges();
                             } 
-                            if(Styles == null)
-                            {
-                                MessageBox.Show("Chưa Có Phong Cách " + style+ " Trong Dữu Liệu Tại Dòng " + rowIterator);
-                                return View("../Goods/Index");
-                            }
+                            //if(Styles == null)
+                            //{
+                            //    MessageBox.Show("Chưa Có Phong Cách " + style+ " Trong Dữu Liệu Tại Dòng " + rowIterator);
+                            //    return View("../Goods/Index");
+                            //}
                             if(Color == null)
                             {
                                 var col = new Color();
@@ -550,30 +550,28 @@ namespace iGMS.Controllers
                                 db.Coos.Add(co);
                                 db.SaveChanges();
                             }
-                            if (Size == null)
-                            {
-                                MessageBox.Show("Chưa Có Kích Thước " + size + "Trong Dữ Liệu Tại Dòng " + rowIterator);
-                                return View("../Goods/Index");
-                            }
+                            //if (Size == null)
+                            //{
+                            //    MessageBox.Show("Chưa Có Kích Thước " + size + "Trong Dữ Liệu Tại Dòng " + rowIterator);
+                            //    return View("../Goods/Index");
+                            //}
                             if (idss.Count==0)
                             {
                                 goods.Discount = 0;
                                 goods.Id = workSheet.Cells[rowIterator, 1].Value.ToString();
                                 goods.IdGood = workSheet.Cells[rowIterator, 3].Value.ToString();
                                 goods.IdWareHouse = workSheet.Cells[rowIterator, 4].Value.ToString();
-                                goods.IdStyle = workSheet.Cells[rowIterator, 6].Value.ToString();
-                                goods.IdColor = workSheet.Cells[rowIterator, 7].Value.ToString();
-                                goods.SKU = workSheet.Cells[rowIterator, 8].Value.ToString();
-                                goods.IdSize = workSheet.Cells[rowIterator, 9].Value.ToString();
-                                goods.IdGender = workSheet.Cells[rowIterator, 10].Value.ToString();
-                                goods.IdGroupGood = workSheet.Cells[rowIterator, 11].Value.ToString();
+                                goods.IdStyle = style;
+                                goods.IdColor = color;
+                                goods.IdSize = size;
+                                goods.IdGender =gender;
+                                goods.IdGroupGood = groupgood;
                                 goods.Name = workSheet.Cells[rowIterator, 12].Value.ToString();
-                                goods.IdCate = workSheet.Cells[rowIterator, 16].Value.ToString();
+                                goods.IdCate = categood;
                                 goods.Price = Convert.ToDouble(workSheet.Cells[rowIterator, 22].Value.ToString().Replace("/,/g", ""));
                                 dego.PurchasePrice = Convert.ToDouble(workSheet.Cells[rowIterator, 22].Value.ToString().Replace("/,/g", ""));
-                                goods.IdSeason = workSheet.Cells[rowIterator, 23].Value.ToString();
-                                goods.IdCoo = workSheet.Cells[rowIterator, 24].Value.ToString();
-                                goods.Material = workSheet.Cells[rowIterator, 25].Value.ToString();
+                                goods.IdSeason = season;
+                                goods.IdCoo = coo;
                                 goods.Company = workSheet.Cells[rowIterator, 32].Value.ToString();
                                 goods.PriceNew = Convert.ToDouble(workSheet.Cells[rowIterator, 34].Value.ToString().Replace("/,/g", ""));
                                 dego.IdSupplier = workSheet.Cells[rowIterator, 5].Value.ToString();
@@ -585,7 +583,7 @@ namespace iGMS.Controllers
                             if ( idssepc.Count == 0)
                             {
                                 epc.IdGoods = workSheet.Cells[rowIterator, 1].Value.ToString();
-                                epc.IdEPC = workSheet.Cells[rowIterator, 2].Value.ToString();
+                                epc.IdEPC = idepc;
                                 epc.Status = true;
                                 db.EPCs.Add(epc);
                                 db.SaveChanges();
@@ -604,6 +602,7 @@ namespace iGMS.Controllers
                                 var dewa = new DetailWareHouse();
                                 dewa.Inventory = 1;
                                 dewa.Status = true;
+                                dewa.StatusWait = true;
                                 dewa.IdGoods = id;
                                 dewa.IdWareHouse = warehouse;
                                 db.DetailWareHouses.Add(dewa);

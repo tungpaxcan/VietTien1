@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class AuthorizationController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities(); 
+        private iPOSEntities db = new iPOSEntities(); 
         // GET: Authorization
         [HttpGet]
         public JsonResult UserNV()
@@ -41,6 +41,28 @@ namespace iGMS.Controllers
                 db.Configuration.ProxyCreationEnabled = false;
                 var User = (User)Session["user"];
                 if (User.RoleAdmin1.PurchaseManager == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult SalesManager()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.RoleAdmin1.SalesManager == false)
                 {
                     return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
                 }
@@ -186,6 +208,50 @@ namespace iGMS.Controllers
                     return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
                 }
 
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult UserNV6()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.DeleteGoods == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult UserNV7()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.HangBill == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
             }
             catch (Exception e)
             {

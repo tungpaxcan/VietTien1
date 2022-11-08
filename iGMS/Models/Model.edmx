@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VietTienModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="iPOSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="Id" />
@@ -151,6 +151,7 @@
           <Property Name="IdEPC" Type="varchar" MaxLength="35" Nullable="false" />
           <Property Name="IdStall" Type="varchar" MaxLength="20" />
           <Property Name="Idstore" Type="varchar" MaxLength="20" />
+          <Property Name="IdSerial" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="DetailGoodOrder">
@@ -201,6 +202,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdSaleOrder" Type="int" />
+          <Property Name="IdGood" Type="varchar" MaxLength="50" />
           <Property Name="Amount" Type="int" />
           <Property Name="Amount1" Type="int" />
           <Property Name="Price" Type="float" />
@@ -228,6 +230,24 @@
           <Property Name="PurchaseDiscount" Type="float" />
           <Property Name="Inventory" Type="float" />
         </EntityType>
+        <EntityType Name="DetailTransferOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGoods" Type="varchar" MaxLength="20" />
+          <Property Name="IdPuchaseOrder" Type="int" />
+          <Property Name="IdGood" Type="varchar" MaxLength="50" />
+          <Property Name="Amount" Type="int" />
+          <Property Name="Amount1" Type="int" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="StatusExport" Type="bit" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
         <EntityType Name="DetailWareHouse">
           <Key>
             <PropertyRef Name="Id" />
@@ -238,14 +258,17 @@
           <Property Name="IdStore" Type="varchar" MaxLength="20" />
           <Property Name="Inventory" Type="float" />
           <Property Name="Status" Type="bit" />
+          <Property Name="StatusWait" Type="bit" />
         </EntityType>
         <EntityType Name="EPC">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdBill" Type="int" />
           <Property Name="IdGoods" Type="varchar" MaxLength="20" />
           <Property Name="IdEPC" Type="varchar" MaxLength="35" />
+          <Property Name="IdSerial" Type="varchar" MaxLength="50" />
           <Property Name="Status" Type="bit" />
         </EntityType>
         <EntityType Name="Gender">
@@ -416,6 +439,7 @@
           <Property Name="IdPayMethod" Type="int" />
           <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="IdStore" Type="varchar" MaxLength="20" />
+          <Property Name="IdFromWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="IdSupplier" Type="varchar" MaxLength="20" />
           <Property Name="Name" Type="nvarchar" MaxLength="250" />
           <Property Name="IdGeneral" Type="varchar" MaxLength="20" />
@@ -983,6 +1007,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetailTransferOrder_Goods">
+          <End Role="Goods" Type="Self.Goods" Multiplicity="0..1" />
+          <End Role="DetailTransferOrder" Type="Self.DetailTransferOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailTransferOrder">
+              <PropertyRef Name="IdGoods" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailTransferOrder_PurchaseOrder">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="0..1" />
+          <End Role="DetailTransferOrder" Type="Self.DetailTransferOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailTransferOrder">
+              <PropertyRef Name="IdPuchaseOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetailWareHouse_Goods">
           <End Role="Goods" Type="Self.Goods" Multiplicity="0..1" />
           <End Role="DetailWareHouse" Type="Self.DetailWareHouse" Multiplicity="*" />
@@ -1016,6 +1064,18 @@
             </Principal>
             <Dependent Role="DetailWareHouse">
               <PropertyRef Name="IdWareHouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EPC_Bill">
+          <End Role="Bill" Type="Self.Bill" Multiplicity="0..1" />
+          <End Role="EPC" Type="Self.EPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EPC">
+              <PropertyRef Name="IdBill" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1256,6 +1316,18 @@
             </Principal>
             <Dependent Role="PurchaseOrder">
               <PropertyRef Name="IdWareHouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseOrder_WareHouse1">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="IdFromWareHouse" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1535,7 +1607,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VietTienModelStoreContainer">
+        <EntityContainer Name="iPOSModelStoreContainer">
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CateGoods" EntityType="Self.CateGoods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryGoods" EntityType="Self.CategoryGoods" Schema="dbo" store:Type="Tables" />
@@ -1550,6 +1622,7 @@
           <EntitySet Name="DetailReportEndShift" EntityType="Self.DetailReportEndShift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailSaleOrder" EntityType="Self.DetailSaleOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGoods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailTransferOrder" EntityType="Self.DetailTransferOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailWareHouse" EntityType="Self.DetailWareHouse" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EPC" EntityType="Self.EPC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
@@ -1674,6 +1747,14 @@
             <End Role="Supplier" EntitySet="Supplier" />
             <End Role="DetailSupplierGoods" EntitySet="DetailSupplierGoods" />
           </AssociationSet>
+          <AssociationSet Name="FK_DetailTransferOrder_Goods" Association="Self.FK_DetailTransferOrder_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="DetailTransferOrder" EntitySet="DetailTransferOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailTransferOrder_PurchaseOrder" Association="Self.FK_DetailTransferOrder_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+            <End Role="DetailTransferOrder" EntitySet="DetailTransferOrder" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetailWareHouse_Goods" Association="Self.FK_DetailWareHouse_Goods">
             <End Role="Goods" EntitySet="Goods" />
             <End Role="DetailWareHouse" EntitySet="DetailWareHouse" />
@@ -1685,6 +1766,10 @@
           <AssociationSet Name="FK_DetailWareHouse_WareHouse" Association="Self.FK_DetailWareHouse_WareHouse">
             <End Role="WareHouse" EntitySet="WareHouse" />
             <End Role="DetailWareHouse" EntitySet="DetailWareHouse" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EPC_Bill" Association="Self.FK_EPC_Bill">
+            <End Role="Bill" EntitySet="Bill" />
+            <End Role="EPC" EntitySet="EPC" />
           </AssociationSet>
           <AssociationSet Name="FK_EPC_Goods" Association="Self.FK_EPC_Goods">
             <End Role="Goods" EntitySet="Goods" />
@@ -1763,6 +1848,10 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
           </AssociationSet>
           <AssociationSet Name="FK_PurchaseOrder_WareHouse" Association="Self.FK_PurchaseOrder_WareHouse">
+            <End Role="WareHouse" EntitySet="WareHouse" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_WareHouse1" Association="Self.FK_PurchaseOrder_WareHouse1">
             <End Role="WareHouse" EntitySet="WareHouse" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
           </AssociationSet>
@@ -1863,7 +1952,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="VietTienModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="iPOSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="Id" />
@@ -1890,6 +1979,7 @@
           <NavigationProperty Name="User" Relationship="Self.FK_Bill_Users" FromRole="Bill" ToRole="Users" />
           <NavigationProperty Name="DetailBills" Relationship="Self.FK_DetailBill_Bill" FromRole="Bill" ToRole="DetailBill" />
           <NavigationProperty Name="DetailReportEndShifts" Relationship="Self.FK_DetailReportEndShift_Bill" FromRole="Bill" ToRole="DetailReportEndShift" />
+          <NavigationProperty Name="EPCs" Relationship="Self.FK_EPC_Bill" FromRole="Bill" ToRole="EPC" />
         </EntityType>
         <EntityType Name="CateGood">
           <Key>
@@ -2029,6 +2119,7 @@
           <Property Name="IdEPC" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IdStall" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Idstore" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdSerial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Boolean" />
         </EntityType>
         <EntityType Name="DetailGoodOrder">
@@ -2085,6 +2176,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdSaleOrder" Type="Int32" />
+          <Property Name="IdGood" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Amount" Type="Int32" />
           <Property Name="Amount1" Type="Int32" />
           <Property Name="Price" Type="Double" />
@@ -2117,6 +2209,26 @@
           <NavigationProperty Name="Good" Relationship="Self.FK_DetailSupplierGoods_Goods" FromRole="DetailSupplierGoods" ToRole="Goods" />
           <NavigationProperty Name="Supplier" Relationship="Self.FK_DetailSupplierGoods_Supplier" FromRole="DetailSupplierGoods" ToRole="Supplier" />
         </EntityType>
+        <EntityType Name="DetailTransferOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdPuchaseOrder" Type="Int32" />
+          <Property Name="IdGood" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Int32" />
+          <Property Name="Amount1" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="StatusExport" Type="Boolean" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Good" Relationship="Self.FK_DetailTransferOrder_Goods" FromRole="DetailTransferOrder" ToRole="Goods" />
+          <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_DetailTransferOrder_PurchaseOrder" FromRole="DetailTransferOrder" ToRole="PurchaseOrder" />
+        </EntityType>
         <EntityType Name="DetailWareHouse">
           <Key>
             <PropertyRef Name="Id" />
@@ -2127,6 +2239,7 @@
           <Property Name="IdStore" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Inventory" Type="Double" />
           <Property Name="Status" Type="Boolean" />
+          <Property Name="StatusWait" Type="Boolean" />
           <NavigationProperty Name="Good" Relationship="Self.FK_DetailWareHouse_Goods" FromRole="DetailWareHouse" ToRole="Goods" />
           <NavigationProperty Name="Store" Relationship="Self.FK_DetailWareHouse_Store" FromRole="DetailWareHouse" ToRole="Store" />
           <NavigationProperty Name="WareHouse" Relationship="Self.FK_DetailWareHouse_WareHouse" FromRole="DetailWareHouse" ToRole="WareHouse" />
@@ -2136,9 +2249,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdBill" Type="Int32" />
           <Property Name="IdGoods" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdEPC" Type="String" MaxLength="35" FixedLength="false" Unicode="false" />
+          <Property Name="IdSerial" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Bill" Relationship="Self.FK_EPC_Bill" FromRole="EPC" ToRole="Bill" />
           <NavigationProperty Name="Good" Relationship="Self.FK_EPC_Goods" FromRole="EPC" ToRole="Goods" />
         </EntityType>
         <EntityType Name="Gender">
@@ -2214,6 +2330,7 @@
           <NavigationProperty Name="DetailReceipts" Relationship="Self.FK_DetailReceipt_Goods" FromRole="Goods" ToRole="DetailReceipt" />
           <NavigationProperty Name="DetailSaleOrders" Relationship="Self.FK_DetailSaleOrder_Goods" FromRole="Goods" ToRole="DetailSaleOrder" />
           <NavigationProperty Name="DetailSupplierGoods" Relationship="Self.FK_DetailSupplierGoods_Goods" FromRole="Goods" ToRole="DetailSupplierGoods" />
+          <NavigationProperty Name="DetailTransferOrders" Relationship="Self.FK_DetailTransferOrder_Goods" FromRole="Goods" ToRole="DetailTransferOrder" />
           <NavigationProperty Name="DetailWareHouses" Relationship="Self.FK_DetailWareHouse_Goods" FromRole="Goods" ToRole="DetailWareHouse" />
           <NavigationProperty Name="EPCs" Relationship="Self.FK_EPC_Goods" FromRole="Goods" ToRole="EPC" />
           <NavigationProperty Name="Gender" Relationship="Self.FK_Goods_Gender" FromRole="Goods" ToRole="Gender" />
@@ -2346,6 +2463,7 @@
           <Property Name="IdPayMethod" Type="Int32" />
           <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdStore" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdFromWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdSupplier" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="IdGeneral" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -2362,6 +2480,7 @@
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
           <NavigationProperty Name="DetailGoodOrders" Relationship="Self.FK_DetailGoodOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="DetailGoodOrder" />
+          <NavigationProperty Name="DetailTransferOrders" Relationship="Self.FK_DetailTransferOrder_PurchaseOrder" FromRole="PurchaseOrder" ToRole="DetailTransferOrder" />
           <NavigationProperty Name="GeneralAccounting" Relationship="Self.FK_PurchaseOrder_GeneralAccounting" FromRole="PurchaseOrder" ToRole="GeneralAccounting" />
           <NavigationProperty Name="InternalAccounting" Relationship="Self.FK_PurchaseOrder_InternalAccounting" FromRole="PurchaseOrder" ToRole="InternalAccounting" />
           <NavigationProperty Name="PaymentMethod" Relationship="Self.FK_PurchaseOrder_PaymentMethods" FromRole="PurchaseOrder" ToRole="PaymentMethods" />
@@ -2369,6 +2488,7 @@
           <NavigationProperty Name="Supplier" Relationship="Self.FK_PurchaseOrder_Supplier" FromRole="PurchaseOrder" ToRole="Supplier" />
           <NavigationProperty Name="TypeStatu" Relationship="Self.FK_PurchaseOrder_TypeStatus" FromRole="PurchaseOrder" ToRole="TypeStatus" />
           <NavigationProperty Name="WareHouse" Relationship="Self.FK_PurchaseOrder_WareHouse" FromRole="PurchaseOrder" ToRole="WareHouse" />
+          <NavigationProperty Name="WareHouse1" Relationship="Self.FK_PurchaseOrder_WareHouse1" FromRole="PurchaseOrder" ToRole="WareHouse" />
           <NavigationProperty Name="Receipts" Relationship="Self.FK_Receipt_PurchaseOrder" FromRole="PurchaseOrder" ToRole="Receipt" />
         </EntityType>
         <EntityType Name="PurchaseOrderReport">
@@ -2702,6 +2822,7 @@
           <NavigationProperty Name="DetailWareHouses" Relationship="Self.FK_DetailWareHouse_WareHouse" FromRole="WareHouse" ToRole="DetailWareHouse" />
           <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_WareHouse" FromRole="WareHouse" ToRole="Goods" />
           <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_WareHouse" FromRole="WareHouse" ToRole="PurchaseOrder" />
+          <NavigationProperty Name="PurchaseOrders1" Relationship="Self.FK_PurchaseOrder_WareHouse1" FromRole="WareHouse" ToRole="PurchaseOrder" />
           <NavigationProperty Name="SalesOrders" Relationship="Self.FK_SalesOrder_WareHouse" FromRole="WareHouse" ToRole="SalesOrder" />
         </EntityType>
         <Association Name="FK_Bill_Customer">
@@ -2772,6 +2893,18 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="DetailReportEndShift">
+              <PropertyRef Name="IdBill" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EPC_Bill">
+          <End Role="Bill" Type="Self.Bill" Multiplicity="0..1" />
+          <End Role="EPC" Type="Self.EPC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EPC">
               <PropertyRef Name="IdBill" />
             </Dependent>
           </ReferentialConstraint>
@@ -3025,6 +3158,30 @@
             </Principal>
             <Dependent Role="DetailSupplierGoods">
               <PropertyRef Name="IdSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailTransferOrder_Goods">
+          <End Role="Goods" Type="Self.Good" Multiplicity="0..1" />
+          <End Role="DetailTransferOrder" Type="Self.DetailTransferOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Goods">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailTransferOrder">
+              <PropertyRef Name="IdGoods" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetailTransferOrder_PurchaseOrder">
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="0..1" />
+          <End Role="DetailTransferOrder" Type="Self.DetailTransferOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchaseOrder">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailTransferOrder">
+              <PropertyRef Name="IdPuchaseOrder" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3352,6 +3509,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PurchaseOrder_WareHouse1">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseOrder">
+              <PropertyRef Name="IdFromWareHouse" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Receipt_PurchaseOrder">
           <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="0..1" />
           <End Role="Receipt" Type="Self.Receipt" Multiplicity="*" />
@@ -3532,7 +3701,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="VietTienEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="iPOSEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Bills" EntityType="Self.Bill" />
           <EntitySet Name="CateGoods" EntityType="Self.CateGood" />
           <EntitySet Name="CategoryGoods" EntityType="Self.CategoryGood" />
@@ -3547,6 +3716,7 @@
           <EntitySet Name="DetailReportEndShifts" EntityType="Self.DetailReportEndShift" />
           <EntitySet Name="DetailSaleOrders" EntityType="Self.DetailSaleOrder" />
           <EntitySet Name="DetailSupplierGoods" EntityType="Self.DetailSupplierGood" />
+          <EntitySet Name="DetailTransferOrders" EntityType="Self.DetailTransferOrder" />
           <EntitySet Name="DetailWareHouses" EntityType="Self.DetailWareHouse" />
           <EntitySet Name="EPCs" EntityType="Self.EPC" />
           <EntitySet Name="Genders" EntityType="Self.Gender" />
@@ -3602,6 +3772,10 @@
           <AssociationSet Name="FK_DetailReportEndShift_Bill" Association="Self.FK_DetailReportEndShift_Bill">
             <End Role="Bill" EntitySet="Bills" />
             <End Role="DetailReportEndShift" EntitySet="DetailReportEndShifts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EPC_Bill" Association="Self.FK_EPC_Bill">
+            <End Role="Bill" EntitySet="Bills" />
+            <End Role="EPC" EntitySet="EPCs" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_CateGoods" Association="Self.FK_Goods_CateGoods">
             <End Role="CateGoods" EntitySet="CateGoods" />
@@ -3686,6 +3860,14 @@
           <AssociationSet Name="FK_DetailSupplierGoods_Supplier" Association="Self.FK_DetailSupplierGoods_Supplier">
             <End Role="Supplier" EntitySet="Suppliers" />
             <End Role="DetailSupplierGoods" EntitySet="DetailSupplierGoods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailTransferOrder_Goods" Association="Self.FK_DetailTransferOrder_Goods">
+            <End Role="Goods" EntitySet="Goods" />
+            <End Role="DetailTransferOrder" EntitySet="DetailTransferOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailTransferOrder_PurchaseOrder" Association="Self.FK_DetailTransferOrder_PurchaseOrder">
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+            <End Role="DetailTransferOrder" EntitySet="DetailTransferOrders" />
           </AssociationSet>
           <AssociationSet Name="FK_DetailWareHouse_Goods" Association="Self.FK_DetailWareHouse_Goods">
             <End Role="Goods" EntitySet="Goods" />
@@ -3795,6 +3977,10 @@
             <End Role="WareHouse" EntitySet="WareHouses" />
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_PurchaseOrder_WareHouse1" Association="Self.FK_PurchaseOrder_WareHouse1">
+            <End Role="WareHouse" EntitySet="WareHouses" />
+            <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Receipt_PurchaseOrder" Association="Self.FK_Receipt_PurchaseOrder">
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="Receipt" EntitySet="Receipts" />
@@ -3861,9 +4047,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VietTienModelStoreContainer" CdmEntityContainer="VietTienEntities">
+        <EntityContainerMapping StorageEntityContainer="iPOSModelStoreContainer" CdmEntityContainer="iPOSEntities">
           <EntitySetMapping Name="Bills">
-            <EntityTypeMapping TypeName="VietTienModel.Bill">
+            <EntityTypeMapping TypeName="iPOSModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdStall" ColumnName="IdStall" />
@@ -3885,7 +4071,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CateGoods">
-            <EntityTypeMapping TypeName="VietTienModel.CateGood">
+            <EntityTypeMapping TypeName="iPOSModel.CateGood">
               <MappingFragment StoreEntitySet="CateGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3899,7 +4085,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CategoryGoods">
-            <EntityTypeMapping TypeName="VietTienModel.CategoryGood">
+            <EntityTypeMapping TypeName="iPOSModel.CategoryGood">
               <MappingFragment StoreEntitySet="CategoryGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3913,7 +4099,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Colors">
-            <EntityTypeMapping TypeName="VietTienModel.Color">
+            <EntityTypeMapping TypeName="iPOSModel.Color">
               <MappingFragment StoreEntitySet="Color">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3926,7 +4112,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Coos">
-            <EntityTypeMapping TypeName="VietTienModel.Coo">
+            <EntityTypeMapping TypeName="iPOSModel.Coo">
               <MappingFragment StoreEntitySet="Coo">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -3939,7 +4125,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="VietTienModel.Customer">
+            <EntityTypeMapping TypeName="iPOSModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGroupGoods" ColumnName="IdGroupGoods" />
@@ -3974,7 +4160,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Deliveries">
-            <EntityTypeMapping TypeName="VietTienModel.Delivery">
+            <EntityTypeMapping TypeName="iPOSModel.Delivery">
               <MappingFragment StoreEntitySet="Delivery">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdMethod" ColumnName="IdMethod" />
@@ -3991,7 +4177,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailBills">
-            <EntityTypeMapping TypeName="VietTienModel.DetailBill">
+            <EntityTypeMapping TypeName="iPOSModel.DetailBill">
               <MappingFragment StoreEntitySet="DetailBill">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
@@ -4010,17 +4196,18 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailEPCs">
-            <EntityTypeMapping TypeName="VietTienModel.DetailEPC">
+            <EntityTypeMapping TypeName="iPOSModel.DetailEPC">
               <MappingFragment StoreEntitySet="DetailEPC">
                 <ScalarProperty Name="IdEPC" ColumnName="IdEPC" />
                 <ScalarProperty Name="IdStall" ColumnName="IdStall" />
                 <ScalarProperty Name="Idstore" ColumnName="Idstore" />
+                <ScalarProperty Name="IdSerial" ColumnName="IdSerial" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailGoodOrders">
-            <EntityTypeMapping TypeName="VietTienModel.DetailGoodOrder">
+            <EntityTypeMapping TypeName="iPOSModel.DetailGoodOrder">
               <MappingFragment StoreEntitySet="DetailGoodOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
@@ -4038,7 +4225,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailReceipts">
-            <EntityTypeMapping TypeName="VietTienModel.DetailReceipt">
+            <EntityTypeMapping TypeName="iPOSModel.DetailReceipt">
               <MappingFragment StoreEntitySet="DetailReceipt">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdReceipt" ColumnName="IdReceipt" />
@@ -4049,7 +4236,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailReportEndShifts">
-            <EntityTypeMapping TypeName="VietTienModel.DetailReportEndShift">
+            <EntityTypeMapping TypeName="iPOSModel.DetailReportEndShift">
               <MappingFragment StoreEntitySet="DetailReportEndShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdBill" ColumnName="IdBill" />
@@ -4064,11 +4251,12 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailSaleOrders">
-            <EntityTypeMapping TypeName="VietTienModel.DetailSaleOrder">
+            <EntityTypeMapping TypeName="iPOSModel.DetailSaleOrder">
               <MappingFragment StoreEntitySet="DetailSaleOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
                 <ScalarProperty Name="IdSaleOrder" ColumnName="IdSaleOrder" />
+                <ScalarProperty Name="IdGood" ColumnName="IdGood" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="Amount1" ColumnName="Amount1" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -4087,7 +4275,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailSupplierGoods">
-            <EntityTypeMapping TypeName="VietTienModel.DetailSupplierGood">
+            <EntityTypeMapping TypeName="iPOSModel.DetailSupplierGood">
               <MappingFragment StoreEntitySet="DetailSupplierGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdSupplier" ColumnName="IdSupplier" />
@@ -4099,8 +4287,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DetailTransferOrders">
+            <EntityTypeMapping TypeName="iPOSModel.DetailTransferOrder">
+              <MappingFragment StoreEntitySet="DetailTransferOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
+                <ScalarProperty Name="IdPuchaseOrder" ColumnName="IdPuchaseOrder" />
+                <ScalarProperty Name="IdGood" ColumnName="IdGood" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Amount1" ColumnName="Amount1" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="StatusExport" ColumnName="StatusExport" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DetailWareHouses">
-            <EntityTypeMapping TypeName="VietTienModel.DetailWareHouse">
+            <EntityTypeMapping TypeName="iPOSModel.DetailWareHouse">
               <MappingFragment StoreEntitySet="DetailWareHouse">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
@@ -4108,21 +4315,24 @@
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
                 <ScalarProperty Name="Inventory" ColumnName="Inventory" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="StatusWait" ColumnName="StatusWait" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EPCs">
-            <EntityTypeMapping TypeName="VietTienModel.EPC">
+            <EntityTypeMapping TypeName="iPOSModel.EPC">
               <MappingFragment StoreEntitySet="EPC">
                 <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdBill" ColumnName="IdBill" />
                 <ScalarProperty Name="IdGoods" ColumnName="IdGoods" />
                 <ScalarProperty Name="IdEPC" ColumnName="IdEPC" />
+                <ScalarProperty Name="IdSerial" ColumnName="IdSerial" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genders">
-            <EntityTypeMapping TypeName="VietTienModel.Gender">
+            <EntityTypeMapping TypeName="iPOSModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4135,14 +4345,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GeneralAccountings">
-            <EntityTypeMapping TypeName="VietTienModel.GeneralAccounting">
+            <EntityTypeMapping TypeName="iPOSModel.GeneralAccounting">
               <MappingFragment StoreEntitySet="GeneralAccounting">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Goods">
-            <EntityTypeMapping TypeName="VietTienModel.Good">
+            <EntityTypeMapping TypeName="iPOSModel.Good">
               <MappingFragment StoreEntitySet="Goods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGood" ColumnName="IdGood" />
@@ -4187,7 +4397,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupGoods">
-            <EntityTypeMapping TypeName="VietTienModel.GroupGood">
+            <EntityTypeMapping TypeName="iPOSModel.GroupGood">
               <MappingFragment StoreEntitySet="GroupGoods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdIndustry" ColumnName="IdIndustry" />
@@ -4202,7 +4412,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Industries">
-            <EntityTypeMapping TypeName="VietTienModel.Industry">
+            <EntityTypeMapping TypeName="iPOSModel.Industry">
               <MappingFragment StoreEntitySet="Industry">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4216,14 +4426,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="InternalAccountings">
-            <EntityTypeMapping TypeName="VietTienModel.InternalAccounting">
+            <EntityTypeMapping TypeName="iPOSModel.InternalAccounting">
               <MappingFragment StoreEntitySet="InternalAccounting">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Licenses">
-            <EntityTypeMapping TypeName="VietTienModel.License">
+            <EntityTypeMapping TypeName="iPOSModel.License">
               <MappingFragment StoreEntitySet="License">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Seri" ColumnName="Seri" />
@@ -4239,7 +4449,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Methods">
-            <EntityTypeMapping TypeName="VietTienModel.Method">
+            <EntityTypeMapping TypeName="iPOSModel.Method">
               <MappingFragment StoreEntitySet="Method">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4253,7 +4463,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NumberShifts">
-            <EntityTypeMapping TypeName="VietTienModel.NumberShift">
+            <EntityTypeMapping TypeName="iPOSModel.NumberShift">
               <MappingFragment StoreEntitySet="NumberShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4261,7 +4471,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PaymentMethods">
-            <EntityTypeMapping TypeName="VietTienModel.PaymentMethod">
+            <EntityTypeMapping TypeName="iPOSModel.PaymentMethod">
               <MappingFragment StoreEntitySet="PaymentMethods">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4275,7 +4485,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Promotions">
-            <EntityTypeMapping TypeName="VietTienModel.Promotion">
+            <EntityTypeMapping TypeName="iPOSModel.Promotion">
               <MappingFragment StoreEntitySet="Promotion">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AccordingTo" ColumnName="AccordingTo" />
@@ -4292,13 +4502,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrders">
-            <EntityTypeMapping TypeName="VietTienModel.PurchaseOrder">
+            <EntityTypeMapping TypeName="iPOSModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdTypeStatus" ColumnName="IdTypeStatus" />
                 <ScalarProperty Name="IdPayMethod" ColumnName="IdPayMethod" />
                 <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
+                <ScalarProperty Name="IdFromWareHouse" ColumnName="IdFromWareHouse" />
                 <ScalarProperty Name="IdSupplier" ColumnName="IdSupplier" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IdGeneral" ColumnName="IdGeneral" />
@@ -4318,14 +4529,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PurchaseOrderReports">
-            <EntityTypeMapping TypeName="VietTienModel.PurchaseOrderReport">
+            <EntityTypeMapping TypeName="iPOSModel.PurchaseOrderReport">
               <MappingFragment StoreEntitySet="PurchaseOrderReport">
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Receipts">
-            <EntityTypeMapping TypeName="VietTienModel.Receipt">
+            <EntityTypeMapping TypeName="iPOSModel.Receipt">
               <MappingFragment StoreEntitySet="Receipt">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdPurchaseOrder" ColumnName="IdPurchaseOrder" />
@@ -4342,7 +4553,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportFirstShifts">
-            <EntityTypeMapping TypeName="VietTienModel.ReportFirstShift">
+            <EntityTypeMapping TypeName="iPOSModel.ReportFirstShift">
               <MappingFragment StoreEntitySet="ReportFirstShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdUser" ColumnName="IdUser" />
@@ -4359,7 +4570,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ReportlEndShifts">
-            <EntityTypeMapping TypeName="VietTienModel.ReportlEndShift">
+            <EntityTypeMapping TypeName="iPOSModel.ReportlEndShift">
               <MappingFragment StoreEntitySet="ReportlEndShift">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdFirst" ColumnName="IdFirst" />
@@ -4379,7 +4590,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="VietTienModel.Role">
+            <EntityTypeMapping TypeName="iPOSModel.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Admin" ColumnName="Admin" />
@@ -4400,7 +4611,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoleAdmins">
-            <EntityTypeMapping TypeName="VietTienModel.RoleAdmin">
+            <EntityTypeMapping TypeName="iPOSModel.RoleAdmin">
               <MappingFragment StoreEntitySet="RoleAdmin">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ManageMainCategories" ColumnName="ManageMainCategories" />
@@ -4414,7 +4625,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SalesOrders">
-            <EntityTypeMapping TypeName="VietTienModel.SalesOrder">
+            <EntityTypeMapping TypeName="iPOSModel.SalesOrder">
               <MappingFragment StoreEntitySet="SalesOrder">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdTypeStatus" ColumnName="IdTypeStatus" />
@@ -4441,7 +4652,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Seasons">
-            <EntityTypeMapping TypeName="VietTienModel.Season">
+            <EntityTypeMapping TypeName="iPOSModel.Season">
               <MappingFragment StoreEntitySet="Season">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4454,7 +4665,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Sizes">
-            <EntityTypeMapping TypeName="VietTienModel.Size">
+            <EntityTypeMapping TypeName="iPOSModel.Size">
               <MappingFragment StoreEntitySet="Size">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4467,7 +4678,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stalls">
-            <EntityTypeMapping TypeName="VietTienModel.Stall">
+            <EntityTypeMapping TypeName="iPOSModel.Stall">
               <MappingFragment StoreEntitySet="Stalls">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdStore" ColumnName="IdStore" />
@@ -4482,7 +4693,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stores">
-            <EntityTypeMapping TypeName="VietTienModel.Store">
+            <EntityTypeMapping TypeName="iPOSModel.Store">
               <MappingFragment StoreEntitySet="Store">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4497,7 +4708,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Styles">
-            <EntityTypeMapping TypeName="VietTienModel.Style">
+            <EntityTypeMapping TypeName="iPOSModel.Style">
               <MappingFragment StoreEntitySet="Style">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4510,7 +4721,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Suppliers">
-            <EntityTypeMapping TypeName="VietTienModel.Supplier">
+            <EntityTypeMapping TypeName="iPOSModel.Supplier">
               <MappingFragment StoreEntitySet="Supplier">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdGroupGoods" ColumnName="IdGroupGoods" />
@@ -4538,7 +4749,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypeSales">
-            <EntityTypeMapping TypeName="VietTienModel.TypeSale">
+            <EntityTypeMapping TypeName="iPOSModel.TypeSale">
               <MappingFragment StoreEntitySet="TypeSale">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4552,7 +4763,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TypeStatus">
-            <EntityTypeMapping TypeName="VietTienModel.TypeStatu">
+            <EntityTypeMapping TypeName="iPOSModel.TypeStatu">
               <MappingFragment StoreEntitySet="TypeStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4566,7 +4777,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Units">
-            <EntityTypeMapping TypeName="VietTienModel.Unit">
+            <EntityTypeMapping TypeName="iPOSModel.Unit">
               <MappingFragment StoreEntitySet="Unit">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -4574,7 +4785,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="VietTienModel.User">
+            <EntityTypeMapping TypeName="iPOSModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="User1" ColumnName="User" />
@@ -4597,7 +4808,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="WareHouses">
-            <EntityTypeMapping TypeName="VietTienModel.WareHouse">
+            <EntityTypeMapping TypeName="iPOSModel.WareHouse">
               <MappingFragment StoreEntitySet="WareHouse">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

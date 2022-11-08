@@ -21,6 +21,7 @@ namespace iGMS.Models
             this.DetailWareHouses = new HashSet<DetailWareHouse>();
             this.Goods = new HashSet<Good>();
             this.PurchaseOrders = new HashSet<PurchaseOrder>();
+            this.PurchaseOrders1 = new HashSet<PurchaseOrder>();
             this.SalesOrders = new HashSet<SalesOrder>();
         }
     
@@ -41,6 +42,8 @@ namespace iGMS.Models
         public virtual ICollection<Good> Goods { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrder> PurchaseOrders1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }

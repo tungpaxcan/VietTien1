@@ -18,6 +18,7 @@ namespace iGMS.Models
         public PurchaseOrder()
         {
             this.DetailGoodOrders = new HashSet<DetailGoodOrder>();
+            this.DetailTransferOrders = new HashSet<DetailTransferOrder>();
             this.Receipts = new HashSet<Receipt>();
         }
     
@@ -26,6 +27,7 @@ namespace iGMS.Models
         public Nullable<int> IdPayMethod { get; set; }
         public string IdWareHouse { get; set; }
         public string IdStore { get; set; }
+        public string IdFromWareHouse { get; set; }
         public string IdSupplier { get; set; }
         public string Name { get; set; }
         public string IdGeneral { get; set; }
@@ -44,6 +46,8 @@ namespace iGMS.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetailGoodOrder> DetailGoodOrders { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailTransferOrder> DetailTransferOrders { get; set; }
         public virtual GeneralAccounting GeneralAccounting { get; set; }
         public virtual InternalAccounting InternalAccounting { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
@@ -51,6 +55,7 @@ namespace iGMS.Models
         public virtual Supplier Supplier { get; set; }
         public virtual TypeStatu TypeStatu { get; set; }
         public virtual WareHouse WareHouse { get; set; }
+        public virtual WareHouse WareHouse1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Receipt> Receipts { get; set; }
     }

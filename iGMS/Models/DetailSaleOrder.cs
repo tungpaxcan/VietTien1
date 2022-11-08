@@ -17,6 +17,7 @@ namespace iGMS.Models
         public int Id { get; set; }
         public string IdGoods { get; set; }
         public Nullable<int> IdSaleOrder { get; set; }
+        public string IdGood { get; set; }
         public Nullable<int> Amount { get; set; }
         public Nullable<int> Amount1 { get; set; }
         public Nullable<double> Price { get; set; }

@@ -11,7 +11,7 @@ namespace iGMS.Controllers
     public class CooController : BaseController
     {
         // GET: Coo
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: Gender
         public ActionResult Index()
         {

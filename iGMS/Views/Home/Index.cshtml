@@ -250,6 +250,18 @@
             </span>
         </a>
     </li>
+    <li class="nav-item mb-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Documentation">
+        <a class="btn btn-sm btn-icon btn-bg-light btn-icon-warning btn-hover-warning" id="inlai">
+            <span class="svg-icon svg-icon-xl svg-icon-primary tooltip1">
+                <!--begin::Svg Icon | path:assets/media/svg/icons/Code/Compiling.svg-->
+                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                    <img src="~/Images/icons8-print-16.png" />
+                </span>
+                <span class="tooltiptext1" style=" margin-left: -120px;">In Lại Bill</span>
+                <!--end::Svg Icon-->
+            </span>
+        </a>
+    </li>
 
 </ul>
 
@@ -413,7 +425,7 @@
                     <label class="col-4 col-form-label">Tiền Cuối Ca</label>
                     <div class="col-8">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="" id="tiencuoica" />
+                            <input class="form-control" type="number" placeholder="" id="tiencuoica" />
                         </div>
                     </div>
                 </div>
@@ -421,7 +433,7 @@
                     <label class="col-4 col-form-label">Tiền Thực Bán</label>
                     <div class="col-8">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="" id="tienthucban" />
+                            <input class="form-control" disabled type="number" placeholder="" id="tienthucban" />
                         </div>
                     </div>
                 </div>
@@ -447,7 +459,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="HangBill()">Save changes</button>
-                <a href="/Home/Index" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                <a href="/Home/Index" class="btn btn-secondary" onclick="Dong()" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div>

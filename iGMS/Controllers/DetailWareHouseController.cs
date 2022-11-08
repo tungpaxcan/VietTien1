@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class DetailWareHouseController : BaseController
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: DetailWareHouse
         public ActionResult Index()
         {
@@ -31,8 +31,8 @@ namespace iGMS.Controllers
                 var c = (from b in db.DetailWareHouses.Where(x => x.Id > 0 &&x.Status==true)
                          select new
                          {
-                             id = b.Good.Id.Substring(0, b.Good.Id.Length-8),
-                             idgood = b.Good.IdGood,
+                             id = b.Good.Id,
+                             idgood = b.Good.IdGood.Replace(".",""),
                              K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
                              name = b.Good.Name,
                              inventory = b.Inventory
@@ -190,24 +190,57 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = (from b in db.SalesOrders.Where(x => x.Id == id)
+                var Id_Length = id.ToString().Length;
+                var Id = "";
+                var Ids = "";
+                var ids = 0;
+                if (Id_Length < 4)
+                {
+                    Id = id.ToString();
+                }
+                else
+                {
+                    Id = id.ToString().Substring(Id_Length - 4, 4);
+                    Ids = id.ToString().Substring(0, Id_Length - 4);
+                    ids = int.Parse(Ids);
+                }               
+                object a = null, c = null;
+                if (Id == "0102")
+                {
+                    a = (from b in db.PurchaseOrders.Where(x => x.Id == ids)
                          select new
                          {
-                             K = b.IdWareHouse==null?b.Store.Name:b.WareHouse.Name,
-                             Kid = b.IdWareHouse==null?b.IdStore:b.IdWareHouse,
-                             customer = b.Customer.Name,
+                             K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
 
                          }).ToList();
-                var c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id&&x.Status==true)
+                    c = (from b in db.DetailTransferOrders.Where(x => x.IdPuchaseOrder ==ids && x.StatusExport == false &&x.Status == true)
+                         join bb in db.Goods on b.IdGood equals bb.IdGood
                          select new
                          {
-                             id = b.IdGoods.Substring(0,b.IdGoods.Length-8),
-                             idgood = b.Good.IdGood,
-                             name=b.Good.Name,
-                             coo = b.Good.Coo.Name
+                             id = b.IdGoods,
+                             idgood = b.IdGood.Replace(".", ""),
+                             name = bb.Name,
+                         }).ToList();                    
+                }
+                else
+                {
+                     a = (from b in db.SalesOrders.Where(x => x.Id == id)
+                             select new
+                             {
+                                 K = b.IdWareHouse == null ? b.Store.Name : b.WareHouse.Name,
+                                 Kid = b.IdWareHouse == null ? b.IdStore : b.IdWareHouse,
+                                 customer = b.Customer.Name,
+                             }).ToList();
+                      c = (from b in db.DetailSaleOrders.Where(x => x.IdSaleOrder == id && x.Status == true)
+                             select new
+                             {
+                                 id = b.IdGoods,
+                                 idgood = b.Good.IdGood.Replace(".", ""),
+                                 name = b.Good.Name,
+                             }).ToList();
+                }
+                return Json(new { code = 200, a = a, c = c }, JsonRequestBehavior.AllowGet);
 
-                         }).ToList();
-                return Json(new { code = 200, a = a,c=c }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -215,7 +248,7 @@ namespace iGMS.Controllers
             }
         }
         [HttpPost]
-        public JsonResult Tru(string id,int idsaleorder,string amount,string K)
+        public JsonResult Tru(string id,int idsaleorder,string amount,string K,string[] epcshow)
         {
             try
             {
@@ -238,18 +271,28 @@ namespace iGMS.Controllers
                     E = K;
                     H = null;
                 }
-                for (int i = 0; i < int.Parse(amount); i++)
+                for (int i = 0; i < epcshow.Length; i++)
                 {
-                    var c = db.DetailSaleOrders.OrderBy(x => x.IdGoods.Contains(id) && x.IdSaleOrder == idsaleorder && x.Status == true).ToList().LastOrDefault();
-                    var d = db.DetailWareHouses.OrderBy(x => x.IdGoods.Contains(id) && x.Status == true).ToList().LastOrDefault();
-                    var e = db.EPCs.OrderBy(x => x.IdGoods.Contains(id) && x.Status == true).ToList().LastOrDefault();
-
-                    e.Status = false;
-                    d.Status = false;
-                    c.Status = false;
+                    var idepc = epcshow[i];
+                    var f = db.EPCs.SingleOrDefault(x => x.IdGoods == idepc);
+                    if (f != null)
+                    {
+                        var idf = f.IdGoods;
+                        var c = db.DetailSaleOrders.SingleOrDefault(x => x.IdGoods == idf && x.IdSaleOrder == idsaleorder && x.Status == true);
+                        var d = db.DetailWareHouses.SingleOrDefault(x => x.IdGoods == idf && x.Status == true);
+                        var e = db.EPCs.SingleOrDefault(x => x.IdGoods == idf && x.Status == true);
+                        e.Status = false;
+                        d.Status = false;
+                        c.Status = false;
+                        db.SaveChanges();
+                    }
+                }
+                var Status_Detail_SalesOrder = db.DetailSaleOrders.Where(x => x.Status == true && x.IdSaleOrder == idsaleorder).ToList();
+                if (Status_Detail_SalesOrder.Count() == 0)
+                {
+                    db.SalesOrders.Find(idsaleorder).Status = false;
                     db.SaveChanges();
                 }
-
                 return Json(new { code = 200, msg = "Chưa Có Hàng Trong kho !!!" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

@@ -13,10 +13,10 @@ namespace iGMS.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class VietTienEntities : DbContext
+    public partial class iPOSEntities : DbContext
     {
-        public VietTienEntities()
-            : base("name=VietTienEntities")
+        public iPOSEntities()
+            : base("name=iPOSEntities")
         {
         }
     
@@ -39,6 +39,7 @@ namespace iGMS.Models
         public virtual DbSet<DetailReportEndShift> DetailReportEndShifts { get; set; }
         public virtual DbSet<DetailSaleOrder> DetailSaleOrders { get; set; }
         public virtual DbSet<DetailSupplierGood> DetailSupplierGoods { get; set; }
+        public virtual DbSet<DetailTransferOrder> DetailTransferOrders { get; set; }
         public virtual DbSet<DetailWareHouse> DetailWareHouses { get; set; }
         public virtual DbSet<EPC> EPCs { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }

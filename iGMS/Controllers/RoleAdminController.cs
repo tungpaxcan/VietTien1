@@ -9,7 +9,7 @@ namespace iGMS.Controllers
 {
     public class RoleAdminController : Controller
     {
-        private VietTienEntities db = new VietTienEntities();
+        private iPOSEntities db = new iPOSEntities();
         // GET: RoleAdmin
         [HttpPost]
         public JsonResult RoleAdmin(bool manageMaincategories,bool purchasemanager,bool salesmanager,
