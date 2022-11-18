@@ -16,10 +16,12 @@ $(document).ready(function () {
 
 //Nhập số Đơn Mua hàng
 
-$('input[name="purchaseorder"]').keyup(function () {
-    var purchaseorders = $('input[name="purchaseorder"]').val();
-    var purchaseorder = purchaseorders.substring(5);
-    getDetailGoodOrder(purchaseorder)
+$('input[name="purchaseorder"]').keypress(function (e) {
+    if (e.which == 13) {       
+            var purchaseorders = $('input[name="purchaseorder"]').val();
+            var purchaseorder = purchaseorders.substring(5);
+            getDetailGoodOrder(purchaseorder)
+        }
 })
 
 //End Nhập số Đơn Mua hàng

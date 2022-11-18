@@ -154,6 +154,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndustryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -203,6 +204,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailGoodOrder.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DetailPromotion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailReceipt.cs">
@@ -2278,8 +2282,10 @@
     <Content Include="Images\icons8-hanger-16.png" />
     <Content Include="Images\icons8-play-graph-report-16.91.png" />
     <Content Include="Images\icons8-print-16.png" />
+    <Content Include="Images\icons8-promotion-40.png" />
     <Content Include="Images\icons8-purchase-order-19.5.png" />
     <Content Include="Images\icons8-remove-38.png" />
+    <Content Include="Images\icons8-shopping-cart-promotion-40.png" />
     <Content Include="Images\icons8-stop-graph-report-16.91.png" />
     <Content Include="Images\icons8-style-40.png" />
     <Content Include="Images\icons8-up-30.png" />
@@ -2488,6 +2494,8 @@
     <Content Include="Views\ReportSale\ReportSaleGood.cshtml" />
     <Content Include="Views\ReportSale\ReportSaleUser.cshtml" />
     <Content Include="Views\PurchaseOrder\Index2.cshtml" />
+    <Content Include="Views\Promotions\Adds.cshtml" />
+    <Content Include="Views\Promotions\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

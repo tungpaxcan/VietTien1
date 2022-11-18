@@ -32,6 +32,7 @@ namespace iGMS.Models
         public string IdGood { get; set; }
         public string IdWareHouse { get; set; }
         public string IdCate { get; set; }
+        public Nullable<int> IdPromotion { get; set; }
         public string IdUnit { get; set; }
         public string Material { get; set; }
         public string IdSeason { get; set; }
@@ -89,6 +90,7 @@ namespace iGMS.Models
         public virtual ICollection<EPC> EPCs { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual GroupGood GroupGood { get; set; }
+        public virtual Promotion Promotion { get; set; }
         public virtual Season Season { get; set; }
         public virtual Size Size { get; set; }
         public virtual Style Style { get; set; }

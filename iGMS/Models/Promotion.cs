@@ -14,18 +14,36 @@ namespace iGMS.Models
     
     public partial class Promotion
     {
-        public string Id { get; set; }
-        public Nullable<bool> AccordingTo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Promotion()
+        {
+            this.DetailPromotions = new HashSet<DetailPromotion>();
+            this.Goods = new HashSet<Good>();
+        }
+    
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Nullable<System.DateTime> Since { get; set; }
         public string IdGood { get; set; }
-        public Nullable<double> AccordingToPrice { get; set; }
-        public Nullable<double> Value { get; set; }
-        public string Description { get; set; }
+        public Nullable<System.DateTime> ToDate { get; set; }
+        public Nullable<double> Discount { get; set; }
+        public Nullable<int> AmountDonate { get; set; }
+        public Nullable<double> Price { get; set; }
+        public Nullable<double> ConditionPrice { get; set; }
+        public Nullable<int> Day { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
+        public Nullable<bool> WithGood { get; set; }
+        public Nullable<bool> Amount { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<bool> Status { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetailPromotion> DetailPromotions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Good> Goods { get; set; }
         public virtual Good Good { get; set; }
     }
 }

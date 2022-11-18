@@ -164,7 +164,7 @@ namespace iGMS.Controllers
             {
                 var store = (Store)Session["Store"];
                 var wareHouse = (WareHouse)Session["WareHouse"];
-                var c = db.DetailWareHouses.Where(x => x.Status == true&&x.Good.IdGood.Replace(".","")==id).ToList();
+                var c = db.DetailWareHouses.Where(x => x.Status == true&&x.Good.IdGood.Replace(".","")==id&&x.IdStore==store.Id).ToList();
                 return Json(new { code = 200, c = c.Count() }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

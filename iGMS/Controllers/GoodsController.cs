@@ -68,8 +68,10 @@ namespace iGMS.Controllers
                              name = b.Name,
                              unit = b.Unit.Name,
                              price = b.Price,
-                             pricetax = b.PriceTax
-                         }).ToList().Where(x =>x.id.ToLower().Contains(seach)||x.name.ToLower().Contains(seach));
+                             pricetax = b.PriceTax,
+                         }).ToList().Where(x =>x.id.ToLower().Contains(seach)||x.name.ToLower().Contains(seach)
+                                            ||x.idgood.ToLower().Contains(seach)|| x.idgood.Contains(seach)||
+                                            x.name.Contains(seach));
                 var pages = a.Count() % pageSize == 0 ? a.Count() / pageSize : a.Count() / pageSize + 1;
                 var c = a.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var count = a.Count();
@@ -412,6 +414,25 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public JsonResult Good(string id)
+        {
+            try
+            {
+                var c = (from b in db.Goods.Where(x => x.IdGood == id)
+                         select new
+                         {
+                             idgood = b.IdGood.Replace(".",""),
+                             name=b.Name,
+                             price = b.Price
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpPost]
         public JsonResult EPC(string id, string epc)
         {
@@ -424,6 +445,63 @@ namespace iGMS.Controllers
                 db.EPCs.Add(a);
                 db.SaveChanges();
                 return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult GoodPromotion(int idpromotion)
+        {
+            try
+            {
+                var good = (from a in db.Goods.Where(x => x.IdPromotion == idpromotion)
+                            select new
+                            {
+                                idgood = a.IdGood,
+                                id = a.Id,
+                                name = a.Name
+                            }).ToList();
+                return Json(new { code = 200,good=good }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult AddPromotion(int idpromotion,string idgood)
+        {
+            try
+            {
+                var goodcount = db.Goods.Where(x => x.IdGood == idgood&&x.IdPromotion!=idpromotion).ToList().Count();
+                for(int  i = 0; i < goodcount; i++)
+                {
+                    var good = db.Goods.OrderBy(x => x.IdGood == idgood && x.IdPromotion != idpromotion).ToList().LastOrDefault();
+                    good.IdPromotion = idpromotion;
+                    db.SaveChanges();
+                }
+                return Json(new { code = 200}, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpPost]
+        public JsonResult DeleteGood(string idgood)
+        {
+            try
+            {
+                var goodcount = db.Goods.Where(x => x.IdGood == idgood&&x.IdPromotion!=null).ToList().Count();
+                for (int i = 0; i < goodcount; i++)
+                {
+                    var good = db.Goods.OrderBy(x => x.IdGood == idgood&& x.IdPromotion != null).ToList().LastOrDefault();
+                    good.IdPromotion = null;
+                    db.SaveChanges();
+                }
+                return Json(new { code = 200 }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

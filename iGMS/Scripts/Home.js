@@ -6,11 +6,9 @@ $.ajax({
     success: function (data) {
         if (data.code == 200) {
             if (data.id == -1) {
-
                 WareHouse();
                 Store();
                 $('#changesetting').css("display", "block");
-
             } else {
                 $('#changesetting').css("display", "none");
             }
@@ -193,7 +191,7 @@ function UpLoadft() {
     })
 }
 
-//Hiển Thị Thông Tin Nơi Bán Cuối Màn Hình
+//End
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -369,7 +367,6 @@ function ValidateAmount(id) {
             } else {
                 alert(data.msg)
             }
-
         }
     })
 }
@@ -1294,16 +1291,16 @@ function CompareReceiptrfid(epc) {
 }
 
 
-//function DeleteEPC() {
-//    $.ajax({
-//        url: '/rfid/DeleteEPC',
-//        type: 'post',
-//        success: function (data) {
-//            if (data.code == 200) {
-//            }
-//        }
-//    })
-//}
+function DeleteEPC() {
+    $.ajax({
+        url: '/rfid/DeleteEPC',
+        type: 'post',
+        success: function (data) {
+            if (data.code == 200) {
+            }
+        }
+    })
+}
 
 //END Xuất Hàng Hóa Bằng RFID
 
@@ -1326,3 +1323,18 @@ $('#btnRutGon').click(function () {
 })
 
 //END Thu Gọn, Mở Rộng Phần Tính Tiền
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//menu chuột phải
+
+let menu = document.getElementById('menu_contextmenu');
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+    menu.style.display = 'block';
+    menu.style.top = e.y + 'px';
+    menu.style.left = e.x + 'px';
+})
+document.addEventListener('click', function () {
+    menu.style.display='none'
+})

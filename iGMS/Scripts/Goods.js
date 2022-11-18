@@ -8,12 +8,10 @@ $('#page').on('click', 'li', function (e) {
     e.preventDefault();
     page = $(this).attr('id');
     Goods(pagenum, page, seach);
-
-
 });
 
 
-function Goods(pagenum, page, seach) {
+function Goods(pagenum, page, seach, ) {
     $.ajax({
         url: '/goods/List',
         type: 'get',
@@ -26,7 +24,6 @@ function Goods(pagenum, page, seach) {
                 $.each(data.c, function (k, v) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + (Stt++) + '</td>'
-                    table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.idgood + '</td>'
                     table += '<td>' + v.name + '</td>'
                     table += '<td>' + v.price + '</td>'
@@ -240,8 +237,6 @@ function Add() {
                                                         });
                                                         window.location.href = "/Goods/Index";
                                                     }
-
-
                                                 } else if (data.code == 300) {
                                                     alert(data.msg)
                                                 }

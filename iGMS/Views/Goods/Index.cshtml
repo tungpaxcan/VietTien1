@@ -130,7 +130,6 @@
                         <thead>
                             <tr role="row">
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Stt</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Barcode</th>
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Mã Hàng</th>
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Tên Hàng</th>
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Giá Bán</th>
@@ -159,7 +158,29 @@
 
 <!-- Button trigger modal-->
 @section scripts{
-    <script src="~/Scripts/Goods.js"></script>
 
+    <script src="~/Scripts/Goods.js"></script>
+    <script>
+        Supplier()
+        //--------------------Select::Supplier--------------
+        function Supplier() {
+            $.ajax({
+                url: '/Supplier/Supplier',
+                type: 'get',
+                success: function (data) {
+                    $('#supplier').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Nhà Cung Cấp</option>'
+                        $.each(data.c, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#supplier').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
 }
 

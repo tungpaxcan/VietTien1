@@ -56,7 +56,13 @@ namespace iGMS.Controllers
                 if (a != null)
                 {
                     Session["user"] = a;
-
+                    var b = db.DetailEPCs.Where(x => x.Status == false).ToList();
+                    for (int i = 0; i < b.Count(); i++)
+                    {
+                        var aa = db.DetailEPCs.OrderBy(x => x.Status == false).ToList().LastOrDefault();
+                        db.DetailEPCs.Remove(aa);
+                        db.SaveChanges();
+                    }
                     return Json(new { code = 200, Url = "/Home/Index", user= user, pass= pass }, JsonRequestBehavior.AllowGet);
                 }
                 else

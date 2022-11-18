@@ -185,5 +185,23 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public JsonResult Supplier()
+        {
+            try
+            {
+                var c = (from b in db.Suppliers.Where(x => x.Id.Length > 0)
+                         select new
+                         {
+                             id = b.Id,
+                             name = b.Name
+                         }).ToList();
+                return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

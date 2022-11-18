@@ -171,6 +171,20 @@
           <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
           <Property Name="Status" Type="bit" />
         </EntityType>
+        <EntityType Name="DetailPromotion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdGood" Type="varchar" MaxLength="20" />
+          <Property Name="Amount" Type="float" />
+          <Property Name="IdPromotion" Type="int" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="ModifyBy" Type="nvarchar" MaxLength="250" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
         <EntityType Name="DetailReceipt">
           <Key>
             <PropertyRef Name="Id" />
@@ -297,6 +311,7 @@
           <Property Name="IdGood" Type="varchar" MaxLength="50" />
           <Property Name="IdWareHouse" Type="varchar" MaxLength="20" />
           <Property Name="IdCate" Type="varchar" MaxLength="20" />
+          <Property Name="IdPromotion" Type="int" />
           <Property Name="IdUnit" Type="varchar" MaxLength="20" />
           <Property Name="Material" Type="nvarchar(max)" />
           <Property Name="IdSeason" Type="varchar" MaxLength="20" />
@@ -418,12 +433,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="AccordingTo" Type="bit" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Since" Type="datetime" />
           <Property Name="IdGood" Type="varchar" MaxLength="20" />
-          <Property Name="AccordingToPrice" Type="float" />
-          <Property Name="Value" Type="float" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ToDate" Type="datetime" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="AmountDonate" Type="int" />
+          <Property Name="Price" Type="float" />
+          <Property Name="ConditionPrice" Type="float" />
+          <Property Name="Day" Type="int" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="WithGood" Type="bit" />
+          <Property Name="Amount" Type="bit" />
           <Property Name="CreateDate" Type="datetime" />
           <Property Name="CreateBy" Type="nvarchar" MaxLength="250" />
           <Property Name="ModifyDate" Type="datetime" />
@@ -899,6 +921,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetailPromotion_Promotion">
+          <End Role="Promotion" Type="Self.Promotion" Multiplicity="0..1" />
+          <End Role="DetailPromotion" Type="Self.DetailPromotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailPromotion">
+              <PropertyRef Name="IdPromotion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetailReceipt_Goods">
           <End Role="Goods" Type="Self.Goods" Multiplicity="0..1" />
           <End Role="DetailReceipt" Type="Self.DetailReceipt" Multiplicity="*" />
@@ -1148,6 +1182,18 @@
             </Principal>
             <Dependent Role="Goods">
               <PropertyRef Name="IdGroupGood" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Promotion">
+          <End Role="Promotion" Type="Self.Promotion" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdPromotion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1618,6 +1664,7 @@
           <EntitySet Name="DetailBill" EntityType="Self.DetailBill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailEPC" EntityType="Self.DetailEPC" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailGoodOrder" EntityType="Self.DetailGoodOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetailPromotion" EntityType="Self.DetailPromotion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailReceipt" EntityType="Self.DetailReceipt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailReportEndShift" EntityType="Self.DetailReportEndShift" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailSaleOrder" EntityType="Self.DetailSaleOrder" Schema="dbo" store:Type="Tables" />
@@ -1711,6 +1758,10 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrder" />
             <End Role="DetailGoodOrder" EntitySet="DetailGoodOrder" />
           </AssociationSet>
+          <AssociationSet Name="FK_DetailPromotion_Promotion" Association="Self.FK_DetailPromotion_Promotion">
+            <End Role="Promotion" EntitySet="Promotion" />
+            <End Role="DetailPromotion" EntitySet="DetailPromotion" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetailReceipt_Goods" Association="Self.FK_DetailReceipt_Goods">
             <End Role="Goods" EntitySet="Goods" />
             <End Role="DetailReceipt" EntitySet="DetailReceipt" />
@@ -1793,6 +1844,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Goods_GroupGoods" Association="Self.FK_Goods_GroupGoods">
             <End Role="GroupGoods" EntitySet="GroupGoods" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Promotion" Association="Self.FK_Goods_Promotion">
+            <End Role="Promotion" EntitySet="Promotion" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Season" Association="Self.FK_Goods_Season">
@@ -2141,6 +2196,21 @@
           <NavigationProperty Name="Good" Relationship="Self.FK_DetailGoodOrder_Goods" FromRole="DetailGoodOrder" ToRole="Goods" />
           <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_DetailGoodOrder_PurchaseOrder" FromRole="DetailGoodOrder" ToRole="PurchaseOrder" />
         </EntityType>
+        <EntityType Name="DetailPromotion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdGood" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Double" />
+          <Property Name="IdPromotion" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="Promotion" Relationship="Self.FK_DetailPromotion_Promotion" FromRole="DetailPromotion" ToRole="Promotion" />
+        </EntityType>
         <EntityType Name="DetailReceipt">
           <Key>
             <PropertyRef Name="Id" />
@@ -2287,6 +2357,7 @@
           <Property Name="IdGood" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="IdWareHouse" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="IdCate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IdPromotion" Type="Int32" />
           <Property Name="IdUnit" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Material" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IdSeason" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -2335,6 +2406,7 @@
           <NavigationProperty Name="EPCs" Relationship="Self.FK_EPC_Goods" FromRole="Goods" ToRole="EPC" />
           <NavigationProperty Name="Gender" Relationship="Self.FK_Goods_Gender" FromRole="Goods" ToRole="Gender" />
           <NavigationProperty Name="GroupGood" Relationship="Self.FK_Goods_GroupGoods" FromRole="Goods" ToRole="GroupGoods" />
+          <NavigationProperty Name="Promotion" Relationship="Self.FK_Goods_Promotion" FromRole="Goods" ToRole="Promotion" />
           <NavigationProperty Name="Season" Relationship="Self.FK_Goods_Season" FromRole="Goods" ToRole="Season" />
           <NavigationProperty Name="Size" Relationship="Self.FK_Goods_Size" FromRole="Goods" ToRole="Size" />
           <NavigationProperty Name="Style" Relationship="Self.FK_Goods_Style" FromRole="Goods" ToRole="Style" />
@@ -2441,17 +2513,26 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AccordingTo" Type="Boolean" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Since" Type="DateTime" Precision="3" />
           <Property Name="IdGood" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="AccordingToPrice" Type="Double" />
-          <Property Name="Value" Type="Double" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ToDate" Type="DateTime" Precision="3" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="AmountDonate" Type="Int32" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="ConditionPrice" Type="Double" />
+          <Property Name="Day" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="WithGood" Type="Boolean" />
+          <Property Name="Amount" Type="Boolean" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <Property Name="CreateBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="ModifyBy" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" />
+          <NavigationProperty Name="DetailPromotions" Relationship="Self.FK_DetailPromotion_Promotion" FromRole="Promotion" ToRole="DetailPromotion" />
+          <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Promotion" FromRole="Promotion" ToRole="Goods" />
           <NavigationProperty Name="Good" Relationship="Self.FK_Promotion_Goods" FromRole="Promotion" ToRole="Goods" />
         </EntityType>
         <EntityType Name="PurchaseOrder">
@@ -3065,6 +3146,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetailPromotion_Promotion">
+          <End Role="Promotion" Type="Self.Promotion" Multiplicity="0..1" />
+          <End Role="DetailPromotion" Type="Self.DetailPromotion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DetailPromotion">
+              <PropertyRef Name="IdPromotion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetailReceipt_Goods">
           <End Role="Goods" Type="Self.Good" Multiplicity="0..1" />
           <End Role="DetailReceipt" Type="Self.DetailReceipt" Multiplicity="*" />
@@ -3278,6 +3371,18 @@
             </Principal>
             <Dependent Role="Goods">
               <PropertyRef Name="IdGroupGood" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Goods_Promotion">
+          <End Role="Promotion" Type="Self.Promotion" Multiplicity="0..1" />
+          <End Role="Goods" Type="Self.Good" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Promotion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Goods">
+              <PropertyRef Name="IdPromotion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -3712,6 +3817,7 @@
           <EntitySet Name="DetailBills" EntityType="Self.DetailBill" />
           <EntitySet Name="DetailEPCs" EntityType="Self.DetailEPC" />
           <EntitySet Name="DetailGoodOrders" EntityType="Self.DetailGoodOrder" />
+          <EntitySet Name="DetailPromotions" EntityType="Self.DetailPromotion" />
           <EntitySet Name="DetailReceipts" EntityType="Self.DetailReceipt" />
           <EntitySet Name="DetailReportEndShifts" EntityType="Self.DetailReportEndShift" />
           <EntitySet Name="DetailSaleOrders" EntityType="Self.DetailSaleOrder" />
@@ -3829,6 +3935,10 @@
             <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
             <End Role="DetailGoodOrder" EntitySet="DetailGoodOrders" />
           </AssociationSet>
+          <AssociationSet Name="FK_DetailPromotion_Promotion" Association="Self.FK_DetailPromotion_Promotion">
+            <End Role="Promotion" EntitySet="Promotions" />
+            <End Role="DetailPromotion" EntitySet="DetailPromotions" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetailReceipt_Goods" Association="Self.FK_DetailReceipt_Goods">
             <End Role="Goods" EntitySet="Goods" />
             <End Role="DetailReceipt" EntitySet="DetailReceipts" />
@@ -3899,6 +4009,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Goods_GroupGoods" Association="Self.FK_Goods_GroupGoods">
             <End Role="GroupGoods" EntitySet="GroupGoods" />
+            <End Role="Goods" EntitySet="Goods" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Goods_Promotion" Association="Self.FK_Goods_Promotion">
+            <End Role="Promotion" EntitySet="Promotions" />
             <End Role="Goods" EntitySet="Goods" />
           </AssociationSet>
           <AssociationSet Name="FK_Goods_Season" Association="Self.FK_Goods_Season">
@@ -4224,6 +4338,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DetailPromotions">
+            <EntityTypeMapping TypeName="iPOSModel.DetailPromotion">
+              <MappingFragment StoreEntitySet="DetailPromotion">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdGood" ColumnName="IdGood" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IdPromotion" ColumnName="IdPromotion" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="ModifyBy" ColumnName="ModifyBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DetailReceipts">
             <EntityTypeMapping TypeName="iPOSModel.DetailReceipt">
               <MappingFragment StoreEntitySet="DetailReceipt">
@@ -4358,6 +4487,7 @@
                 <ScalarProperty Name="IdGood" ColumnName="IdGood" />
                 <ScalarProperty Name="IdWareHouse" ColumnName="IdWareHouse" />
                 <ScalarProperty Name="IdCate" ColumnName="IdCate" />
+                <ScalarProperty Name="IdPromotion" ColumnName="IdPromotion" />
                 <ScalarProperty Name="IdUnit" ColumnName="IdUnit" />
                 <ScalarProperty Name="Material" ColumnName="Material" />
                 <ScalarProperty Name="IdSeason" ColumnName="IdSeason" />
@@ -4488,11 +4618,18 @@
             <EntityTypeMapping TypeName="iPOSModel.Promotion">
               <MappingFragment StoreEntitySet="Promotion">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="AccordingTo" ColumnName="AccordingTo" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Since" ColumnName="Since" />
                 <ScalarProperty Name="IdGood" ColumnName="IdGood" />
-                <ScalarProperty Name="AccordingToPrice" ColumnName="AccordingToPrice" />
-                <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="AmountDonate" ColumnName="AmountDonate" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ConditionPrice" ColumnName="ConditionPrice" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="WithGood" ColumnName="WithGood" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
                 <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
                 <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />

@@ -1,0 +1,473 @@
+﻿
+@{
+    ViewBag.Title = "thêm chương trình khuyến mãi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card card-custom">
+    <div class="card-header">
+        <h3 class="card-title">
+            Thêm Khuyễn Mãi
+        </h3>
+    </div>
+    <!--begin::Form-->
+    <div class="card-body">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Tên Khuyến Mãi</label>
+            <div class="col-10">
+                <div class="input-group-prepend">
+                    <input class="form-control" type="text" id="name" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Khuyễn Mãi Từ Ngày : </label>
+            <div class="col-4">
+                <div class="input-group-prepend">
+                    <input class="form-control" type="date" id="since" />
+                </div>
+            </div>
+            <label class="col-2 col-form-label">Đến Ngày : </label>
+            <div class="col-4">
+                <div class="input-group-prepend">
+                    <input class="form-control" type="date" id="todate" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-12 col-form-label">
+                <div class="checkbox-inline longs_input">
+                    <label class="checkbox checkbox-success">
+                        <input onchange="CbAddGood()" type="checkbox" name="Checkboxes" id="cbaddgood" />
+                        <span></span>
+                        Theo Kèm Hàng
+                    </label>
+                    <div class="tooltip1">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABBUlEQVQ4je2Uv0oDQRCHv9k9VAS1sBFBCws5WK6wEskzWNj6Kla+gJ1vYWuthVgIYuEVV8RCGwshtSbujI0XjnCXVQjBwl83/z5mdmdXSCiEsI3pTW07taPHqrrvys9SQOdGmUa/VduWsTg1PwX8rZIder88sDg8GdvD+DzrJqZK2pwh5IfAelts4ePz8qHff+sCto9scgrstYVGS1kP6ATO51IEuQC9AzDcCtjxT4GtZ9hUUezuaPRP4wJnvbKsbrvyZz7yP/APAlv3sMjzA/V+DUA1bjRjZrIfQlgFEInvZVldJ4Hq5BzT76c3sarGGWgNfwU2m+F5/YdyBfaSKhZsMOn7Aqu5RxWYlVqzAAAAAElFTkSuQmCC">
+                        <span class="tooltiptext tooltip-top">Nhập Mã Sản Phẩm Được Tặng vào ô Dưới</span>
+                    </div>
+                    &mdash;
+                    <label class="checkbox checkbox-success">
+                        <input onchange="CbDiscount()" type="checkbox" name="Checkboxes" id="cbdiscount" />
+                        <span></span>
+                        Theo Chiết Khấu
+                    </label>
+                    <div class="tooltip1">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABBUlEQVQ4je2Uv0oDQRCHv9k9VAS1sBFBCws5WK6wEskzWNj6Kla+gJ1vYWuthVgIYuEVV8RCGwshtSbujI0XjnCXVQjBwl83/z5mdmdXSCiEsI3pTW07taPHqrrvys9SQOdGmUa/VduWsTg1PwX8rZIder88sDg8GdvD+DzrJqZK2pwh5IfAelts4ePz8qHff+sCto9scgrstYVGS1kP6ATO51IEuQC9AzDcCtjxT4GtZ9hUUezuaPRP4wJnvbKsbrvyZz7yP/APAlv3sMjzA/V+DUA1bjRjZrIfQlgFEInvZVldJ4Hq5BzT76c3sarGGWgNfwU2m+F5/YdyBfaSKhZsMOn7Aqu5RxWYlVqzAAAAAElFTkSuQmCC">
+                        <span class="tooltiptext tooltip-top">Số Discount Đơn Vị %</span>
+                    </div>
+                    <input type="number" id="discountcb" disabled />
+                    &mdash;
+                    <label class="checkbox checkbox-success">
+                        <input onchange="CbPrice()" type="checkbox" name="Checkboxes" id="cbprice" />
+                        <span></span>
+                        Theo Giá Bán
+                    </label>
+                    <div class="tooltip1">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABBUlEQVQ4je2Uv0oDQRCHv9k9VAS1sBFBCws5WK6wEskzWNj6Kla+gJ1vYWuthVgIYuEVV8RCGwshtSbujI0XjnCXVQjBwl83/z5mdmdXSCiEsI3pTW07taPHqrrvys9SQOdGmUa/VduWsTg1PwX8rZIder88sDg8GdvD+DzrJqZK2pwh5IfAelts4ePz8qHff+sCto9scgrstYVGS1kP6ATO51IEuQC9AzDcCtjxT4GtZ9hUUezuaPRP4wJnvbKsbrvyZz7yP/APAlv3sMjzA/V+DUA1bjRjZrIfQlgFEInvZVldJ4Hq5BzT76c3sarGGWgNfwU2m+F5/YdyBfaSKhZsMOn7Aqu5RxWYlVqzAAAAAElFTkSuQmCC">
+                        <span class="tooltiptext tooltip-top" id="infotext"></span>
+                    </div>
+                    <input type="number" name="pricecb" disabled id="pricecb" />&nbsp; : &nbsp; <select id="condition" disabled>
+                        <option value="-1">Chọn Điều Kiện</option>
+                        <option value="1">Theo Điều Kiện Giá</option>
+                        <option value="2">Theo Ngày Trong Tuần</option>
+                        <option value="3">Theo Ngày </option>
+                    </select>&nbsp; / &nbsp;<input type="number" name="pricecb" id="conditionpricecb" disabled />
+                    <div id="day" style="display:none">
+                        <select id="day">
+                            <option value="2">Thứ 2</option>
+                            <option value="3">Thứ 3</option>
+                            <option value="4">Thứ 4</option>
+                            <option value="5">Thứ 5</option>
+                            <option value="6">Thứ 6</option>
+                            <option value="7">Thứ 7</option>
+                            <option value="8">Chủ Nhật</option>
+                        </select>
+                    </div>
+                    &mdash;
+                    <label class="checkbox checkbox-success">
+                        <input onchange="CbAddMore()" type="checkbox" name="Checkboxes" id="cbaddmore" />
+                        <span></span>
+                        1 Tặng 1
+                    </label>
+                    <div class="tooltip1">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABBUlEQVQ4je2Uv0oDQRCHv9k9VAS1sBFBCws5WK6wEskzWNj6Kla+gJ1vYWuthVgIYuEVV8RCGwshtSbujI0XjnCXVQjBwl83/z5mdmdXSCiEsI3pTW07taPHqrrvys9SQOdGmUa/VduWsTg1PwX8rZIder88sDg8GdvD+DzrJqZK2pwh5IfAelts4ePz8qHff+sCto9scgrstYVGS1kP6ATO51IEuQC9AzDcCtjxT4GtZ9hUUezuaPRP4wJnvbKsbrvyZz7yP/APAlv3sMjzA/V+DUA1bjRjZrIfQlgFEInvZVldJ4Hq5BzT76c3sarGGWgNfwU2m+F5/YdyBfaSKhZsMOn7Aqu5RxWYlVqzAAAAAElFTkSuQmCC">
+                        <span class="tooltiptext tooltip-top" id="infotext">Nhập Số Lượng Tặng</span>
+                    </div>
+                    <input type="number" id="addmorecb" disabled />
+                    &mdash;
+                    <label class="checkbox checkbox-success">
+                        <input onchange="CbAddAmount()" type="checkbox" name="Checkboxes" id="cbaddamount" />
+                        <span></span>
+                        Theo Số Lượng
+                    </label>
+                    <div class="tooltip1">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAABBUlEQVQ4je2Uv0oDQRCHv9k9VAS1sBFBCws5WK6wEskzWNj6Kla+gJ1vYWuthVgIYuEVV8RCGwshtSbujI0XjnCXVQjBwl83/z5mdmdXSCiEsI3pTW07taPHqrrvys9SQOdGmUa/VduWsTg1PwX8rZIder88sDg8GdvD+DzrJqZK2pwh5IfAelts4ePz8qHff+sCto9scgrstYVGS1kP6ATO51IEuQC9AzDcCtjxT4GtZ9hUUezuaPRP4wJnvbKsbrvyZz7yP/APAlv3sMjzA/V+DUA1bjRjZrIfQlgFEInvZVldJ4Hq5BzT76c3sarGGWgNfwU2m+F5/YdyBfaSKhZsMOn7Aqu5RxWYlVqzAAAAAElFTkSuQmCC">
+                        <span class="tooltiptext tooltip-top" id="infotext"></span>
+                    </div>
+                </div>
+                <span class="form-text text-muted">Chọn Cách Thức Khuyến Mãi</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-6">
+                <div id="kt_datatable_filter" class="dataTables_filter">
+                    <label>Search:<input disabled id="seachg" type="search" class="form-control form-control-sm" placeholder="" aria-controls="kt_datatable"></label>
+                </div>
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting">Stt</th>
+                            <th class="sorting">Mã Hàng</th>
+                            <th class="sorting">Tên Hàng</th>
+                            <th class="sorting">Số Lượng</th>
+                            <th class="sorting">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbdg">
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <div id="kt_datatable_filter" class="dataTables_filter">
+                    <label>Search:<input disabled id="seachm" type="search" class="form-control form-control-sm" placeholder="" aria-controls="kt_datatable"></label>
+                </div>
+                <table class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline" id="kt_datatable" role="grid" aria-describedby="kt_datatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting">Stt</th>
+                            <th class="sorting">Mã Hàng</th>
+                            <th class="sorting">Số Lượng</th>
+                            <th class="sorting">Đơn Giá Giảm</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbdm">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Submit</button>
+                <a href="/Goods/Index" type="reset" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        //ẩn hiện các cách thức khuyến mãi
+
+        function CbDiscount() {
+            const billingItems = document.getElementById('discountcb');
+            billingItems.disabled = !billingItems.disabled;
+        }
+        function CbPrice() {
+            const billingItems = $('input[name="pricecb"]');
+            const billingItems1 = document.getElementById('condition');
+            for (let i = 0; i < billingItems.length; i++) {
+                billingItems[i].disabled = !billingItems[i].disabled;
+            }
+            billingItems1.disabled = !billingItems1.disabled;
+        } function CbAddGood() {
+            const billingItems = document.getElementById('seachg');
+            billingItems.disabled = !billingItems.disabled;
+        } function CbAddAmount() {
+            const billingItems = document.getElementById('seachm');
+            billingItems.disabled = !billingItems.disabled;
+        } function CbAddMore() {
+            const billingItems = document.getElementById('addmorecb');
+            billingItems.disabled = !billingItems.disabled;
+        }
+
+        //End
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //Chọn điều kiện theo giá bán
+
+        $('#condition').change(function () {
+            $('#infotext').empty()
+            let condition = $('#condition option:selected').val();
+            if (condition == 1) {
+                $('#conditionpricecb').attr('type', 'number')
+                $('#infotext').append("Giá Giảm/Giá Điều Kiện")
+            } else if (condition == 2) {
+                $('#conditionpricecb').css('display', 'none')
+                $('#day').css('display', 'block')
+                $('#infotext').append("Giá Giảm/Ngày Trong Tuần Giảm")
+            } else if (condition == 3) {
+                $('#conditionpricecb').attr('type', 'date')
+                $('#infotext').append("Giá Giảm/Ngày Giảm")
+            }
+            if (condition != 2) {
+                $('#day').css('display', 'none')
+                $('#conditionpricecb').css('display', 'block')
+            }
+        })
+
+        //End
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        //nhập mã hàng theo kèm hàng
+
+        $('#seachg').keyup(function () {
+            var id = $('#seachg').val().trim()
+            Goods(id)
+        })
+
+        function Goods(id) {
+            $.ajax({
+                url: '/Goods/Good',
+                type: 'get',
+                data: {
+                    id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        let Stt = 1;
+                        $.each(data.c, function (k, v) {
+                            var ids = $('.idg').map(function () {
+                                return this.id;
+                            }).get();
+                            if (ids.includes(v.idgood)) {
+
+                            } else {
+                                let table = '<tr name="detailgoods" id="HHg' + v.idgood + '" data-epc="">';
+                                table += '<td>' + (Stt++) + '</td>'
+                                table += '<td class="idg" id="' + v.idgood + '">' + v.idgood + '</td>'
+                                table += '<td>' + v.name + '</td>'
+                                table += '<td class="amountg" ><input id="amountg' + v.idgood + '" value="1" type="number"/></td>'
+                                table += '<td class="amountg" name="delete" ><img src="/Images/icons8-remove-38.png" /></td></tr>'
+                                $('#tbdg').append(table);
+                            }
+                        })
+                    } else if (data.code == 1) {
+
+                    }
+                }
+            })
+        }
+
+        //End
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //Nhập mã hàng theo số lượng
+
+        $('#seachm').keyup(function () {
+            var id = $('#seachm').val().trim()
+            Goods1(id)
+        })
+
+        function Goods1(id) {
+            $.ajax({
+                url: '/Goods/Good',
+                type: 'get',
+                data: {
+                    id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        let Stt = 1;
+                        $.each(data.c, function (k, v) {
+                            var ids = $('.idm').map(function () {
+                                return this.id;
+                            }).get();
+                            if (ids.includes(v.idgood)) {
+
+                            } else {
+                                let table = '<tr name="detailgoods" id="HHm' + v.idgood + '" data-epc="">';
+                                table += '<td>' + (Stt++) + '</td>'
+                                table += '<td class="idm" id="' + v.idgood + '">' + v.idgood + '</td>'
+                                table += '<td class="amountm" id="amountm' + v.idgood + '">1</td>'
+                                table += '<td class="pricem" id="pricem' + v.idgood + '">1</td></tr>'
+                                $('#tbdm').append(table);
+                            }
+                        })
+                    } else if (data.code == 1) {
+
+                    }
+                }
+            })
+        }
+
+        //End
+
+        //--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        //Thêm khuyến mãi
+
+        function Add() {
+            let since = $('#since').val() //lấy ngày bắt đầu
+            let todate = $('#todate').val() //lấy ngày kết thúc
+            let name = $('#name').val() //get name promotion
+            if (since == '' || todate == '') {
+                alert('Bạn Chưa Nhập Thời Gian Khuyễn Mãi !!!')
+                return; //chương trình dừng khi chưa chọn since và todate
+            } if (name.length == 0) {
+                alert("Bạn Chưa Nhập Tên Khuyễn Mãi !!!")
+                return;
+            }
+            $.ajax({
+                url: '/Promotions/Add',
+                type: 'post',
+                data: {
+                    since, todate, name
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        let checkboxes = document.getElementsByName('Checkboxes') //lấy tất các các checkbox(các chương trình khuyễn mãi)
+                        console.log(checkboxes.length, checkboxes)
+                        for (let i = 0; i < checkboxes.length; i++) {//lặp lấy id của ô đã tích chọn
+                            if (checkboxes[i].checked == true) {
+                                switch (checkboxes[i].id) {
+                                    case 'cbaddgood': {
+                                        let ids = $('.idg').map(function () {
+                                            return this.id
+                                        }).get(); // lấy tất cả id của hàng hóa đưuọc thêm
+                                        for (let j = 0; j < ids.length; j++) { // lặp
+                                            let idgood = ids[i]; //get id goods(lấy mã hàng hóa)
+                                            let amount = $('#amountg' + idgood + '').val().trim() //get amount good(lấy số lượng hàng hóa)
+                                            AddGood(idgood, amount) //call function AddGood to Add
+                                        }
+                                        break;
+                                    }
+                                    case 'cbdiscount': {
+                                        let discount = $('#discountcb').val().trim()//get discount
+                                        AddDiscount(discount)//call funtion AddDiscount to Add
+                                        break;
+                                    }
+                                    case 'cbprice': {
+                                        let price = $('#pricecb').val().trim()//get reduced price
+                                        let condition = $('#condition option:selected').val()//get value condition
+                                        let conditionpricecb = 0;//set condition price reduced default is 0
+                                        let day = 0;//set day in week default is 0
+                                        let date = '01/01/1753';//set date default is 01/01/1753 like null
+                                        if (condition == 1) {//set condition price reduced to get condition type
+                                            conditionpricecb = $('#conditionpricecb').val().trim()
+                                        } else if (condition == 2) {
+                                            day = $('#day option:selected').val()
+                                        } else if (condition == 3) {
+                                            date = $('#conditionpricecb').val()
+                                        } else {
+                                            alert("Chọn Điều Kiện Giảm !!!")
+                                            return;
+                                        }
+                                        if (price.length == 0) {
+                                            alert("Nhập Số Tiền Giảm !!!")
+                                            return;
+                                        }
+                                        AddPrice(price, conditionpricecb, day, date)//call funtion AddPrice to Add
+                                        break
+                                    }
+                                    case 'cbaddmore': {
+                                        let addmore = $('#addmorecb').val().trim();
+                                        AddMore(addmore)
+                                        break
+                                    }
+                                    case 'cbaddamount': {
+
+                                        break
+                                    }
+                                    default:
+                                }
+                            }
+                            if (i == checkboxes.length - 1) {
+                                setTimeout(function () {
+                                    Swal.fire({
+                                        title: "Tạo Khuyễn Mãi Thành Công",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Confirm me!",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    });
+                                }, 1000)
+                                window.location.href = "/Promotions/Adds";
+                            }
+                        }
+                    }
+                }
+            })
+        
+        }
+
+        //Thêm sản phẩm đưuọc tặng
+        function AddGood(idgood, amount) {
+            $.ajax({
+                url: '/Promotions/AddGood',
+                type: 'post',
+                data: {
+                    idgood, amount
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+
+                    }
+                }
+            })
+        }
+        //Add discount promotion to database
+        function AddDiscount(discount) {
+            $.ajax({
+                url: '/Promotions/AddDiscount',
+                type: 'post',
+                data: {
+                    discount
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+
+                    }
+                }
+            })
+        }
+        //Add price reduced to database
+        function AddPrice(price, conditionpricecb, day, date) {
+            $.ajax({
+                url: '/Promotions/AddPrice',
+                type: 'post',
+                data: {
+                    price, conditionpricecb, day, date
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+
+                    }
+                }
+            })
+        }
+        //Add more good to database
+        function AddMore(addmore) {
+            $.ajax({
+                url: '/Promotions/AddMore',
+                type: 'post',
+                data: {
+                    addmore
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                    }
+                }
+            })
+        }
+
+        //xóa hàng hóa
+        $(document).on('click', 'td[name="delete"]',function () {
+            let id = $(this).closest('tr').attr('id')
+            $('#' + id).remove()
+        })
+
+
+    </script>
+}
+
+

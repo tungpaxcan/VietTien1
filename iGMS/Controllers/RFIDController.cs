@@ -65,13 +65,19 @@ namespace iGMS.Controllers
                          {
                              idgood = bb.IdGoods
                          }).ToList();
+                var d = (from b in db.DetailEPCs.Where(x => x.IdEPC == epc && x.Status == true)
+                         join bb in db.EPCs on b.IdEPC equals bb.IdEPC
+                         select new
+                         {
+                             idgood = bb.IdSerial
+                         }).ToList();
                 var c = db.DetailEPCs.SingleOrDefault(x => x.IdEPC == epc && x.Status == true);
                 if (c != null)
                 {
                     c.Status = false;
                     db.SaveChanges();
                 }
-                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 200, a = a ,d=d}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {
@@ -142,15 +148,16 @@ namespace iGMS.Controllers
         {
             try
             {
-                var a = db.DetailEPCs.OrderBy(x => x.Status).ToList().LastOrDefault();
+               
                 var b = db.DetailEPCs.Where(x => x.Status == false).ToList();
                 for (int i = 0; i < b.Count(); i++)
                 {
+                    var a = db.DetailEPCs.OrderBy(x => x.Status==false).ToList().LastOrDefault();
                     db.DetailEPCs.Remove(a);
                     db.SaveChanges();
                 }
 
-                return Json(new { code = 200, a = a }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {

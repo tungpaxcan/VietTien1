@@ -35,6 +35,7 @@ namespace iGMS.Models
         public virtual DbSet<DetailBill> DetailBills { get; set; }
         public virtual DbSet<DetailEPC> DetailEPCs { get; set; }
         public virtual DbSet<DetailGoodOrder> DetailGoodOrders { get; set; }
+        public virtual DbSet<DetailPromotion> DetailPromotions { get; set; }
         public virtual DbSet<DetailReceipt> DetailReceipts { get; set; }
         public virtual DbSet<DetailReportEndShift> DetailReportEndShifts { get; set; }
         public virtual DbSet<DetailSaleOrder> DetailSaleOrders { get; set; }

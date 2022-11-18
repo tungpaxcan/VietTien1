@@ -27,7 +27,7 @@ function Scan(id) {
                 alert(data.msg)
             }
             else {
-                alert(data.msg)
+                
             }
         }
     })

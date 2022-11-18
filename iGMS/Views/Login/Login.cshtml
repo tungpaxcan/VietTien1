@@ -28,12 +28,37 @@
     <script src="~/Scripts/md5.min.js"></script>
     <script src="~/Scripts/ebapi-modules.js"></script>
     <script>
-        EB.Barcode.enable({
-            allDecoders: true
-        }, fnBarcodeScanned);
-        function fnBarcodeScanned(jsonObject) {
-            // alert("Barcode Scanned:{" + JSON.stringify(jsonObject) + "}");
-            document.getElementById('id').value = jsonObject.data;
+        setInterval(function () { AllShowEPC() }, 200);
+
+        function AllShowEPC() {
+            $.ajax({
+                url: '/rfid/AllShowEPC',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            CompareReceiptrfid(v.id)
+                        })
+                    }
+                }
+            })
+        }
+        function CompareReceiptrfid(epc) {
+            $.ajax({
+                url: '/rfid/CompareReceipt',
+                type: 'get',
+                data: {
+                    epc
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        $.each(data.d, function (k, v) {
+                            Scan(v.idgood)
+                        })
+
+                    }
+                }
+            })
         }
 
     </script>

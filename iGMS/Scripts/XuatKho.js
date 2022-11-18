@@ -23,6 +23,13 @@ $(document).ready(function () {
     })
 })
 
+//Nhap so phieu
+
+$('#idsaleorder').keyup(function () {
+    var id = $('#idsaleorder').val().trim().substring(5)
+    Show(id)
+    })
+
 //Hiển thị thông tin đơn hàng để xuất
 
 function Show(id) {
