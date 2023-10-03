@@ -56,7 +56,7 @@ namespace iGMS.Controllers
         }
         [HttpGet]
         public JsonResult CompareReceipt(string epc)
-        {
+            {
             try
             {
                 var a = (from b in db.DetailEPCs.Where(x => x.IdEPC == epc && x.Status == true)

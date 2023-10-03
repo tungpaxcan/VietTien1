@@ -12,8 +12,14 @@ namespace iGMS.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CategoryGood
+    public partial class MaterialAccount
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MaterialAccount()
+        {
+            this.Goods = new HashSet<Good>();
+        }
+    
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -22,5 +28,8 @@ namespace iGMS.Models
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string ModifyBy { get; set; }
         public Nullable<bool> Status { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Good> Goods { get; set; }
     }
 }

@@ -54,12 +54,37 @@ namespace iGMS.Controllers
             }
             return View(good);
         }
+        [HttpPost]
+        public string UploadImage(HttpPostedFileBase file)
+        {
+            if (ModelState.IsValid)
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    var now = DateTime.Now.ToString().Trim();
+                    var index1 = now.IndexOf(" ");
+                    var sub1 = now.Substring(0, index1);
+                    var sub11 = sub1.Replace("/", "");
+                    var index2 = now.IndexOf(" ", index1 + 1);
+                    var sub2 = now.Substring(index1 + 1);
+                    var sub21 = sub2.Replace(":", "");
+                    string _FileName = "";
+                    int index = file.FileName.IndexOf('.');
+                    _FileName = sub11 + sub21 + "BlogAdd" + file.FileName;
+                    file.SaveAs(Server.MapPath("/Images/" + _FileName));
+
+                    return "/Images/" + _FileName;
+                }
+            }
+            return "";
+        }
         [HttpGet]
         public JsonResult List(int pagenum, int page, string seach)
         {
             try
             {
                 var pageSize = pagenum;
+                
                 var a = (from b in db.Goods.Where(x => x.Id.Length > 0)
                          select new
                          {
@@ -97,7 +122,6 @@ namespace iGMS.Controllers
                     var nameAdmin = session.Name;
                     var d = new Good();
                     d.Discount = 0;
-                    d.SKU = sku;
                     d.IdWareHouse = warehouse;
                     d.Id = id;
                     d.IdGood = idgood;
@@ -151,7 +175,6 @@ namespace iGMS.Controllers
                 var e = db.DetailWareHouses.SingleOrDefault(x => x.IdGoods == id && x.Inventory == qty);
                 e.IdWareHouse =warehouse;
                 d.IdGood = idgood;
-                d.SKU = sku;
                 d.IdStyle = style;
                 d.IdWareHouse = warehouse;
                 d.IdColor = color;
@@ -182,13 +205,7 @@ namespace iGMS.Controllers
             try
             {
                 db.Configuration.ProxyCreationEnabled = false;
-                var e = db.DetailBills.Where(x => x.IdGoods == id).ToList();
-                e.RemoveAll(x => x.IdGoods == id);
-                db.SaveChanges();
-                var d = db.Goods.Find(id);
-                db.Goods.Remove(d);
-                db.SaveChanges();
-       
+                Dele.DeleteGood(id);
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
             }

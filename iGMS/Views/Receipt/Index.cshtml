@@ -317,7 +317,6 @@
                 rfid.disconnect()
                 BarcodeEnumrate()
             }
-
         })
 
         //RFID
@@ -333,9 +332,6 @@
                     temp1(epc)
                 }
             }
-
-
-
         }
 
         function RFIDEnumrate() {
@@ -364,17 +360,13 @@
 
         function MouseCheck(code) {
             var txt = getText(document.activeElement);
-
-
             if (txt == 'purchaseorder') {
                 setPurchaseOrderText(code.data)
-
             } else {
-
                 temp(code)
             }
-
         }
+
         function temp(rawBar) {
             var t = rawBar.data
             CompareReceipt(t)
@@ -384,7 +376,6 @@
         }
         function getText(elem) {
             if ((elem.tagName === "INPUT" && elem.type === "text")) {
-
                 return elem.id
             }
             return null;

@@ -15,18 +15,39 @@
     <div class="card-body">
         <div class="form-group mb-8">
             <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-text">Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống (1 Hàng Hóa Mới Chỉ Cần Khai Báo 1 Lần Để Lưu Vào Hệ Thống)</div>
                 <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
                 <div class="alert-text">
-                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                    Lướt Vào Để Xem Mô Tả
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Đơn Vị <span style="color:red"> (*) </span></label>
+            <label for="example-password-input" class="col-2 col-form-label">Tên Phong Cách <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Tên Đơn Vị" id="name" value="@Model.Name" />
+                    <input class="form-control" type="text" placeholder="Tên Phong Cách" id="name" value="@Model.Name" />
                 </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mô Tả</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <textarea class="form-control" type="text" placeholder="Mô Tả" id="des">@Model.Description</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-1 col-form-label">Trạng Thái</label>
+            <label type="button" class="col-1" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Đơn Vị">
+                <i class="flaticon-warning text-primary"></i>
+            </label>
+            <div class="col-10">
+                <label class="checkbox checkbox-success">
+                    <input type="checkbox" name="Checkboxes5" id="status" checked="@Model.Status">
+                    <span></span>Trạng Thái
+                </label>
             </div>
         </div>
     </div>

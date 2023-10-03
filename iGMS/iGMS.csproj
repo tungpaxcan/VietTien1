@@ -154,6 +154,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndustryController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MaterialAccountController.cs" />
+    <Compile Include="Controllers\NatureController.cs" />
     <Compile Include="Controllers\PromotionsController.cs" />
     <Compile Include="Controllers\PurchaseOrderController.cs" />
     <Compile Include="Controllers\ReceiptController.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Controllers\SupplierGoodsController.cs" />
     <Compile Include="Controllers\UnitController.cs" />
     <Compile Include="Controllers\WareHouseController.cs" />
+    <Compile Include="Dele.cs" />
     <Compile Include="Encode.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,9 +183,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CateGood.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CategoryGood.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Color.cs">
@@ -242,6 +242,9 @@
     <Compile Include="Models\GroupGood.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GroupUnit.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Industry.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -249,6 +252,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\License.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MaterialAccount.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Method.cs">
@@ -269,7 +275,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Nature.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NumberShift.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderUnit.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PaymentMethod.cs">
@@ -2259,6 +2271,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\demo_wait.gif" />
     <Content Include="Images\icons-account.png" />
     <Content Include="Images\icons-add.png" />
     <Content Include="Images\icons-category.png" />
@@ -2352,6 +2365,10 @@
     <Content Include="Scripts\data.json.js" />
     <Content Include="Images\HangHoa.xlsx" />
     <Content Include="Images\PO iPOS.xlsx" />
+    <Content Include="Images\unit.xlsx" />
+    <Content Include="Images\style.xlsx" />
+    <Content Include="Images\color.xlsx" />
+    <Content Include="Images\size.xlsx" />
     <EntityDeploy Include="Models\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -2359,6 +2376,8 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
+    <Content Include="Images\nature.xlsx" />
+    <Content Include="Images\MaterialAccount.xlsx" />
     <None Include="Properties\PublishProfiles\IISProfile.pubxml" />
     <None Include="Properties\PublishProfiles\IISProfile1.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -2387,8 +2406,10 @@
     <Content Include="Scripts\Layout.js" />
     <Content Include="Scripts\ListUser.js" />
     <Content Include="Scripts\Login.js" />
+    <Content Include="Scripts\MaterialAccount.js" />
     <Content Include="Scripts\md5.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Nature.js" />
     <Content Include="Scripts\PurchaseOrder.js" />
     <Content Include="Scripts\QRCODE.js" />
     <Content Include="Scripts\QRCODE.min.js" />
@@ -2496,6 +2517,12 @@
     <Content Include="Views\PurchaseOrder\Index2.cshtml" />
     <Content Include="Views\Promotions\Adds.cshtml" />
     <Content Include="Views\Promotions\Index.cshtml" />
+    <Content Include="Views\Nature\Index.cshtml" />
+    <Content Include="Views\Nature\Adds.cshtml" />
+    <Content Include="Views\Nature\Edits.cshtml" />
+    <Content Include="Views\MaterialAccount\Index.cshtml" />
+    <Content Include="Views\MaterialAccount\Adds.cshtml" />
+    <Content Include="Views\MaterialAccount\Edits.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -292,6 +292,32 @@ $.ajax({
         }
     }
 });
+//---Sua Ngay Hó Don
+$.ajax({
+    url: '/authorization/EditDate',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            $('input[name="date"]').attr('disabled', 'disabled')
+        } else if (data.code == 300) { }
+        else {
+            alert(data.msg)
+        }
+    }
+});
+//---giá bán hàng hóa
+$.ajax({
+    url: '/authorization/EditPriceGood',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            $('input[name="pricegoods"]').attr('disabled', 'disabled')
+        } else if (data.code == 300) { }
+        else {
+            alert(data.msg)
+        }
+    }
+});
 //---ChietKhauHoaDon
 $.ajax({
     url: '/authorization/UserNV2',
@@ -318,7 +344,19 @@ $.ajax({
         }
     }
 })
-
+//---Chọn hàng hóa
+$.ajax({
+    url: '/authorization/ChangeGood',
+    type: 'get',
+    success: function (data) {
+        if (data.code == 200) {
+            $('input[name="idgoods"]').attr('disabled', 'disabled')
+        } else if (data.code == 300) { }
+        else {
+            alert(data.msg)
+        }
+    }
+})
 //---NhanVienTuVan
 $.ajax({
     url: '/authorization/UserNV4',
@@ -326,6 +364,7 @@ $.ajax({
     success: function (data) {
         if (data.code == 200) {
             $('input[name="iduser"]').attr('disabled', 'disabled')
+            $('input[name="nameuser"]').attr('disabled', 'disabled')
         } else if (data.code == 300) { }
         else {
             alert(data.msg)
@@ -460,4 +499,15 @@ function to_vietnamese(number) {
 
     // Trả về kết quả kèm xóa những ký tự thừa
     return rsString.replace(/[0-9]/g, '').replace(/ /g, ' ').replace(/ $/, '');
+}
+function successSwal(title) {
+    Swal.fire({
+        title: title,
+        icon: "success",
+        buttonsStyling: false,
+        confirmButtonText: "Confirm me!",
+        customClass: {
+            confirmButton: "btn btn-primary"
+        }
+    });
 }

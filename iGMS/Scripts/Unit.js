@@ -1,23 +1,28 @@
 ﻿var pagenum = $("#pagenum option:selected").val();
+var idGroupUnit = -1;
 var page = 1;
 var seach = "";
-Unit(pagenum, page, seach);
+Unit(pagenum, page, seach, idGroupUnit);
 
 //phan trang
 $('#page').on('click', 'li', function (e) {
     e.preventDefault();
     page = $(this).attr('id');
-    Unit(pagenum, page, seach);
-
-
+    idGroupUnit = $('#groupUnit').val()
+    Unit(pagenum, page, seach, idGroupUnit);
 });
 
+$('#groupUnit').on('change', function () {
+    var seach = $('#seach').val().trim()
+    idGroupUnit = $('#groupUnit').val()
+    Unit(pagenum, page, seach, idGroupUnit);
+})
 
-function Unit(pagenum, page, seach) {
+function Unit(pagenum, page, seach,idGroupUnit) {
     $.ajax({
         url: '/unit/List',
         type: 'get',
-        data: { pagenum, page, seach },
+        data: { pagenum, page, seach, idGroupUnit },
         success: function (data) {
             $('#tbd').empty();
             $('#kt_datatable_info').empty();
@@ -89,7 +94,8 @@ $('#pagenum').on('change', function () {
     var pagenum = $("#pagenum option:selected").val();
     var page = 1;
     var seach = "";
-    Unit(pagenum, page, seach)
+    idGroupUnit = $('#groupUnit').val()
+    Unit(pagenum, page, seach, idGroupUnit);
 })
 
 
@@ -98,87 +104,101 @@ $('#pagenum').on('change', function () {
 $('#seach').on('keyup', function (e) {
     page = 1;
     seach = $('#seach').val();
-    Unit(pagenum, page, seach);
+    idGroupUnit = $('#groupUnit').val()
+    Unit(pagenum, page, seach, idGroupUnit);
 });
 
 //----------------Add::Unit---------------------
 function Add() {
     var name = $('#name').val().trim();
+    var idGroupUnit = $('#groupUnit').val();
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
+    let des = $('#des').val().trim();
+    let status = $('#status').is(":checked");
+    if (idGroupUnit == "-1") {
+        alert("Chọn Nhóm Đơn Vị")
+        $('#groupUnit').css('border-color', "red")
+        return;
+    } else {
+        $('#groupUnit').css('border-color', "green")
+    }
+    if (id.length <= 0) {
+        alert("Nhập Mã Đơn Vị")
+        $('#id').css('border-color', "red")
+        return;
+    } else {
+        $('#id').css('border-color', "green")
+    }
     if (name.length <= 0) {
         alert("Nhập Tên")
+        $('#name').css('border-color',"red")
         return;
+    } else {
+        $('#name').css('border-color', "green")
     }
     $.ajax({
         url: '/unit/Add',
         type: 'post',
         data: {
-            name,id
+            name, id, idGroupUnit, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Tạo Đơn Vị Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Unit/Index";
             } else if (data.code == 300) {
                 alert(data.msg)
             }
             else {
-                alert("Tạo Đơn Vị Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
 //----------------Edit::Unit---------------------
 function Edit() {
     var name = $('#name').val().trim();
+    var idGroupUnit = $('#groupUnit').val();
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
+    let des = $('#des').val().trim();
+    let status = $('#status').is(":checked");
+    if (idGroupUnit == "-1") {
+        alert("Chọn Nhóm Đơn Vị")
+        $('#groupUnit').css('border-color', "red")
+        return;
+    } else {
+        $('#groupUnit').css('border-color', "green")
+    }
+    if (id.length <= 0) {
+        alert("Nhập Mã Đơn Vị")
+        $('#id').css('border-color', "red")
+        return;
+    } else {
+        $('#id').css('border-color', "green")
+    }
     if (name.length <= 0) {
         alert("Nhập Tên")
+        $('#name').css('border-color', "red")
         return;
+    } else {
+        $('#name').css('border-color', "green")
     }
-    console.log(name,id)
     $.ajax({
         url: '/unit/Edit',
         type: 'post',
         data: {
-            id, name
+            name, id, idGroupUnit, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Sửa Đơn Vị Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Unit/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
             }
             else {
-                alert("Sửa Đơn Vị Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
@@ -186,29 +206,23 @@ function Edit() {
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
     if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
-        $.ajax({
-            url: '/unit/Delete',
-            type: 'post',
-            data: {
-                id
-            },
-            success: function (data) {
-                if (data.code == 200) {
-                    Swal.fire({
-                        title: "Xóa Đơn Vị Thành Công",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Confirm me!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                    window.location.href = "/Unit/Index";
+        if (confirm("Xóa " + id + " Sẽ Xóa Hết Hàng Hóa Có Đơn Vị Là " + id + " ")) {
+            $.ajax({
+                url: '/unit/Delete',
+                type: 'post',
+                data: {
+                    id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        successSwal(data.msg)
+                        window.location.href = "/Unit/Index";
+                    }
+                    else {
+                        alert(data.msg)
+                    }
                 }
-                else {
-                    alert(data.msg)
-                }
-            }
-        })
+            })
+        }
     }
 })

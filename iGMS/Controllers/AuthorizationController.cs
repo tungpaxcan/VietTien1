@@ -144,7 +144,99 @@ namespace iGMS.Controllers
             {
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
-        }     
+        }
+        [HttpGet]
+        public JsonResult EditPriceGood()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.EditPriceGoods == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult ChangeGood()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.ChangeCateGoods == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult EditDate()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.EditDate == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        [HttpGet]
+        public JsonResult ReturnGoods()
+        {
+            try
+            {
+                db.Configuration.ProxyCreationEnabled = false;
+                var User = (User)Session["user"];
+                if (User.Role1.ReturnGoods == false)
+                {
+                    return Json(new { code = 200, }, JsonRequestBehavior.AllowGet);
+                }
+
+                else
+                {
+                    return Json(new { code = 300, }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
         [HttpGet]
         public JsonResult UserNV3()
         {

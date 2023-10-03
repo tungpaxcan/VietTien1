@@ -177,5 +177,55 @@ namespace iGMS.Controllers
                 return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
+        [HttpGet]
+        public JsonResult InfoPromotion(int idpromotion)
+        {
+            try
+            {
+                var user = (User)Session["user"];
+                var idUser = user.Id;
+                var promotion = db.Promotions.SingleOrDefault(x => x.Id == idpromotion);
+                string info = "";
+                if (promotion.WithGood != null)
+                {
+                    var goodgift = (from a in db.DetailPromotions.Where(x => x.IdPromotion == idpromotion)
+                            join b in db.Goods on a.IdGood.Replace(".", "") equals b.IdGood.Replace(".", "")
+                            select new
+                            {
+                                id = b.IdGood,
+                                name = b.Name,
+                                amount = a.Amount
+                            }).ToList().Take(1); 
+                    return Json(new { code = 300, goodgift = goodgift }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    if (promotion.Discount != null)
+                    {
+                        info += "Giảm Giá : " + promotion.Discount + "%";
+                    }
+                    else if (promotion.Id == idpromotion &&promotion.ConditionPrice != null && promotion.ConditionPrice != 0)
+                    {
+                        info += "Giảm " + Encode.Money(promotion.Price.ToString()) + " Khi Có Đơn Hàng "+ Encode.Money(promotion.ConditionPrice.ToString());
+                    }else if(promotion.Day != 0 && promotion.Day!=null)
+                    {
+                        info += "Giảm " + Encode.Money(promotion.Price.ToString()) + " Khi Mua Hàng Vào "+Encode.DayOfWeek((int)promotion.Day);
+                    }
+                    else if ( promotion.Date.Value.Year != 1753&&promotion.Date!=null)
+                    {
+                        info += "Giảm " + Encode.Money(promotion.Price.ToString()) + " Khi Mua Hàng Vào Ngày " + promotion.Date.Value.Day +"/"+ promotion.Date.Value.Month;
+                    }   
+                    else if ( promotion.AmountDonate>0)
+                    {
+                        info += "Mua 1 Tặng " + promotion.AmountDonate;
+                    }
+                    return Json(new { code = 200, info = info }, JsonRequestBehavior.AllowGet);
+                }              
+            }
+            catch (Exception e)
+            {
+                return Json(new { code = 500, msg = "Sai !!!" + e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

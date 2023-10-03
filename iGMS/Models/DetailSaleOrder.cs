@@ -35,6 +35,5 @@ namespace iGMS.Models
     
         public virtual Good Good { get; set; }
         public virtual SalesOrder SalesOrder { get; set; }
-        public virtual SalesOrder SalesOrder1 { get; set; }
     }
 }

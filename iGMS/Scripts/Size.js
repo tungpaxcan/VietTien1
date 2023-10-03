@@ -8,8 +8,6 @@ $('#page').on('click', 'li', function (e) {
     e.preventDefault();
     page = $(this).attr('id');
     Size(pagenum, page, seach);
-
-
 });
 
 
@@ -105,42 +103,27 @@ $('#seach').on('keyup', function (e) {
 function Add() {
     var name = $('#name').val().trim();
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
-    if (name.length <= 0) {
-        alert("Nhập Tên")
-        return;
-    } if (id.length <= 0) {
-        alert("Nhập Mã")
-        return;
-    }
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked');
+    if (id.length <= 0) {alert("Chưa Nhập Mã"); $('#id').css('border-color', "red");return;
+    } else { $('#id').css('border-color', "green") }
+    if (name.length <= 0) {alert("Chưa Nhập Tên"); $('#name').css('border-color', "red"); return;
+    }else { $('#name').css('border-color', "green") }
     $.ajax({
         url: '/size/Add',
         type: 'post',
         data: {
-            name,id
+            name, id, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Tạo Kích Thước Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Size/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
             }
             else {
-                alert("Tạo Kích Thước Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
@@ -148,46 +131,34 @@ function Add() {
 function Edit() {
     var name = $('#name').val().trim();
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
-    if (name.length <= 0) {
-        alert("Nhập Tên")
-        return;
-    }
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked');
+    if (id.length <= 0) {alert("Chưa Nhập Mã"); $('#id').css('border-color', "red"); return;
+    } else { $('#id').css('border-color', "green") }
+    if (name.length <= 0) { alert("Chưa Nhập Tên"); $('#name').css('border-color', "red"); return;
+    } else { $('#name').css('border-color', "green") }
     $.ajax({
         url: '/size/Edit',
         type: 'post',
         data: {
-            id, name
+            id, name, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Sửa Kích THước Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Size/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
             }
             else {
-                alert("Sửa Kích Thước Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
 //----------------Delete::Size---------------------
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
-    if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
+    if (confirm("Xóa "+id+" Sẽ Xóa Hết Dữ Liệu Liên Quan Đến "+id+"")) {
         $.ajax({
             url: '/size/Delete',
             type: 'post',
@@ -196,16 +167,8 @@ $(document).on('click', "a[name='delete']", function () {
             },
             success: function (data) {
                 if (data.code == 200) {
-                    Swal.fire({
-                        title: "Xóa Kích Thước Thành Công",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Confirm me!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                    window.location.href = "/Size/Index";
+                    successSwal(data.msg)
+                    Size(pagenum, page, seach);
                 }
                 else {
                     alert(data.msg)

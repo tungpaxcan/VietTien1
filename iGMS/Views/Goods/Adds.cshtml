@@ -15,195 +15,410 @@
     <div class="card-body">
         <div class="form-group mb-8">
             <div class="alert alert-custom alert-default" role="alert">
+                <div class="alert-text">Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống (1 Hàng Hóa Mới Chỉ Cần Khai Báo 1 Lần Để Lưu Vào Hệ Thống)</div>
                 <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
                 <div class="alert-text">
-                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                    Lướt Vào Để Xem Mô Tả
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-2 col-form-label">Barcode <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group-prepend">
-                    <input required class="form-control" type="text" id="id" />
+            <div class="col-9">
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">Barcode <span style="color:red"> (*) </span></label>
+                    <label type="button" class="col-1" data-toggle="tooltip" title="Barcode của mặt hàng cần bán (8-12-13 kí tự)">
+                        <i class="flaticon-warning text-primary"></i>
+                    </label>
+                    <div class="col-10">
+                        <div class="input-group-prepend">
+                            <input required class="form-control" type="text" id="id" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">Mã Hàng Hóa <span style="color:red"> (*) </span></label>
+                    <label type="button" class="col-1" data-toggle="tooltip" title="Mã Hàng Hóa (Tự Động Khi Nhập Barcode Theo Chuẩn GTIN) - Có Thể Chỉnh Sửa Lại">
+                        <i class="flaticon-warning text-primary"></i>
+                    </label>
+                    <div class="col-10">
+                        <div class="input-group-prepend">
+                            <input class="form-control" type="text" id="idgood" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-password-input" class="col-2 col-form-label">Tên Hàng Hóa <span style="color:red"> (*) </span></label>
+                    <div class="col-10">
+                        <div class="input-group ">
+                            <input class="form-control" type="text" placeholder="Tên Hàng Hóa" id="name" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label col-2">Đơn Vị Chính</label>
+                    <div class="col-4">
+                        <select class="form-control select2" id="kt_select2_2"  name="unit" >
+                        </select>
+                    </div>
+                    <label class="col-form-label col-2">Tính Chất</label>
+                    <div class="col-4">
+                        <select class="form-control" name="param" id="nature">
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-password-input" class="col-2 col-form-label">Thuộc Loại Hàng></label>
+                    <div class="col-4">
+                        <div class="input-group ">
+                            <select class="form-control" id="categoods">
+                            </select>
+                        </div>
+                    </div>
+                    <label for="example-password-input" class="col-2 col-form-label">Thuộc Nhóm Hàng</label>
+                    <div class="col-4">
+                        <div class="input-group ">
+                            <select class="form-control" id="groupgoods">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="example-password-input" class="col-2 col-form-label">Mô Tả Hàng Hóa <span style="color:red"> (*) </span></label>
+                    <div class="col-10">
+                        <div class="input-group ">
+                            <textarea class="form-control" type="text" placeholder="Mô Tả Hàng Hóa" id="des"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Mã Barcode <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <svg id="barcode">
+            <div class="col-3">
+                <div class="form-group row">
+                    <label class="col-2 col-form-label">Hình Ảnh Sản Phẩm</label>
+                    <div class="image-input image-input-outline" style="left:1%" id="kt_image_1">
+                        <div class="image-input-wrapper" style="background-image: url(assets/media/users/blank.png)"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="Change avatar">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg" />
+                            <input type="hidden" name="profile_avatar_remove" />
+                        </label>
+                        <input type="text" hidden name="name_route_image" />
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    </div>
+                </div>
+                <duv class="form-group row">
+                    <label for="example-password-input" class="col-2 col-form-label">@*Mã Barcode <span style="color:red"> (*) </span>*@</label>
+                    <div class="col-10">
+                        <div class="input-group ">
+                            <svg id="barcode">
 
-                    </svg>
+                            </svg>
+                        </div>
+                    </div>
+                </duv>
+            </div>
+        </div>
+        <div class="card card-custom">
+            <div class="card-header card-header-tabs-line">
+                <div class="card-title">
+                    <ul class="nav nav-tabs nav-bold nav-tabs-line">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#kt_tab_pane_1_2">Ngầm Định</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_2_2">Đơn Vị Tính Khác</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#kt_tab_pane_3_2">Bổ Sung</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="kt_tab_pane_1_2" role="tabpanel">
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Giá Mua <span style="color:red"> (*) </span></label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Giá Mua Thực Của Hàng Hóa">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <div class="input-group ">
+                                            <input class="form-control " onkeyup="keyUpMoney('purchasePrice')" type="number" value="0" id="purchasePrice" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Giá Bán <span style="color:red"> (*) </span></label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Giá Bán Thực Của Hàng Hóa ">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <div class="input-group ">
+                                            <input class="form-control"onkeyup="keyUpMoney('price')" type="number" value="0" id="price" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Thuế GTGT<span style="color:red"> (*) </span></label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Đơn Vị %">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <div class="input-group">
+                                            <select id="gtgt" class="form-control">
+                                                <option value="gtgt0">0%</option>
+                                                <option value="gtgt5">5%</option>
+                                                <option value="gtgt10">10%</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Thuế TTDB<span style="color:red"> (*) </span></label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Đơn Vị %">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <div class="input-group ">
+                                            <input class="form-control" type="number" value="0" id="ttdb" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Thuế NK<span style="color:red"> (*) </span></label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Đơn Vị %">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <div class="input-group ">
+                                            <input class="form-control " type="number" value="0" id="nk" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-4 col-form-label">Mã TKVT<span style="color:red"> (*) </span></label>
+                                    <div class="col-8">
+                                        <div class="input-group ">
+                                            <select class="form-control" id="materialAccount">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Quản Lý Tồn Kho</label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Cho phép hàng đưuọc quản lí tồn kho">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <label class="checkbox checkbox-success">
+                                            <input type="checkbox" name="Checkboxes5" id="status" checked="checked">
+                                            <span></span>Trạng Thái
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Không Chịu Thuế VAT</label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Đơn Vị">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <label class="checkbox checkbox-success">
+                                            <input type="checkbox" name="Checkboxes5" id="status" checked="">
+                                            <span></span>Trạng Thái
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="kt_tab_pane_2_2" role="tabpanel">
+                        <div class="form-group mb-8">
+                            <div class="alert alert-custom alert-default" role="alert">
+                                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                                <div class="alert-text">
+                                    Trường Hợp Hàng Hóa Có Sử Dụng Nhiều Đơn Vị Tính Khác Nhau Khi Nhập/Xuất Thì Khai Báo Thêm
+                                    Các Đơn Vị Tính Ở Đây <br> Ví Dụ : 1 Thùng Bia = 24 Lon, 1 Cây Thuốc = 10 Gói
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>ĐVT Quy Đổi</th>
+                                    <th>Giá Bán Cố Định</th>
+                                    <th>
+                                        Hành Động
+                                        <img onclick="addOrderUnit()" src="~/Images/icons-add.png" />
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderUnit">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="kt_tab_pane_3_2" role="tabpanel">
+                        <div class="form-group row">
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Nhà Cung Cấp <span style="color:red"> (*) </span></label>
+                                    <div class="col-10">
+                                        <div class="input-group">
+                                            <input class="form-control" type="text" id="supplier">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Nhãn Hàng</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Model</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">SoSerial</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Qui Cách</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Xuất Xứ</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Nắm SX</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="datetime" id="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Trọng Lượng</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-password-input" class="col-2 col-form-label">Theo Dõi bào Hành</label>
+                                    <label type="button" class="col-2" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Đơn Vị">
+                                        <i class="flaticon-warning text-primary"></i>
+                                    </label>
+                                    <div class="col-8">
+                                        <label class="checkbox checkbox-success">
+                                            <input type="checkbox" name="Checkboxes5" id="status" checked="checked">
+                                            <span></span>Trạng Thái
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Thời Gian Bảo Hành</label>
+                                    <div class="col-10">
+                                        <select class="form-control">
+                                            <option value="1">1 Ngày</option>
+                                            <option value="7">1 Tuần</option>
+                                            <option value="30">1 Tháng</option>
+                                            <option value="60">2 Tháng</option>
+                                            <option value="90">3 Tháng</option>
+                                            <option value="120">4 Tháng</option>
+                                            <option value="150">5 Tháng</option>
+                                            <option value="180">6 Tháng</option>
+                                            <option value="210">7 Tháng</option>
+                                            <option value="240">8 Tháng</option>
+                                            <option value="270">9 Tháng</option>
+                                            <option value="300">10 Tháng</option>
+                                            <option value="330">11 Tháng</option>
+                                            <option value="360">12 Tháng</option>
+                                            <option value="720">2 Năm</option>
+                                            <option value="1080">3 năm</option>
+                                            <option value="1440">4 năm</option>
+                                            <option value="1800">5 năm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Điều Khoản Bảo Hành</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="text" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Tồn Tối Thiểu</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" id="">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-2 col-form-label">Tồn Tối Đa</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" id="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-2 col-form-label">Mã Hàng Hóa <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group-prepend">
-                    <input disabled class="form-control" type="text" id="idgood" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">SKU <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group-prepend">
-                    <input disabled class="form-control" type="text" id="sku" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Phong Cách<span style="color:red"> (*) </span></label>
-            <div class="col-2">
-                <select class="form-control" id="style">
-                </select>
-            </div>
-            <label class="col-2 col-form-label">Màu Sắc</label>
-            <div class="col-2">
-                <select class="form-control" id="color">
-                </select>
-            </div>
-            <label class="col-2 col-form-label">Kích Thước</label>
-            <div class="col-2">
-                <select class="form-control" id="size">
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Kho Hàng <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <select class="form-control" id="warehouse">
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Nhà Cung Cấp <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group">
-                    <input name="tags-outside" class="tagify--outside form-control" id="supplier">
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Số Lượng Tồn <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <input class="form-control" id="qty" type="number" />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Mã EPC <span id="slepc"> </span><span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group">
-                    <textarea  name="tags-outside" class="tagify--outside form-control" id="epc"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Hàng Hóa <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Tên Hàng Hóa" id="name" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Giới Tính</label>
-            <div class="col-10">
-                <select class="form-control" id="gender">
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Thuộc Loại Hàng <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <select class="form-control" id="categoods">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Thuộc Nhóm Hàng <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <select class="form-control" id="groupgoods">
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Giá Bán <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control " type="text" value="0" id="price" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Mùa vụ</label>
-            <div class="col-10">
-                <select class="form-control" id="season">
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label class="col-2 col-form-label">Nhà Sản Xuất</label>
-            <div class="col-10">
-                <select class="form-control" id="coo">
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Thành Phần <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Thành Phần" id="material" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Tên Công Ty <span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control" type="text" placeholder="Tên Công Ty " id="company" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="example-password-input" class="col-2 col-form-label">Giá Mới<span style="color:red"> (*) </span></label>
-            <div class="col-10">
-                <div class="input-group ">
-                    <input class="form-control " type="text" value="0" id="pricenew" />
-                </div>
+            <label for="example-password-input" class="col-2 col-form-label">Hoạt Động</label>
+            <label type="button" class="col-2" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Đơn Vị">
+                <i class="flaticon-warning text-primary"></i>
+            </label>
+            <div class="col-8">
+                <label class="checkbox checkbox-success">
+                    <input type="checkbox" name="Checkboxes5" id="status" checked="checked">
+                    <span></span>Trạng Thái
+                </label>
             </div>
         </div>
     </div>
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-2">
-                </div>
-                <div class="col-10">
-                    <button type="submit" class="btn btn-success mr-2" onclick="Add()">Submit</button>
-                    <a href="/Goods/Index" type="reset" class="btn btn-secondary">Cancel</a>
-                </div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-10">
+                <button type="submit" class="btn btn-success mr-2" onclick="Add()">Submit</button>
+                <a href="/Goods/Index" type="reset" class="btn btn-secondary">Cancel</a>
             </div>
         </div>
     </div>
+</div>
 @section scripts{
     <script>
-        WareHouse()
+      
+        Unit()
+        Nature()    
         CateGooods();
         GroupGoods()
+        MaterialAccount()
+
+        Gender()
+        Season();
+        Coo();
+        WareHouse()
         Style();
         Color();
         Size();
-        Gender()
-        Season();
-        Coo()
-      
         //--------------------Select::CateGoods--------------
         function CateGooods() {
             $.ajax({
@@ -269,6 +484,45 @@
             }
         })
         //--------------------Select::Unit--------------
+        function Unit() {
+            $.ajax({
+                url: '/Unit/allUnit',
+                type: 'get',
+                success: function (data) {
+                    $('select[name="unit"]').empty();
+                    if (data.code == 200) {
+                        $.each(data.groupUnit, function (k, v) {
+                            let table = '<optgroup id="groupUnit' + v.id + '" label="' + v.name + '">'
+                                table += '</optgroup>'
+                            $('select[name="unit"]').append(table);
+                            option("groupUnit" + v.id + "")
+                         });   
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        function option(id) {
+            var idGroupUnit = id.substring(9)
+            $.ajax({
+                url: '/Unit/unitToGroup',
+                type: 'get',
+                data: { idGroupUnit},
+                success: function (data) {
+                    $('#groupUnit' + idGroupUnit + '').empty();
+                    if (data.code == 200) {
+                        $.each(data.a, function (k, v) {
+                            let table = '<option value="' + v.id + '">' + v.id + ' : ' + v.name + '</option > '
+                                $('#groupUnit' + idGroupUnit + '').append(table);
+                            });                        
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        //--------------------Select::Style--------------
         function Style() {
             $.ajax({
                 url: '/goods/Style',
@@ -401,6 +655,48 @@
                 }
             })
         }
+        //--------------------Select::nature--------------
+        function Nature() {
+            $.ajax({
+                url: '/Nature/Nature',
+                type: 'get',
+                success: function (data) {
+                    $('#nature').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Tính Chất</option>'
+                        $.each(data.a, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#nature').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+
+        //--------------------Select::materialAccount--------------
+        function MaterialAccount() {
+            $.ajax({
+                url: '/MaterialAccount/materialAccount',
+                type: 'get',
+                success: function (data) {
+                    $('#materialAccount').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="156">Hàng hóa</option>'
+                        $.each(data.a, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#materialAccount').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+        $('[data-toggle="tooltip"]').tooltip()
+        var avatar1 = new KTImageInput('kt_image_1');
     </script>
+    <script src="~/assets/js/pages/crud/forms/widgets/select2.js"></script>
     <script src="~/Scripts/Goods.js"></script>
 }

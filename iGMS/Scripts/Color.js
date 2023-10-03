@@ -8,8 +8,6 @@ $('#page').on('click', 'li', function (e) {
     e.preventDefault();
     page = $(this).attr('id');
     Color(pagenum, page, seach);
-
-
 });
 
 
@@ -26,6 +24,7 @@ function Color(pagenum, page, seach) {
                     let table = '<tr id="' + v.id + '" role="row" class="odd">';
                     table += '<td>' + v.id + '</td>'
                     table += '<td>' + v.name + '</td>'
+                    table += '<td style="background-color:'+v.color+'"></td>'
                     table += '<td class="action" nowrap="nowrap">';
                     table += '<div class="dropdown dropdown-inline">';
                     table += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon" data-toggle="dropdown">';
@@ -66,18 +65,13 @@ function Color(pagenum, page, seach) {
                     let li = '<li id="' + i + '" class="paginate_button page-item ">';
                     li += '<a aria-controls="kt_datatable" data-dt-idx="1" tabindex="0" class="page-link">' + i + '</a></li>';
                     $('#page').append(li);
-
-
                 }
-
-
                 let next = '<li  id="' + (parseInt(page) + 1) + '" class="paginate_button page-item next" id="kt_datatable_next">';
                 next += '<a href="#" aria-controls="kt_datatable" data-dt-idx="6" tabindex="0" class="page-link"><i class="ki ki-arrow-next"></i></a></li>';
                 $('#page').append(next);
 
                 let pagemax = '<li id="' + data.pages + '"><a class="a_1 a_2" >...' + data.pages + '</a></li>';
                 $('#page').append(pagemax);
-
             } else (
                 alert(data.msg)
             )
@@ -101,107 +95,68 @@ $('#seach').on('keyup', function (e) {
     Color(pagenum, page, seach);
 });
 
-//----------------Add::Unit---------------------
+//----------------Add::color---------------------
 function Add() {
     var id = $('#id').val().trim();
-    var tags = JSON.parse($('#name').val());
-    var TagArray = [];
-    //Convert to array
-    for (let i = 0; i < tags.length; i++) {
-        TagArray.push(tags[i].value)
-    }
-    //Join array elements by comma
-    var name = TagArray.join(",");
-    $('.Loading').css("display", "block");
-    if (name.length <= 0) {
-        alert("Nhập Tên")
-        return;
-    } if (id.length <= 0) {
-        alert("Nhập Mã")
-        return;
-    }
+    var name = $('#name').val().trim();
+    let color = $('#color').val();
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked')
+    if (name.length <= 0) {alert("Chưa Nhập Tên"); $('#name').css('border-color', "red");return;
+    }else {$('#name').css('border-color', "green")}
+    if (id.length <= 0) {alert("Chưa Nhập Mã"); $('#id').css('border-color', "red"); return;
+    } else { $('#id').css('border-color', "green") }
     $.ajax({
         url: '/color/Add',
         type: 'post',
         data: {
-            name,id
+            name, id, color, des,status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Tạo Màu Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Color/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
             }
             else {
-                alert("Tạo Màu Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
-//----------------Edit::Unit---------------------
+//----------------Edit::color---------------------
 function Edit() {
-    var tags = JSON.parse($('#name').val());
-    var TagArray = [];
-    //Convert to array
-    for (let i = 0; i < tags.length; i++) {
-        TagArray.push(tags[i].value)
-    }
-    //Join array elements by comma
-    var name = TagArray.join(",");
+    var name = $('#name').val().trim()
     var id = $('#id').val().trim();
-    $('.Loading').css("display", "block");
-    if (name.length <= 0) {
-        alert("Nhập Tên")
-        return;
-    }
+    let color = $('#color').val();
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked')
+    if (name.length <= 0) {alert("Chưa Nhập Tên"); $('#name').css('border-color', "red"); return;
+    }else { $('#name').css('border-color', "green") }
+    if (id.length <= 0) {alert("Chưa Nhập Mã"); $('#id').css('border-color', "red"); return;
+    }else { $('#id').css('border-color', "green") }
     $.ajax({
         url: '/color/Edit',
         type: 'post',
         data: {
-            id, name
+            id, name, color, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Sửa Màu Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Color/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
             }
             else {
-                alert("Sửa Màu Thất Bại")
+                alert(data.msg)
             }
         },
-        complete: function () {
-            $('.Loading').css("display", "none");//Request is complete so hide spinner
-        }
     })
 }
 
-//----------------Delete::Unit---------------------
+//----------------Delete::color---------------------
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
-    if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
+    if (confirm("Xóa " + id + " Này Sẽ Xóa Hết Dữ Liệu Liên Quan Đến " + id + "")) {
         $.ajax({
             url: '/color/Delete',
             type: 'post',
@@ -210,16 +165,8 @@ $(document).on('click', "a[name='delete']", function () {
             },
             success: function (data) {
                 if (data.code == 200) {
-                    Swal.fire({
-                        title: "Xóa Màu Thành Công",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Confirm me!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                    window.location.href = "/Color/Index";
+                    successSwal(data.msg)
+                    Color(pagenum, page, seach);
                 }
                 else {
                     alert(data.msg)

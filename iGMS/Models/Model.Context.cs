@@ -27,7 +27,6 @@ namespace iGMS.Models
     
         public virtual DbSet<Bill> Bills { get; set; }
         public virtual DbSet<CateGood> CateGoods { get; set; }
-        public virtual DbSet<CategoryGood> CategoryGoods { get; set; }
         public virtual DbSet<Color> Colors { get; set; }
         public virtual DbSet<Coo> Coos { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
@@ -47,11 +46,15 @@ namespace iGMS.Models
         public virtual DbSet<GeneralAccounting> GeneralAccountings { get; set; }
         public virtual DbSet<Good> Goods { get; set; }
         public virtual DbSet<GroupGood> GroupGoods { get; set; }
+        public virtual DbSet<GroupUnit> GroupUnits { get; set; }
         public virtual DbSet<Industry> Industries { get; set; }
         public virtual DbSet<InternalAccounting> InternalAccountings { get; set; }
         public virtual DbSet<License> Licenses { get; set; }
+        public virtual DbSet<MaterialAccount> MaterialAccounts { get; set; }
         public virtual DbSet<Method> Methods { get; set; }
+        public virtual DbSet<Nature> Natures { get; set; }
         public virtual DbSet<NumberShift> NumberShifts { get; set; }
+        public virtual DbSet<OrderUnit> OrderUnits { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Promotion> Promotions { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }

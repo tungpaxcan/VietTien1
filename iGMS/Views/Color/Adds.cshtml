@@ -1,4 +1,4 @@
-﻿
+﻿    
 @{
     ViewBag.Title = "Thêm Màu";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,9 +15,12 @@
     <div class="card-body">
         <div class="form-group mb-8">
             <div class="alert alert-custom alert-default" role="alert">
-                <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
-                <div class="alert-text">
-                    Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống
+                <div class="alert alert-custom alert-default" role="alert">
+                    <div class="alert-text">Vui Lòng Nhập Đúng Tất Cả Dữ Liệu Để Đảm Bảo Hệ Thống (1 Màu Sắc Mới Chỉ Cần Khai Báo 1 Lần Để Lưu Vào Hệ Thống)</div>
+                    <div class="alert-icon"><i class="flaticon-warning text-primary"></i></div>
+                    <div class="alert-text">
+                        Lướt Vào Để Xem Mô Tả
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,6 +40,34 @@
                 </div>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Màu</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <input class="form-control" type="color" id="color" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mô Tả</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <textarea class="form-control" type="text" placeholder="Mô Tả" id="des"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-1 col-form-label">Trạng Thái</label>
+            <label type="button" class="col-1" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Màu Sắc">
+                <i class="flaticon-warning text-primary"></i>
+            </label>
+            <div class="col-10">
+                <label class="checkbox checkbox-success">
+                    <input type="checkbox" name="Checkboxes5" id="status" checked="checked">
+                    <span></span>Trạng Thái
+                </label>
+            </div>
+        </div>
     </div>
     <div class="card-footer">
         <div class="row">
@@ -50,12 +81,6 @@
     </div>
 </div>
 @section scripts{
-    <script src="assets/js/pages/crud/forms/widgets/tagify.js"></script>
-    <script>
-        var input = document.getElementById('name');
-        new Tagify(input)
-          
-    </script>
     <script src="~/Scripts/Color.js"></script>
 }
 

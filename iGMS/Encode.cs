@@ -66,7 +66,16 @@ namespace iGMS
                 return idepc+"EE";
             }
         }
-
+        public static string Money(string str)
+        {
+            string result= str.Substring(0, str.Length - 3) + "K";
+            return result;
+        }
+        public static string DayOfWeek(int num)
+        {
+            string result = num != 8 ? "Thứ " + num : "Chủ Nhật";
+            return result;
+        }
 
     }
 }

@@ -15,14 +15,14 @@
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Đơn Giá</th>
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">% (TLCK)</th>
                                 <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thành Tiền</th>
-                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Loại Hàng</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Khuyễn Mãi</th>
+                                <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" style="width: 190px;" aria-label="Company Email: activate to sort column ascending">Thông Tin</th>
                             </tr>
                         </thead>
                         <tbody id="tbd">
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
         <div style="width: 100%; position: fixed; bottom: 0; ">
@@ -35,13 +35,17 @@
             <div class="row">
                 <div class="col-sm-6" style="border: double; background: #f3f3f3">
                     <div class="form-group row" style="padding:2%">
-                        <div class="col-4">
+                        <div class="col-3">
                             <label>Mã Hàng Hóa</label>
                             <input class="form-control" type="text" placeholder="Mã HH" name="idgoods" />
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <label>Số Lượng</label>
                             <input class="form-control" type="number" placeholder="Số Lượng" name="amountgoods" />
+                        </div>
+                        <div class="col-2">
+                            <label>giá Bán</label>
+                            <input class="form-control" type="number" placeholder="Giá" name="pricegoods" />
                         </div>
                         <div class="col-3">
                             <label>(%)CKHH</label>
@@ -152,6 +156,12 @@
                     <h1 class="col-7">Trả Lại</h1>
                     <div class="col-5">
                         <h1 name="TraLai"></h1>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <h1 class="col-7">Ngày Mua</h1>
+                    <div class="col-5">
+                        <input name="date" type="date" />
                     </div>
                 </div>
             </div>

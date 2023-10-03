@@ -21,11 +21,38 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-2 col-form-label">Nhóm Đơn Vị Đo Lường<span style="color:red"> (*) </span></label>
+            <div class="col-10">
+                <select class="form-control" id="groupUnit">
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="example-password-input" class="col-2 col-form-label">Tên Đơn Vị <span style="color:red"> (*) </span></label>
             <div class="col-10">
                 <div class="input-group ">
                     <input class="form-control" type="text" placeholder="Tên Đơn Vị" id="name" value="@Model.Name" />
                 </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-2 col-form-label">Mô Tả</label>
+            <div class="col-10">
+                <div class="input-group ">
+                    <textarea class="form-control" type="text" placeholder="Mô Tả" id="des" >@Model.Description</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="example-password-input" class="col-1 col-form-label">Trạng Thái</label>
+            <label type="button" class="col-1" data-toggle="tooltip" title="Trạng Thái Thể Hiện Tình Trạng Hoạt Động Của Đơn Vị">
+                <i class="flaticon-warning text-primary"></i>
+            </label>
+            <div class="col-10">
+                <label class="checkbox checkbox-success">
+                    <input type="checkbox" name="Checkboxes5" id="status" checked="@Model.Status">
+                    <span></span>Trạng Thái
+                </label>
             </div>
         </div>
     </div>
@@ -41,7 +68,27 @@
     </div>
 </div>
 @section scripts{
-
+    <script>
+        groupUnit();
+        function groupUnit() {
+            $.ajax({
+                url: '/Unit/allUnit',
+                type: 'get',
+                success: function (data) {
+                    $('#groupUnit').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="@Model.GroupUnit.Id">@Model.GroupUnit.Name</option>'
+                        $.each(data.groupUnit, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#groupUnit').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
     <script src="~/Scripts/Unit.js"></script>
 }
 

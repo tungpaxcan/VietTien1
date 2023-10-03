@@ -11,6 +11,9 @@ var KTSelect2 = function() {
         $('#kt_select2_2, #kt_select2_2_validate').select2({
             placeholder: 'Select a state'
         });
+        $('#kt_select22_2, #kt_select2_2_validate').select2({
+            placeholder: 'Select a state'
+        });
 
         // multi select
         $('#kt_select2_3, #kt_select2_3_validate').select2({
@@ -182,6 +185,6 @@ var KTSelect2 = function() {
 }();
 
 // Initialization
-jQuery(document).ready(function() {
+$(document).ready(function() {
     KTSelect2.init();
 });

@@ -44,6 +44,5 @@ namespace iGMS.Models
         public virtual ICollection<DetailPromotion> DetailPromotions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Good> Goods { get; set; }
-        public virtual Good Good { get; set; }
     }
 }

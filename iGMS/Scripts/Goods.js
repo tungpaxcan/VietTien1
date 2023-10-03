@@ -438,7 +438,6 @@ $(document).on('click', "a[name='delete']", function () {
                         },
                         success: function (data) {
                             if (data.code == 200) {
-
                                 Swal.fire({
                                     title: "Xóa Hàng Hóa Thành Công",
                                     icon: "success",
@@ -463,22 +462,27 @@ $(document).on('click', "a[name='delete']", function () {
      
     }
 })
+
+
+function chooseForSKU() {
+    $('#sku').val(valueSKU())
+}
+
+function valueSKU() {
+    let style = $('#style').val() == "-1" ? "" : $('#style').val()
+    let color = $('#color').val() == "-1" ? "" : "-"+$('#color').val()
+    let size = $('#size').val() == "-1" ? "" : "-"+$('#size').val()
+    return style + color + size
+}
+
 //-------------barcode-------------
 $('#id').keyup(function () {
     var id = $('#id').val().trim();
-    if (id.length == 2) {
-        JsBarcode("#barcode", id, {
-            format: "EAN2",
-        });
-    } else if (id.length == 5) {
-        JsBarcode("#barcode", id, {
-            format: "EAN5",
-        });
-    } else if (id.length == 7 || id.length==8) {
+     if (id.length==8) {
         JsBarcode("#barcode", id, {
             format: "EAN8",
         });
-    }else if (id.length == 11) {
+    }else if (id.length == 12) {
         JsBarcode("#barcode", id, {
             format: "UPC",
         });
@@ -486,41 +490,10 @@ $('#id').keyup(function () {
         JsBarcode("#barcode", id, {
             format: "EAN13",
         });
-    } else {
-        JsBarcode("#barcode", id, {
-            format: "CODE128",
-        });
     }
-    
-
+    $('#idgood').val(id)
 })
 
-
-//---------------idgood----------------
-$('#style').change(function () {
-    IdGood()
-    SKU()
-})
-$('#color').change(function () {
-    IdGood()
-    SKU()
-})
-$('#size').change(function () {
-    IdGood()
-    SKU()
-})
-
-function IdGood() {
-    var style = $("#style option:selected").val();
-    var color = $("#color option:selected").val();
-    var size = $("#size option:selected").val();
-    $('#idgood').val(style + "-" + color + "-" + size)
-}
-function SKU() {
-    var style = $("#style option:selected").val();
-    var color = $("#color option:selected").val();
-    $('#sku').val(style + "-" + color)
-}
 
 $('#qty').keyup(function () {
     $('#slepc').empty();
@@ -528,3 +501,45 @@ $('#qty').keyup(function () {
     $('#slepc').append("Cho " + qty + " Sản Phẩm")
     new Tagify(input1, { maxTags: Number(qty) })
 })
+//----------------------chon file-------------------------
+$('input[name="profile_avatar"]').change(function () {
+    if (window.FormData !== undefined) {
+        let fileUpload = $('input[name="profile_avatar"]').get(0);
+        let files = fileUpload.files;
+        let formdata = new FormData();
+        formdata.append('file', files[0]);
+        $.ajax({
+            type: 'post',
+            url: '/Goods/UploadImage',
+            contentType: false,
+            processData: false,
+            data: formdata,
+            success: function (urlImage) {
+                $('input[name="name_route_image"]').val(urlImage);
+            }
+        })
+    }
+
+});
+
+function addOrderUnit() {
+    let orderUnit = $('#orderUnit')[0].rows.length
+    let tr = `<tr>  
+                <td>${orderUnit+1}</td>
+                <td> <select class="form-control select2"  name="unit" id="kt_select22_2">
+                        </select></td>
+                <td><input class="form-control" type="text"/></td>
+                <td></td>
+            </tr>`
+    Unit()
+    $(document).ready(function () {
+        KTSelect2.init();
+    });
+    $('#orderUnit').append(tr)
+     
+}
+
+function keyUpMoney(id) {
+    var price = $(id).val();
+    $(id).val(Money(price))
+}

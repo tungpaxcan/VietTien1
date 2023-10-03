@@ -13,17 +13,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700">
     <!--end::Fonts-->
     <!--begin::Global Theme Styles(used by all pages)-->
-    <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css">
-    <link href="assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/plugins/custom/prismjs/prismjs.bundle.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/style.bundle.css" rel="stylesheet" type="text/css">
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
-    <link href="assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/themes/layout/header/base/light.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/themes/layout/header/menu/light.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/themes/layout/brand/dark.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/themes/layout/aside/dark.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet"
           href="https://site-assets.fontawesome.com/releases/v6.1.1/css/all.css" />
     <link href="~/Content/loading.css" rel="stylesheet" />
@@ -38,6 +38,8 @@
     </script>
 </head>
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable" data-scrolltop="on">
+
+    <div id="wait"style="display: none; position: fixed; z-index: 9999; height: 100%; width: 100%; background-image: url('/Images/demo_wait.gif'); background-repeat: no-repeat; background-position: center;"></div>
 
     <!--begin::Main-->
     <!--begin::Header Mobile-->
@@ -140,52 +142,52 @@
                                             <span class="menu-text ">Quản Lý Kho Hàng </span><span class="number-notification" id="number-sum"></span>
                                             <i class="menu-arrow"></i>
                                         </a>
-                                    <div class="menu-submenu menu-submenu-classic menu-submenu-left">
-                                        <ul class="menu-subnav">
-                                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-                                                <a name="WarehouseManagement" class="menu-link">
-                                                    <span class="svg-icon menu-icon">
-                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                    </span>
-                                                    <span class="menu-text">Danh Sách Cần Nhập <span class="number-notification" id="number-import"></span></span>
-                                                    <i class="menu-arrow"></i>
-                                                </a>
-                                                <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
-                                                    <ul class="menu-subnav" id="list-import">
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
-                                                <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
-                                                    <span class="svg-icon menu-icon">
-                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                    </span>
-                                                    <span class="menu-text">Danh Sách Cần Xuất <span class="number-notification" id="number-export"></span></span>
-                                                    <i class="menu-arrow"></i>
-                                                </a>
-                                                <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
-                                                    <ul class="menu-subnav" id="list-export">
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu-item" aria-haspopup="true">
-                                                <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
-                                                    <span class="svg-icon menu-icon">
-                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                    </span>
-                                                    <span class="menu-text">Lập Phiếu Nhập Kho</span>
-                                                </a>
-                                            </li>
-                                            <li class="menu-item" aria-haspopup="true">
-                                                <a name="WarehouseManagement" href="/DetailWareHouse/Index2" class="menu-link">
-                                                    <span class="svg-icon menu-icon">
-                                                        <img src="~/Images/icons8-purchase-order-19.5.png" />
-                                                    </span>
-                                                    <span class="menu-text">Lập Phiếu Xuất Kho</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <div class="menu-submenu menu-submenu-classic menu-submenu-left">
+                                            <ul class="menu-subnav">
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                                                    <a name="WarehouseManagement" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Danh Sách Cần Nhập <span class="number-notification" id="number-import"></span></span>
+                                                        <i class="menu-arrow"></i>
+                                                    </a>
+                                                    <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
+                                                        <ul class="menu-subnav" id="list-import">
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="menu-item menu-item-submenu" data-menu-toggle="hover" aria-haspopup="true">
+                                                    <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Danh Sách Cần Xuất <span class="number-notification" id="number-export"></span></span>
+                                                        <i class="menu-arrow"></i>
+                                                    </a>
+                                                    <div class="menu-submenu menu-submenu-classic menu-submenu-right" data-hor-direction="menu-submenu-right">
+                                                        <ul class="menu-subnav" id="list-export">
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="WarehouseManagement" href="/Receipt/Index" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Lập Phiếu Nhập Kho</span>
+                                                    </a>
+                                                </li>
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a name="WarehouseManagement" href="/DetailWareHouse/Index2" class="menu-link">
+                                                        <span class="svg-icon menu-icon">
+                                                            <img src="~/Images/icons8-purchase-order-19.5.png" />
+                                                        </span>
+                                                        <span class="menu-text">Lập Phiếu Xuất Kho</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </li>
                                     <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
                                         <a class="menu-link menu-toggle">
@@ -489,7 +491,7 @@
                                             </span>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <span class="tooltiptext1">Về Sản Phẩm</span>
+                                        <span class="tooltiptext1">Danh Mục</span>
                                     </div>
                                 </div>
                                 <!--end::Toggle-->
@@ -509,7 +511,7 @@
                                                     <a class="nav-link active show" data-toggle="tab" href="#cate">Danh Mục Chính</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" data-toggle="tab" href="#unit">Phụ Lục</a>
+                                                    <a class="nav-link" data-toggle="tab" href="#appendix">Phụ Lục</a>
                                                 </li>
                                             </ul>
                                             <!--end::Tabs-->
@@ -615,7 +617,7 @@
                                             </div>
                                             <!--end::Tabpane-->
                                             <!--begin::Tabpane-->
-                                            <div class="tab-pane" id="unit" role="tabpanel">
+                                            <div class="tab-pane" id="appendix" role="tabpanel">
                                                 <!--begin::Nav-->
                                                 <div class="navi navi-hover scroll my-4 ps" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
                                                     <!--begin::Item-->
@@ -685,6 +687,25 @@
                                                             </div>
                                                             <div class="navi-text">
                                                                 <div class="font-weight-bold">Giới Tính</div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a name="ManageMainCategories" href="/Nature/Index" class="navi-item">
+                                                        <div class="navi-link">
+                                                            <div class="navi-icon mr-2">
+                                                                <img src="data:image/png;base64,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">
+                                                            </div>
+                                                            <div class="navi-text">
+                                                                <div class="font-weight-bold">Tính Chất</div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a name="ManageMainCategories" href="/MaterialAccount/Index" class="navi-item">
+                                                        <div class="navi-link">
+                                                            <div class="navi-icon mr-2">
+                                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAADq0lEQVR4nO2YW0wTWRjH+2aL++RGSgfdkLgan3xQFjQx1gXXC14TXd0Qsw8aNWqMEqNhg8BacVWsxgtZQ1BRIJVCjBuMgIJiRNBEjQYvUUAu5dYWantmplM6bfmbTqWinUjWtmNN+iW/l0nOOb+cnO+fLyOTRStCClfilnnKVH0op7qgo1bJIq3cZSqzqyj+EPTUencJNfitfWTQxSpRrnoNveqdgI4agS5+D3TUTlcxNTL63a6NczInlL+GTeT4AsUvx9WKPK1acXQsz7J/rIOegp9yCp4yCu5iCp5Slf/7cAEFY85k0+frvXsemz8xNSi5ArXsB61aQWvVMficjvzJH+W+AF+kglWjDFjvRZOscObOlU36asET6gk/j26m37sSV7P+ELiWtR7OQgr8ODgLVeDOqECyY/Ff1u/+9TeO7fQJJilweN6E1KAFz6TFwc5x4HkeTp4Ha2fA5CeA5CjHxXYgFnTeFBBiBaFpAZN5EOfWTg+d4NkVFBzDw2BZ1n9IMJjMgyjcMDMqiIi+QSuxotXQAuNQv6gEbTHA3lErwHbfBaGJdIJWYkNBTSb2l65GZslaNLZUBwg6m/f4oqbiJ3iqksD2NEkn2NrzXJDbX7oaGUVpOHh5c4Agf38HuFcXwb2+Av7eFrBdt6UTNFkG8FfJOmQULcdWbQrOVx8WEdwOV/068I3bhJuUVNBLU0stDpVswYXaI7DStgBBe8cNOJszfDzYB9rSG40ZRIM6lG/wfAOL7Zc4bL3IoK3vY8aNwr0qhrvmNx+3VoI2t0n3Bl90M0g76cASrQOLtRw2FQ6KdrG7ZhFc9WuEJpG0i+taGEFuidYBdZ4Fy/ON4jnYWgl7Zz1Grs6QVtBG09hw1oL5GiOSc3pQ+zQwZpwPM4GKqUBlAqCPB9v7KLyCnMMBZswbNA4RtPUQdJsY8aGA2ITsE7AOhH9Y8MrRDBO50wwdIjkSLsH/K8GYW8G9qRCwt1cFjPzhFyQEfem7Yb52S1SQb9rlG7cqE+CpXgjWcE9awXfX69A/bw26Fm0UF/TGzBu9cHuuho3hj5mxh1sHTOhNSYdh1lJ0TFuI/n/+FQ/qm8vgakj/MG7dkU5wqPkx3qb+6acv51SAoFdo+FGujyd5n0RNRDQJifQuJt+1oMkcWsHTS5UwdLaj19AdEgyd7cKeB5PkQQqmKOLF/kqFgvwFMcieLYcmOWaOLJjSJCkacxPlI7mJcoSMOXJB7u9E+cug5KIlG7/eA6dDLDl9EvORAAAAAElFTkSuQmCC">                                                            </div>
+                                                            <div class="navi-text">
+                                                                <div class="font-weight-bold">TKVT</div>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -1165,8 +1186,6 @@
     </div>
     <!--end::Scrolltop-->
     <!--begin::Sticky Toolbar-->
-
-
     <!--end::Demo Panel-->
     <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
     <!--begin::Global Config(global config for global JS scripts)-->
@@ -1176,11 +1195,22 @@
     <!--end::Global Theme Bundle-->
     <!--end::Body-->
     <svg id="SvgjsSvg1001" width="2" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" style="overflow: hidden; top: -100%; left: -100%; position: absolute; opacity: 0;"><defs id="SvgjsDefs1002"></defs><polyline id="SvgjsPolyline1003" points="0,0"></polyline><path id="SvgjsPath1004" d="M0 0 "></path></svg>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
     <script src="~/assets/plugins/global/plugins.bundle.js"></script>
     <script src="~/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
     <script src="~/assets/js/scripts.bundle.js"></script>
     <script src="~/Scripts/JsBarcode.all.min.js"></script>
-    <script>       
+    <script>
+        $(document).on({
+            ajaxStart: function () {
+                $("#wait").show();
+            },
+            ajaxStop: function () {
+                $("#wait").hide();
+            }
+        });
         PurchaseOrder()
         function PurchaseOrder() {
             $.ajax({
@@ -1201,10 +1231,9 @@
             })
         }
 
-       
+
     </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
     <script src="~/Scripts/Validate.js"></script>

@@ -62,12 +62,14 @@ namespace iGMS.Controllers
                          select new
                          {
                              id = b.Id,
-                             idgood = b.IdGood.Replace(".",""),
+                             idgood = b.IdGood.Replace(".", ""),
                              name = b.Name,
                              size = b.Size.Name,
                              price = b.Price,
                              discount = b.Discount,
-                             categoods = b.CateGood.Name
+                             categoods = b.CateGood.Name,
+                             promotion = b.Promotion.Name == null ? "Không Có" : b.Promotion.Name,
+                             idpromotion = b.IdPromotion ,
                          }).ToList();
                 return Json(new { code = 200, c = c, }, JsonRequestBehavior.AllowGet);
             }

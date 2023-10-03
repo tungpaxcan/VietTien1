@@ -63,14 +63,19 @@ namespace iGMS.Controllers
                              createdate = b.CreateDate.Value.Day + "/" + b.CreateDate.Value.Month + "/" + b.CreateDate.Value.Year,
                              sumprice = b.TotalMoney
                          }).ToList();
-                var h = (from b in db.Bills.Where(x => (x.CreateDate.Value.Day <= E.Day && x.CreateDate.Value.Month <= E.Month && x.CreateDate.Value.Year <= E.Year) &&
-                                                     (x.CreateDate.Value.Day >= S.Day && x.CreateDate.Value.Month >= S.Month  && x.CreateDate.Value.Year >= S.Year))
-                         select new
-                         {
-                             id = b.Id,
-                             createdate = b.CreateDate.Value.Day + "/" + b.CreateDate.Value.Month + "/" + b.CreateDate.Value.Year,
-                             sumprice = b.TotalMoney
-                         }).ToList();
+
+
+                var tongS = (S.Year - year) * 1000 + S.Month * 30 + S.Day;
+                var tongE = (E.Year - year) * 1000 + E.Month * 30 + E.Day;
+                 var h = (from b in db.Bills.Where(x => ((x.CreateDate.Value.Year - year)*1000+x.CreateDate.Value.Month*30+x.CreateDate.Value.Day)<=tongE &&
+                                                            ((x.CreateDate.Value.Year - year)*1000+x.CreateDate.Value.Month*30+x.CreateDate.Value.Day)>=tongS )
+                             select new
+                             {
+                                 id = b.Id,
+                                 createdate = b.CreateDate.Value.Day + "/" + b.CreateDate.Value.Month + "/" + b.CreateDate.Value.Year,
+                                 sumprice = b.TotalMoney
+                             }).ToList();
+               
                 return Json(new { code = 200,a=a,e=e,g=g,h=h}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)

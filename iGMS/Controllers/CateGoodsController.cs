@@ -107,15 +107,19 @@ namespace iGMS.Controllers
         {
             try
             {
-                var d = db.CateGoods.Find(id);
-                db.CateGoods.Remove(d);
-                db.SaveChanges();
+                var countGood = db.Goods.Where(x => x.IdCate == id).Count();
+                for (int i = 0; i < countGood; i++)
+                {
+                    var idGood = db.Goods.OrderBy(x => x.IdCate == id).ToList().LastOrDefault().Id;
+                    Dele.DeleteGood(idGood);
+                }
+                Dele.DeleteCateGoods(id);
                 return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new { code = 500, msg = "Xóa Thất Bại" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 500, msg = "Xóa Thất Bại"+e.Message, }, JsonRequestBehavior.AllowGet);
             }
         }
     }

@@ -170,6 +170,7 @@ function UpLoadft() {
                 $('div[name="Stalls"]').append("Quầy Bán : " + data.namestalls)
                 var d = new Date();
                 $('div[name="Date"]').append("Ngày Bán : " + d.getDate() + "/" + (parseInt(d.getMonth()) + 1) + "/" + d.getFullYear())
+                $('input[name="date"]').val("" + d.getFullYear() + "-" + (parseInt(d.getMonth()) + 1) + "-" + d.getDate() + "")
                 var Dem_gio = setInterval(function () {
                     $('div[name="Time"]').empty()
                     var d = new Date();
@@ -311,7 +312,7 @@ function Goods(id) {
                         var sum = Number(price) * (Number(amounts) + 1);
                         $('#HH' + v.idgood + ' #totalmoney' + v.idgood + '').append(sum + (sum * (Number(discount) / 100)))
                     } else {
-                        let table = '<tr name="detailgoods" id="HH' + v.idgood + '" data-epc="">';
+                        let table = '<tr  name="detailgoods" id="HH' + v.idgood + '" data-epc="">';
                         table += '<td class="id" id="' + v.idgood + '">' + v.idgood+ '</td>'
                         table += '<td>' + v.name + '</td>'
                         table += '<td>' + v.size + '</td>'
@@ -319,12 +320,15 @@ function Goods(id) {
                         table += '<td class="price" id="price' + v.idgood + '">' + (v.price) + '</td>'
                         table += '<td class="discount" id="discount' + v.idgood + '">' + v.discount + '</td>'
                         table += '<td class="totalmoney" id="totalmoney' + v.idgood + '"></td>'
-                        table += '<td>' + v.categoods + '</td></tr>'
+                        table += '<td>' + v.promotion + '</td>'
+                        table += '<td class="tooltip1"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABmJLR0QA/wD/AP+gvaeTAAAEF0lEQVRIie2Wb2iVdRTHP+e5d/d57jaQtJbpoFVqoxXbGNZEyjuZkn9QaurWdeFa1gsLayTMTEEiFJlpvSgKIalRgZFRsNWWuFmssUQYtFkv6kX/iFVgbGw67/P7nV7c7bo/97neQfTK8+rh+X3P7/Oc85xzfj+4Yf+TSTaiwiadL+O8KMJtKrSG4GerNCmEBY798oYMzhXsZCOKXua0Z7nsWj70fI7l+Jz1fHqiPuc8Q1vJkzp/ruDw9QQluzTfSbD0uxMSA7h3py5EWDVwQt4DuO8pfRihEmifC/i6EQ++yWjEMLa8UasBPGXUNYwClDVoUcRQ6Vl+mAsUpvzjWEzD47dzWmAdWWQiCxsMO6z76qT8mlFVtUNLqur1PGhgwVXVa1csrmUTz5cy7bf6cT1atV13Ba2nIosmyFHFbIhzB2hasTVErbJ4Q1yHrcHZENc7gzZWQ44qkeuCXcOYKjcBF4CfAvTLgBYsY0AecCpAVzCx9wtB4GlWt0VjtTX6SdB6bY12bd2aTHVtTXCqax/V5+u26MFMrGlF5PlBSU5axEDIJJ9dk0FnQWwm7Axw2AdxKNq5SZ9OJxbLIvxr4ECdYYUI32cN9nxAyBNIWzQKnp2oedeHIB2wILg30oGTXzvY0il7Zwqbq3WecdiMsnvPGv0TQxQFPFyuMD5VKw6oUr1njXoAKqijdLV8KZ0pzVSH/dUaU+Uk0MlsKwMGEPomX9goubqK/aEv2JcpOoGQVfYR5v5DHfLHrIjdZHH9pcqZWc5CuUDrgW7pBjjYowVcJdcJ8Zyt4DOijB2slOEg+Msx3WYNtwKzwWEfHOH35q/lo5mORx7UuJ0o+VfPaSMJDiEIlpsR+riCe/ys1jStlh6AwzEtwqcIICfMgDXAlE5I94/TmmtAJ46UPJ/dVlmrSiLk0Os63D2ubEPZCfQA5F6l0kIdgPgcxkwfxtPAuQl8K+kPCNfBdVezsfWALsPgAHtF+FYNPoYdYagHhls7prXY5FFZOnaE+f5IADjkcDEnQek7D+g9jX1ycUY2nNwIi3IUX5QIylKEISCsyhIRFitYAlrMF9ypg3tWt71fputFOAoUT66r8oQ4bBbL64/1S3dnm/Y7QtyEGBGfC9+cZ+HK5dSpsHbtemlIB/6gXLtUadreL/2zIgbY3i/tpLlNfFyqmyeHR56hDXiX5MC5ZU0F7ViWipDq/1Mlmg/kA+SPc+mKDxK6tl/WB75nknkEWLlJXur/VM+oEhV4GziuylD5I8loAKLQADwLYCI8M3N+Zw2OJBgRYUVHsY4ADDUzHClECzbi/PYWfwOhjmKtSDkYeoFeABzCjqFQLKk+z+p6C9B1ly4JCa+gLEi9dBAnyjw7yj8ZnQULfP7Qj/Jatrwb9p/Zv19KgV1SbhDTAAAAAElFTkSuQmCC">'
+                        table += '<span class="tooltiptext tooltip-top" id="' + v.idgood + v.idpromotion + '" ></span ></td></tr>'
                         $('#tbd').append(table);
                         ValidateAmount(v.idgood)
                         var amount = document.getElementById('amount' + v.idgood + '').innerText
                         $('#HH' + v.idgood +' #totalmoney' + v.idgood + '').append(Number(v.price) * Number(amount) + (Number(v.price) * Number(v.discount) / 100))
-                        $('input[name="idgoods"]').val('')                      
+                        $('input[name="idgoods"]').val('')
+                        InfoPromotion(v.idgood, v.idpromotion)
                     }
                 })
                 TongGiaTri()
@@ -338,6 +342,34 @@ function Goods(id) {
 }
 
 //Hiển Thị Sản Phẩm Bán Hàng
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//hiển thị thông tin khuyến mãi
+
+function InfoPromotion(idgood, idpromotion) {
+    $.ajax({
+        url: '/Promotions/InfoPromotion',
+        type: 'get',
+        data: {
+            idpromotion
+        },
+        success: function (data) {
+            $('#' + idgood + idpromotion + '').empty()
+            let span=""
+            if (data.code == 200) {           
+                span += '' + data.info + ''
+            } else if (data.code == 300) {
+                $.each(data.goodgift, function (k, v) {
+                     span = 'Mã : ' + v.id + '<br/> Tên : ' + v.name + '<br/> Số Lượng : ' + v.amount + ''              
+                })
+            }
+            $('#' + idgood + idpromotion + '').append(span)
+        }
+    })
+}
+
+//End
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -418,8 +450,10 @@ $(document).on('click', 'tr[name="detailgoods"]', function (e) {
     var id = $(this).children('.id').attr('id')
     var amount = $(this).children('.amount').text()
     var discount = $(this).children('.discount').text();
+    var price = $(this).children('.price').text();
     $('input[name="idgoods"]').val(id)
     $('input[name="amountgoods"]').val(amount)
+    $('input[name="pricegoods"]').val(price)
     $('input[name="discountgoods"]').val(discount)
 })
 
@@ -433,7 +467,55 @@ $('input[name="amountgoods"]').on('keypress', function (e) {
     var id = $('input[name="idgoods"]').val().trim();
     $('#HH' + id + ' #amount' + id + '').empty();
     if (e.which == 13) {
-        $('#HH' + id + ' #amount' + id + '').append($('input[name="amountgoods"]').val().trim())
+        if ($('input[name="amountgoods"]').val().trim() < 0) {
+            $.ajax({
+                url: '/authorization/ReturnGoods',
+                type: 'get',
+                success: function (data) {
+                    if (data.code == 200) {
+                        alert('Bạn Không Có Quyền Nhập Số Lượng Nhỏ Hơn 0 !!! ')
+                    } else if (data.code == 300) {
+                        $('#HH' + id + ' #amount' + id + '').append($('input[name="amountgoods"]').val().trim())
+                        var price = $('#HH' + id + ' #price' + id + '').text();
+                        var discount = $('#HH' + id + ' #discount' + id + '').text();
+                        var amounts = $('#HH' + id + ' #amount' + id + '').text();
+                        ValidateAmount(id)
+                        $('#HH' + id + ' #totalmoney' + id + '').empty()
+                        var sum = Number(price) * (Number(amounts));
+                        $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
+                        TongGiaTri()
+                    }
+                    else {
+
+                    }
+                }
+            })
+        } else {
+            $('#HH' + id + ' #amount' + id + '').append($('input[name="amountgoods"]').val().trim())
+            var price = $('#HH' + id + ' #price' + id + '').text();
+            var discount = $('#HH' + id + ' #discount' + id + '').text();
+            var amounts = $('#HH' + id + ' #amount' + id + '').text();
+            ValidateAmount(id)
+            $('#HH' + id + ' #totalmoney' + id + '').empty()
+            var sum = Number(price) * (Number(amounts));
+            $('#HH' + id + ' #totalmoney' + id + '').append(sum + (sum * (Number(discount) / 100)))
+            TongGiaTri()
+        }
+
+    }
+})
+
+//End Nhập giá bán
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//Nhập giá bán
+
+$('input[name="pricegoods"]').on('keypress', function (e) {
+    var id = $('input[name="idgoods"]').val().trim();
+    $('#HH' + id + ' #price' + id + '').empty();
+    if (e.which == 13) {
+        $('#HH' + id + ' #price' + id + '').append($('input[name="pricegoods"]').val().trim())
         var price = $('#HH' + id + ' #price' + id + '').text();
         var discount = $('#HH' + id + ' #discount' + id + '').text();
         var amounts = $('#HH' + id + ' #amount' + id + '').text();
@@ -444,6 +526,7 @@ $('input[name="amountgoods"]').on('keypress', function (e) {
         TongGiaTri()
     }
 })
+
 
 //End Nhập Số Lượng Sản Phẩm Bán
 
@@ -513,7 +596,8 @@ $('button[name="SaveBill"]').click(function () {
     $('h1[name="sumprice2"]').empty();
     $('h1[name="sumprice2"]').append($('h1[name="sumprice"]').text())
     var idcustomer = $('input[name="idcustomer"]').val();
-    var sumprice = $('h1[name="sumprice2"]').text().substring(1).replace(/,/g, '');
+    var sumprice2 = $('h1[name="sumprice2"]').text();
+    var sumprice = sumprice2.substring(0, 1) == "-" ? sumprice2.substring(0, 1) + sumprice2.substring(2).replace(/,/g, '') : sumprice2.substring(1).replace(/,/g, '');
     $.ajax({
         url: '/home/AddBill',
         type: 'post',
@@ -535,11 +619,11 @@ $('button[name="SaveBill"]').click(function () {
                         url: '/home/AddDetailBill',
                         type: 'post',
                         data: {
-                            idgoods, amounts, price, discount, totalmoney
+                            idgoods, amounts, price, discount, totalmoney,
                         },
                         success: function (data) {
                             if (data.code == 200) {
-                                $('#TinhTien').css("display", "block")
+                                $('#TinhTien').css("display", "block")                             
                                 DeleteEPC()
                             }
                             else if (data.code == 100) {
@@ -551,14 +635,14 @@ $('button[name="SaveBill"]').click(function () {
                                 alert(data.msg)
                             }
                             else {
-                                alert(data.msg)
+                              
                             }
                         },
 
                     })                 
                 }             
             } else {
-                alert(data.msg)
+                
             }
         }
     })
@@ -572,8 +656,9 @@ $('button[name="SaveBill"]').click(function () {
 
 $('input[name="TienKhachTra"]').keyup(function () {
     $('h1[name="TraLai"]').empty();
+    var sumprice2 = $('h1[name="sumprice2"]').text();
     var a = $('input[name="TienKhachTra"]').val().trim();
-    var b = $('h1[name="sumprice2"]').text().substring(1).replace(/,/g, '')
+    var b = sumprice2.substring(0, 1) == "-" ? sumprice2.substring(0, 1) + sumprice2.substring(2).replace(/,/g, '') : sumprice2.substring(1).replace(/,/g, '');
     $('h1[name="TraLai"]').append(Money(parseInt(a) - parseInt(b)))
 })
 
@@ -689,7 +774,7 @@ obtenerListaDeImpresoras();
 //In Bill
 
 function IN(th, tkt, ttl) {
-    
+    var date = $('input[name="date"]').val();
     $.ajax({
         url: '/home/BILL',
         type: 'get',
@@ -714,13 +799,13 @@ function IN(th, tkt, ttl) {
                     impresora.setAlign("right");
                     impresora.write("Quầy Bán : "+v.stalls + "\n");
                     impresora.setAlign("left");
-                    impresora.write("Ngày Bán : "+v.date+"\t");
+                    impresora.write("Ngày Bán : " + date+"\t");
                     impresora.setAlign("right");
                     impresora.write("Giờ bán : "+v.time + "\n");
                     impresora.setAlign("left");
                     impresora.write("Thu Ngân : "+v.userTN+"\t");
                     impresora.setAlign("right");
-                    impresora.write("Ca Bán : "+v.refunds + "\n");
+                    impresora.write("Ca Bán : " + v.numShift + "\n");
                     impresora.setAlign("center");
                     impresora.write("Khách Hàng : "+v.customer + "\n");
                     impresora.write("Điểm Tích Lũy : " + v.point + "\n");

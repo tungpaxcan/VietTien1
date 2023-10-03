@@ -132,7 +132,6 @@ namespace iGMS.Controllers
                     e.IdCate = good.IdCate;
                     e.IdGender = good.IdGender;
                     e.IdGroupGood = good.IdGroupGood;
-                    e.SKU = good.SKU;
                     e.IdGender = good.IdGender;
                     e.Company = good.Company;
                     e.Name = good.Name;

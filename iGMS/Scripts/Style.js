@@ -99,41 +99,34 @@ $('#seach').on('keyup', function (e) {
     Style(pagenum, page, seach);
 });
 
-//----------------Add::Unit---------------------
+//----------------Add::style---------------------
 function Add() {
     var name = $('#name').val().trim();
     var id = $('#id').val().trim();
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked');
     if (name.length <= 0) {
-        alert("Nhập Tên")
+        alert("Chưa Nhập Tên")
+        $('#name').css('border-color', "red")
         return;
-    }
+    } else {$('#name').css('border-color', "green")}
     if (id.length <= 0) {
-        alert("Nhập Mã")
+        alert("Chưa Nhập Mã")
+        $('#id').css('border-color', "red")
         return;
-    }
+    } else { $('#id').css('border-color', "green")}
     $.ajax({
         url: '/style/Add',
         type: 'post',
         data: {
-            name, id
+            name, id, des, status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Tạo Phong Cách Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Style/Index";
-            } else if (data.code == 300) {
+            } else {
                 alert(data.msg)
-            }
-            else {
-                alert("Tạo Phong Cách Thất Bại")
             }
         }
     })
@@ -143,37 +136,24 @@ function Add() {
 function Edit() {
     var name = $('#name').val().trim();
     var id = $('#id').val().trim();
+    let des = $('#des').val().trim();
+    let status = $('#status').is(':checked')
     if (name.length <= 0) {
-        alert("Nhập Tên")
+        alert("Chưa Nhập Tên")
+        $('#name').css('border-color', "red")
         return;
-    } if (id.length <= 0) {
-        alert("Nhập Mã")
-        return;
-    }
+    } else { $('#name').css('border-color', "green") }
     $.ajax({
         url: '/style/Edit',
         type: 'post',
         data: {
-            id, name
+            id, name,des,status
         },
         success: function (data) {
             if (data.code == 200) {
-                Swal.fire({
-                    title: "Sửa Phong Cách Thành Công",
-                    icon: "success",
-                    buttonsStyling: false,
-                    confirmButtonText: "Confirm me!",
-                    customClass: {
-                        confirmButton: "btn btn-primary"
-                    }
-                });
+                successSwal(data.msg)
                 window.location.href = "/Style/Index";
-            } else if (data.code == 300) {
-                alert(data.msg)
-            }
-            else {
-                alert("Sửa Phong Cách Thất Bại")
-            }
+            } else { alert(data.msg) }
         }
     })
 }
@@ -182,29 +162,19 @@ function Edit() {
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
     if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
-        $.ajax({
-            url: '/style/Delete',
-            type: 'post',
-            data: {
-                id
-            },
-            success: function (data) {
-                if (data.code == 200) {
-                    Swal.fire({
-                        title: "Xóa Phong Cách Thành Công",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Confirm me!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                    window.location.href = "/Style/Index";
+        if (confirm("Xóa "+id+" Sẽ Xóa Hết Những Dữ Liệu Liên Quan Đến "+id+" Này")) {
+            $.ajax({
+                url: '/style/Delete',
+                type: 'post',
+                data: {
+                    id
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        successSwal(data.msg); window.location.href = "/Style/Index";
+                    } else { alert(data.msg) }
                 }
-                else {
-                    alert(data.msg)
-                }
-            }
-        })
+            })
+        }
     }
 })

@@ -108,15 +108,13 @@ namespace iGMS.Controllers
         {
             try
             {
-                var d = db.WareHouses.Find(id);
-                db.WareHouses.Remove(d);
-                db.SaveChanges();
-                return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
 
+                Dele.DeleteWareHouses(id);
+                return Json(new { code = 200, msg = "Hiển Thị Dữ liệu thành công" }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return Json(new { code = 500, msg = "Xóa Thất Bại" }, JsonRequestBehavior.AllowGet);
+                return Json(new { code = 500, msg = "Xóa Thất Bại"+e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
     }

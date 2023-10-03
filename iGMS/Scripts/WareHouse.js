@@ -1,6 +1,7 @@
 ﻿var pagenum = $("#pagenum option:selected").val();
 var page = 1;
 var seach = "";
+var loading = $("#loading");
 WareHouse(pagenum, page, seach);
 
 //phan trang
@@ -188,29 +189,37 @@ function Edit() {
 $(document).on('click', "a[name='delete']", function () {
     var id = $(this).closest('tr').attr('id');
     if (confirm("Bạn Muốn Xóa Dữ Liệu Này ???")) {
-        $.ajax({
-            url: '/warehouse/Delete',
-            type: 'post',
-            data: {
-                id
-            },
-            success: function (data) {
-                if (data.code == 200) {
-                    Swal.fire({
-                        title: "Xóa Kho Hàng Thành Công",
-                        icon: "success",
-                        buttonsStyling: false,
-                        confirmButtonText: "Confirm me!",
-                        customClass: {
-                            confirmButton: "btn btn-primary"
-                        }
-                    });
-                    window.location.href = "/WareHouse/Index";
+        if (confirm("Xác Nhận Để Xóa Hết Dữ Liệu Liên Quan Đến " + id + "")) {
+            $.ajax({
+                url: '/warehouse/Delete',
+                type: 'post',
+                data: {
+                    id
+                },
+                beforeSend: function () {
+                    loading.show();
+                },
+                complete: function () {
+                    loading.hide();
+                },
+                success: function (data) {
+                    if (data.code == 200) {
+                        Swal.fire({
+                            title: "Xóa Kho Hàng Thành Công",
+                            icon: "success",
+                            buttonsStyling: false,
+                            confirmButtonText: "Confirm me!",
+                            customClass: {
+                                confirmButton: "btn btn-primary"
+                            }
+                        });
+                        window.location.href = "/WareHouse/Index";
+                    }
+                    else {
+                        alert(data.msg)
+                    }
                 }
-                else {
-                    alert(data.msg)
-                }
-            }
-        })
+            })
+        }
     }
 })

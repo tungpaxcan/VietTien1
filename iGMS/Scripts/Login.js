@@ -59,7 +59,6 @@ function Login() {
         }
     })
 }
-
 //-----------------------------
 $(document).scannerDetection({
     timeBeforeScanTest: 200, // wait for the next character for upto 200ms

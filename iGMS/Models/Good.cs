@@ -25,7 +25,7 @@ namespace iGMS.Models
             this.DetailTransferOrders = new HashSet<DetailTransferOrder>();
             this.DetailWareHouses = new HashSet<DetailWareHouse>();
             this.EPCs = new HashSet<EPC>();
-            this.Promotions = new HashSet<Promotion>();
+            this.OrderUnits = new HashSet<OrderUnit>();
         }
     
         public string Id { get; set; }
@@ -35,24 +35,35 @@ namespace iGMS.Models
         public Nullable<int> IdPromotion { get; set; }
         public string IdUnit { get; set; }
         public string Material { get; set; }
+        public string IdNature { get; set; }
         public string IdSeason { get; set; }
         public string IdColor { get; set; }
         public string IdSize { get; set; }
         public string IdStyle { get; set; }
         public string IdGender { get; set; }
         public string IdGroupGood { get; set; }
-        public string StyleColorSize { get; set; }
-        public string SKU { get; set; }
-        public string LI_PE { get; set; }
-        public string Div { get; set; }
+        public string IdMaterialAccount { get; set; }
+        public string Supplier { get; set; }
         public string OutSize { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string SoSerial { get; set; }
+        public string Specifications { get; set; }
         public string ProductLine { get; set; }
+        public string Origin { get; set; }
+        public Nullable<System.DateTime> YearManufacture { get; set; }
+        public Nullable<double> Weight { get; set; }
+        public Nullable<bool> WarrantyTracking { get; set; }
+        public string WarrantyTerms { get; set; }
         public string Company { get; set; }
         public string Name { get; set; }
         public string IdCoo { get; set; }
+        public Nullable<double> PurchasePrice { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<double> PriceNew { get; set; }
         public Nullable<double> PriceTax { get; set; }
+        public Nullable<double> TTDB { get; set; }
+        public Nullable<double> NK { get; set; }
         public Nullable<double> InternalPrice { get; set; }
         public Nullable<double> GTGTInternalTax { get; set; }
         public Nullable<double> Discount { get; set; }
@@ -90,6 +101,8 @@ namespace iGMS.Models
         public virtual ICollection<EPC> EPCs { get; set; }
         public virtual Gender Gender { get; set; }
         public virtual GroupGood GroupGood { get; set; }
+        public virtual MaterialAccount MaterialAccount { get; set; }
+        public virtual Nature Nature { get; set; }
         public virtual Promotion Promotion { get; set; }
         public virtual Season Season { get; set; }
         public virtual Size Size { get; set; }
@@ -97,6 +110,6 @@ namespace iGMS.Models
         public virtual Unit Unit { get; set; }
         public virtual WareHouse WareHouse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Promotion> Promotions { get; set; }
+        public virtual ICollection<OrderUnit> OrderUnits { get; set; }
     }
 }

@@ -22,6 +22,8 @@ namespace iGMS.Models
     
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Color1 { get; set; }
+        public string Description { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }

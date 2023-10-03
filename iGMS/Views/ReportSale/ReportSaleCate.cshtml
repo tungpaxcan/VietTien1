@@ -153,6 +153,7 @@
                 },
                 success: function (data) {
                     if (data.code == 200) {
+                        $('#tbd').empty();
                         $.each(data.a, function (k, v) {
                             TBD( v.id, v.createdate, v.sumprice)
                         })                     
@@ -164,7 +165,7 @@
         }
 
         function TBD( id, createdate, sumprice) {
-            $('#tbd').empty();
+
             var ids = $('.ID').map(function () {
                 return this.id;
             }).get();

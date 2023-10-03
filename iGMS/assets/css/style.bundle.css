@@ -3958,7 +3958,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .fade:not(.show) {
-    opacity: 0
+    opacity: 1
 }
 
 .collapse:not(.show) {
@@ -86944,9 +86944,9 @@ body {
         padding-top: 65px
     }
 
-    .header-fixed.subheader-fixed.subheader-enabled .wrapper {
+/*    .header-fixed.subheader-fixed.subheader-enabled .wrapper {
         padding-top: 119px
-    }
+    }*/
 
 
 
@@ -87002,7 +87002,8 @@ body {
 
     .header-fixed.subheader-fixed .header {
         -webkit-box-shadow: none !important;
-        box-shadow: none !important
+        box-shadow: none !important ;
+        background: linear-gradient(90deg, rgba(19,143,169,1) 0%, rgba(11,34,88,1) 100%);
     }
 }
 

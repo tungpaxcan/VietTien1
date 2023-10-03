@@ -13,6 +13,29 @@
             </h3>
         </div>
         <div class="card-toolbar">
+            @using (Html.BeginForm("Upload", "Unit", FormMethod.Post, new
+            {
+                enctype = "multipart/form-data"
+            }))
+            {
+            <a href="~/Images/unit.xlsx" download="">Mẫu Excel</a>
+                <input type="file" name="UploadedFile" />
+                <button type="submit" name="submit" value="" class="btn btn-light-primary font-weight-bolder">
+                    <span class="svg-icon svg-icon-md">
+
+                        <!--begin::Svg Icon | path:assets/media/svg/icons/Design/PenAndRuller.svg-->
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="0" y="0" width="24" height="24"></rect>
+                                <path d="M3,16 L5,16 C5.55228475,16 6,15.5522847 6,15 C6,14.4477153 5.55228475,14 5,14 L3,14 L3,12 L5,12 C5.55228475,12 6,11.5522847 6,11 C6,10.4477153 5.55228475,10 5,10 L3,10 L3,8 L5,8 C5.55228475,8 6,7.55228475 6,7 C6,6.44771525 5.55228475,6 5,6 L3,6 L3,4 C3,3.44771525 3.44771525,3 4,3 L10,3 C10.5522847,3 11,3.44771525 11,4 L11,19 C11,19.5522847 10.5522847,20 10,20 L4,20 C3.44771525,20 3,19.5522847 3,19 L3,16 Z" fill="#000000" opacity="0.3"></path>
+                                <path d="M16,3 L19,3 C20.1045695,3 21,3.8954305 21,5 L21,15.2485298 C21,15.7329761 20.8241635,16.200956 20.5051534,16.565539 L17.8762883,19.5699562 C17.6944473,19.7777745 17.378566,19.7988332 17.1707477,19.6169922 C17.1540423,19.602375 17.1383289,19.5866616 17.1237117,19.5699562 L14.4948466,16.565539 C14.1758365,16.200956 14,15.7329761 14,15.2485298 L14,5 C14,3.8954305 14.8954305,3 16,3 Z" fill="#000000"></path>
+                            </g>
+                        </svg>
+                        <!--end::Svg Icon-->
+                    </span>Import
+                </button>
+            }
+            &nbsp
             <!--begin::Dropdown-->
             <div class="dropdown dropdown-inline mr-2">
                 <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -87,7 +110,7 @@
         <!--begin: Datatable-->
         <div id="kt_datatable_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-4">
                     <div class="dataTables_length" id="kt_datatable_length">
                         <label>
                             Show <select id="pagenum" name="kt_datatable_length" aria-controls="kt_datatable" class="custom-select custom-select-sm form-control form-control-sm">
@@ -99,7 +122,19 @@
                             entries
                         </label>
                     </div>
-                </div><div class="col-sm-12 col-md-6">
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div id="kt_datatable_filter" class="dataTables_filter">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">Nhóm Đơn Vị</label>
+                            <div class="col-10">
+                                <select class="form-control" id="groupUnit">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-4">
                     <div id="kt_datatable_filter" class="dataTables_filter">
                         <label>Search:<input id="seach" type="search" class="form-control form-control-sm" placeholder="" aria-controls="kt_datatable"></label>
                     </div>
@@ -136,7 +171,27 @@
 
 <!-- Button trigger modal-->
 @section scripts{
-
+    <script>
+          groupUnit();
+        function groupUnit() {
+            $.ajax({
+                url: '/Unit/allUnit',
+                type: 'get',
+                success: function (data) {
+                    $('#groupUnit').empty();
+                    if (data.code == 200) {
+                        let table = '<option value="-1">Chọn Nhóm Đơn Vị</option>'
+                        $.each(data.groupUnit, function (k, v) {
+                            table += '<option value="' + v.id + '">' + v.name + '</option>'
+                        });
+                        $('#groupUnit').append(table);
+                    } else (
+                        alert(data.msg)
+                    )
+                }
+            })
+        }
+    </script>
     <script src="~/Scripts/Unit.js"></script>
 
 }

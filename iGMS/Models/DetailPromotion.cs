@@ -18,6 +18,7 @@ namespace iGMS.Models
         public string IdGood { get; set; }
         public Nullable<double> Amount { get; set; }
         public Nullable<int> IdPromotion { get; set; }
+        public string Description { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public string CreateBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
